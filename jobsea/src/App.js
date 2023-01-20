@@ -1,7 +1,13 @@
+import React, { useEffect, useState } from "react";
 import appCSS from "./App.module.css";
 import { TypeAnimation } from "react-type-animation";
 
 function App() {
+  const [userName, setUsername] = useState();
+  const [password, setPassword] = useState();
+
+  const login = () => {};
+
   return (
     <div className={appCSS.appCSS}>
       <div className={appCSS.appGrid}>
@@ -10,6 +16,8 @@ function App() {
           <div className={appCSS.typeAnimation}>
             <TypeAnimation
               sequence={[
+                "Easy to use...",
+                1000,
                 "No more spreadsheets...",
                 1000,
                 "No more messiness...",
@@ -24,7 +32,35 @@ function App() {
             />
           </div>
         </div>
-        <div className={appCSS.registrationDiv}>Registraion</div>
+        <div className={appCSS.registrationDiv}>
+          <form onSubmit={(e) => e.preventDefault} className={appCSS.loginForm}>
+            <div className={appCSS.inFormContainer}>
+              <div className={appCSS.loginInputDiv}>
+                <input
+                  required
+                  type="text"
+                  onChange={(e) => setUsername(e.target.value)}
+                  name="username"
+                />
+                <label for="username" className={appCSS.floatingLabel}>
+                  Username:{" "}
+                </label>
+              </div>
+              <div className={appCSS.loginInputDiv}>
+                <input
+                  required
+                  type="password"
+                  name="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <label for="password" className={appCSS.floatingLabel}>
+                  Password:{" "}
+                </label>
+              </div>
+              <button className={appCSS.loginBtn}>Log in</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
