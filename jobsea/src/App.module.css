@@ -44,21 +44,34 @@
   color: white;
 }
 
-.appCSS .loginForm {
+.appCSS .loginForm,
+.appCSS .registrationForm {
   background-color: var(--pastel-pink);
   width: 70%;
   margin: 0 auto;
-  height: 21rem;
   border-radius: 2rem;
 }
-.loginInputDiv {
+
+.appCSS .registrationForm {
+  height: 30rem;
+}
+
+.appCSS .loginForm {
+  height: 21rem;
+}
+
+.appCSS .registrationForm {
+  margin-top: 2rem;
+}
+
+.appCSS .loginInputDiv,
+.appCSS .registrationInputDiv {
   position: relative;
 }
 
-.appCSS .loginInputDiv input {
+.appCSS .registrationDiv input {
   width: 100%;
-  height: 5rem;
-  padding-top:1rem;
+  padding-top: 1rem;
   font-size: 1.5rem;
   padding-left: 0.5rem;
   padding-right: 0rem;
@@ -69,12 +82,14 @@
   background-color: var(--spanish-pink);
   outline: 0;
   font-family: Consolas;
+  height: 5rem;
 }
 
 .appCSS .loginInputDiv:first-child input {
   font-family: "Montserrat", sans-serif;
 }
 
+.appCSS .registrationInputDiv *:not(.registrationInputDiv:first-child),
 .appCSS .loginInputDiv:nth-child(2) {
   margin-top: 2rem;
 }
@@ -84,6 +99,15 @@
 }
 
 .appCSS .loginInputDiv input:focus ~ .floatingLabel,
+input:not(:focus):valid ~ .floatingLabel {
+  top: 5px;
+  bottom: 11px;
+  left: 10px;
+  font-size: 1.1rem;
+  opacity: 1;
+}
+
+.appCSS .registrationInputDiv input:focus ~ .floatingLabel,
 input:not(:focus):valid ~ .floatingLabel {
   top: 5px;
   bottom: 11px;

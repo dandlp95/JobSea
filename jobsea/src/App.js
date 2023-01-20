@@ -4,10 +4,14 @@ import { TypeAnimation } from "react-type-animation";
 import Button from "./components/button";
 
 function App() {
-  const [userName, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [loginName, setLoginName] = useState();
+  const [lPassword, setLPassword] = useState();
+  const [rUsername, setRUsername] = useState();
+  const [rPassword, setRPassword] = useState();
+  const [rEmail, setREmail] = useState();
 
   const login = () => {};
+  const registration = () => {};
 
   return (
     <div className={appCSS.appCSS}>
@@ -40,10 +44,10 @@ function App() {
                 <input
                   required
                   type="text"
-                  onChange={(e) => setUsername(e.target.value)}
-                  name="username"
+                  onChange={(e) => setLoginName(e.target.value)}
+                  name="loginName"
                 />
-                <label for="username" className={appCSS.floatingLabel}>
+                <label for="loginName" className={appCSS.floatingLabel}>
                   Username:{" "}
                 </label>
               </div>
@@ -51,14 +55,52 @@ function App() {
                 <input
                   required
                   type="password"
-                  name="password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  name="lPassword"
+                  onChange={(e) => setLPassword(e.target.value)}
                 />
-                <label for="password" className={appCSS.floatingLabel}>
+                <label for="lPassword" className={appCSS.floatingLabel}>
                   Password:{" "}
                 </label>
               </div>
               <Button btnText="Log in" clickAction={login} />
+            </div>
+          </form>
+          <form
+            onSubmit={(e) => e.preventDefault}
+            className={appCSS.registrationForm}
+          >
+            <div className={appCSS.inFormContainer}>
+              <div className={appCSS.registrationInputDiv}>
+                <input
+                  type="text"
+                  required
+                  name="username"
+                  onChange={(e) => setRUsername(e.target.value)}
+                />
+                <label className={appCSS.floatingLabel}>
+                  Enter a username:{" "}
+                </label>
+              </div>
+              <div className={appCSS.registrationInputDiv}></div>
+              <div className={appCSS.registrationInputDiv}>
+                <input
+                  required
+                  type="text"
+                  onChange={(e) => setREmail(e.target.value)}
+                  name="rEmail"
+                />
+                <label className={appCSS.floatingLabel}>Email: </label>
+              </div>
+              <div className={appCSS.registrationInputDiv}>
+                <input
+                  required
+                  type="password"
+                  onChange={(e) => setRPassword(e.target.value)}
+                  name="password"
+                />
+                <label className={appCSS.floatingLabel}>Password: </label>
+              </div>
+              <Button btnText="Register" clickAction={registration} />
             </div>
           </form>
         </div>
