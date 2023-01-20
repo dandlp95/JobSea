@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import appCSS from "./App.module.css";
 import { TypeAnimation } from "react-type-animation";
+import Button from "./components/button";
 
 function App() {
   const [userName, setUsername] = useState();
@@ -57,7 +58,7 @@ function App() {
                   Password:{" "}
                 </label>
               </div>
-              <button className={appCSS.loginBtn}>Log in</button>
+              <Button btnText="Log in" clickAction={login} />
             </div>
           </form>
         </div>

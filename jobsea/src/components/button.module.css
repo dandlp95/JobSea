@@ -1,0 +1,19 @@
+:root {
+  --space-cadet: #2d3142;
+}
+
+.btnCSS {
+  margin-top: 2rem;
+}
+
+.btnCSS button {
+  background-color: var(--space-cadet);
+  padding: 1rem 2.5rem;
+  font-family: Consolas;
+  font-size: 1.25rem;
+  color: white;
+  border-radius: 0.5rem;
+  outline: 0;
+  border-width: 0;
+  cursor: pointer;
+}
