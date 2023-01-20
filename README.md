@@ -9,6 +9,6 @@ Instead of using spreadsheets or pen and paper, I decided to create a very easy-
 
 The app is still in development. As a preview, here are some wireframes:
 
-[wireframe2](./wireframes/wireframe2.png)
-[wireframe3](./wireframes/wireframe3.png)
-[wireframe1](./wireframes/wireframe1.png)
+![wireframe2](./wireframes/wireframe2.png)
+![wireframe3](./wireframes/wireframe3.png)
+![wireframe1](./wireframes/wireframe1.png)
