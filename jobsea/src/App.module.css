@@ -1,6 +1,6 @@
 :root {
-  --pastel-pink: #EFAFA9;
-  --spanish-pink: #F2BFBA;
+  --pastel-pink: #efafa9;
+  --spanish-pink: #f2bfba;
   --grey: #808080;
 }
 
@@ -9,11 +9,11 @@
   background-position: top;
   height: 100vh;
   width: 100%;
-  background-color: #2D3142;
+  background-color: #2d3142;
   font-family: Consolas;
 }
 
-.appCSS .pageTitle{
+.appCSS .pageTitle {
   align-items: center;
   margin: 0 auto;
 }
@@ -22,12 +22,12 @@
   font-size: 13rem;
   color: white;
   font-weight: lighter;
-  margin:0;
+  margin: 0;
   margin-top: -20rem;
 }
 
-.appCSS .appGrid{
-  display:grid;
+.appCSS .appGrid {
+  display: grid;
   grid-template-columns: 1fr 1fr;
   width: 80%;
   align-items: center;
@@ -39,12 +39,12 @@
   margin: auto;
 }
 
-.appCSS .typeAnimation{
+.appCSS .typeAnimation {
   font-size: 1.5rem;
-  color:white;
+  color: white;
 }
 
-.appCSS .loginForm{
+.appCSS .loginForm {
   background-color: var(--pastel-pink);
   width: 70%;
   margin: 0 auto;
@@ -55,9 +55,10 @@
   position: relative;
 }
 
-.appCSS .loginInputDiv input{
+.appCSS .loginInputDiv input {
   width: 100%;
-  height: 6rem;
+  height: 5rem;
+  padding-top:1rem;
   font-size: 1.5rem;
   padding-left: 0.5rem;
   padding-right: 0rem;
@@ -67,32 +68,36 @@
   border-color: black;
   background-color: var(--spanish-pink);
   outline: 0;
-  font-weight: lighter;
+  font-family: Consolas;
 }
 
-.appCSS .loginInputDiv:nth-child(2){
-  margin-top:2rem;
+.appCSS .loginInputDiv:first-child input {
+  font-family: "Montserrat", sans-serif;
 }
 
-.appCSS .inFormContainer{
+.appCSS .loginInputDiv:nth-child(2) {
+  margin-top: 2rem;
+}
+
+.appCSS .inFormContainer {
   padding: 2rem 8rem;
 }
 
 .appCSS .loginInputDiv input:focus ~ .floatingLabel,
 input:not(:focus):valid ~ .floatingLabel {
-  top: 10px;
+  top: 5px;
   bottom: 11px;
   left: 10px;
   font-size: 1.1rem;
   opacity: 1;
 }
 
-.floatingLabel{
+.floatingLabel {
   position: absolute;
   pointer-events: none;
   left: 20px;
-  top: 33px;
+  top: 21px;
   transition: 0.2s ease all;
   font-size: 2rem;
-  color: var(--grey)
+  color: var(--grey);
 }
