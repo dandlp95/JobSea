@@ -18,15 +18,19 @@
   margin: 0 auto;
 }
 
+.appCSS .pageTitle,
+.appCSS .registrationDiv {
+  width: 100%;
+}
+
 .appCSS .title {
   font-size: 13rem;
   color: white;
   font-weight: lighter;
   margin: 0;
-  margin-top: -20rem;
 }
 
-.appCSS .appGrid {
+/* .appCSS .appGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 80%;
@@ -37,6 +41,18 @@
   left: 0;
   right: 0;
   margin: auto;
+} */
+
+.appCSS .appFlexbox{
+  display:flex;
+  width: 75%;
+  justify-content: center;
+  margin: 0 auto;
+  padding-top: 5rem;
+}
+
+.appCSS .pageTitle, .appCSS .registrationDiv{
+  flex-grow:1;
 }
 
 .appCSS .typeAnimation {

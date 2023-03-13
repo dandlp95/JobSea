@@ -10,12 +10,37 @@ function App() {
   const [rPassword, setRPassword] = useState();
   const [rEmail, setREmail] = useState();
 
-  const login = () => {};
-  const registration = () => {};
+  const login = () => {
+    // const options = {
+    //   method: "POST",
+    //   headers: { "Content-type": "application/json" },
+    //   body: JSON.stringify({ email, password, firstName, lastName, major }),
+    // };
+    // try {
+    //   const response = await fetch(getApiRoot() + "/users/add", options);
+  };
+  const registration = async () => {
+    const options = {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        Username: rUsername,
+        Email: rEmail,
+        Password: rPassword,
+      }),
+    };
+
+    try{
+      const response = await fetch("https://localhost:7283" + "/jobSea/User/AddUser", options)
+      console.log(await response.json())
+    }catch{
+      console.log("error")
+    }
+  };
 
   return (
     <div className={appCSS.appCSS}>
-      <div className={appCSS.appGrid}>
+      <div className={appCSS.appFlexbox}>
         <div className={appCSS.pageTitle}>
           <h2 className={appCSS.title}>JobSea</h2>
           <div className={appCSS.typeAnimation}>
@@ -77,9 +102,7 @@ function App() {
                   name="username"
                   onChange={(e) => setRUsername(e.target.value)}
                 />
-                <label className={appCSS.floatingLabel}>
-                  Enter a username:{" "}
-                </label>
+                <label className={appCSS.floatingLabel}>Username: </label>
               </div>
               <div className={appCSS.registrationInputDiv}></div>
               <div className={appCSS.registrationInputDiv}>
