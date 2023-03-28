@@ -8,6 +8,7 @@ function App() {
   const [lPassword, setLPassword] = useState();
   const [rUsername, setRUsername] = useState();
   const [rPassword, setRPassword] = useState();
+  const [rPasswordConfirm, setRPasswordConfirm] = useState();
   const [rEmail, setREmail] = useState();
 
   const login = () => {
@@ -27,15 +28,15 @@ function App() {
         Username: rUsername,
         Email: rEmail,
         Password: rPassword,
+        ConfirmPassword: rPasswordConfirm,
       }),
     };
 
-    try{
-      const response = await fetch("https://localhost:7283" + "/jobSea/User/AddUser", options)
-      console.log(await response.json())
-    }catch{
-      console.log("error")
-    }
+    const response = await fetch(
+      "https://localhost:7283" + "/jobSea/User/AddUser",
+      options
+    );
+    console.log(await response.json());
   };
 
   return (
@@ -63,7 +64,10 @@ function App() {
           </div>
         </div>
         <div className={appCSS.registrationDiv}>
-          <form onSubmit={(e) => e.preventDefault} className={appCSS.loginForm}>
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className={appCSS.loginForm}
+          >
             <div className={appCSS.inFormContainer}>
               <div className={appCSS.loginInputDiv}>
                 <input
@@ -91,7 +95,7 @@ function App() {
             </div>
           </form>
           <form
-            onSubmit={(e) => e.preventDefault}
+            onSubmit={(e) => e.preventDefault()}
             className={appCSS.registrationForm}
           >
             <div className={appCSS.inFormContainer}>
@@ -120,8 +124,21 @@ function App() {
                   type="password"
                   onChange={(e) => setRPassword(e.target.value)}
                   name="password"
-                />
+                />{" "}
                 <label className={appCSS.floatingLabel}>Password: </label>
+              </div>
+              <div>
+                <div className={appCSS.registrationInputDiv}>
+                  <input
+                    required
+                    type="password"
+                    onChange={(e) => setRPasswordConfirm(e.target.value)}
+                    name="rPasswordConfirm"
+                  />
+                  <label className={appCSS.floatingLabel}>
+                    Confirm Password:{" "}
+                  </label>
+                </div>
               </div>
               <Button btnText="Register" clickAction={registration} />
             </div>
