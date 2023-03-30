@@ -11,15 +11,22 @@ function App() {
   const [rPasswordConfirm, setRPasswordConfirm] = useState();
   const [rEmail, setREmail] = useState();
 
-  const login = () => {
-    // const options = {
-    //   method: "POST",
-    //   headers: { "Content-type": "application/json" },
-    //   body: JSON.stringify({ email, password, firstName, lastName, major }),
-    // };
-    // try {
-    //   const response = await fetch(getApiRoot() + "/users/add", options);
+  const login = async () => {
+    const options = {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        Username: loginName,
+        password: lPassword,
+      }),
+    };
+    const response = await fetch(
+      "https://localhost:7283" + "/jobsea/User/login",
+      options
+    );
+    console.log(await response.json());
   };
+
   const registration = async () => {
     const options = {
       method: "POST",
