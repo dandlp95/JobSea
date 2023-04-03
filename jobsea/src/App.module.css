@@ -7,7 +7,7 @@
 .appCSS {
   background-size: cover;
   background-position: top;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   background-color: #2d3142;
   font-family: Consolas;
@@ -24,35 +24,25 @@
 }
 
 .appCSS .title {
-  font-size: 13rem;
+  font-size: 10rem;
   color: white;
   font-weight: lighter;
   margin: 0;
 }
 
-/* .appCSS .appGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 80%;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-} */
-
-.appCSS .appFlexbox{
-  display:flex;
-  width: 75%;
+.appCSS .appFlexbox {
+  display: flex;
+  width: 85%;
   justify-content: center;
   margin: 0 auto;
   padding-top: 5rem;
 }
 
-.appCSS .pageTitle, .appCSS .registrationDiv{
-  flex-grow:1;
+.appCSS .registrationDiv {
+  flex-grow: 2;
+}
+.appCSS .pageTitle {
+  flex: 1;
 }
 
 .appCSS .typeAnimation {
@@ -63,13 +53,13 @@
 .appCSS .loginForm,
 .appCSS .registrationForm {
   background-color: var(--pastel-pink);
-  width: 70%;
+  width: 50%;
   margin: 0 auto;
   border-radius: 2rem;
 }
 
 .appCSS .registrationForm {
-  height: 30rem;
+  height: 40rem;
 }
 
 .appCSS .loginForm {
