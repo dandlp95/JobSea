@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import appCSS from "./App.module.css";
 import { TypeAnimation } from "react-type-animation";
 import Button from "./components/button";
@@ -10,6 +11,18 @@ function App() {
   const [rPassword, setRPassword] = useState();
   const [rPasswordConfirm, setRPasswordConfirm] = useState();
   const [rEmail, setREmail] = useState();
+  const [token, setToken] = useState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const browserToken = localStorage.getItem("token");
+    if (browserToken) {
+      navigate("/jobs");
+    } else if (token) {
+      localStorage.setItem("token", token);
+      navigate("/jobs");
+    }
+  }, [token]);
 
   const login = async () => {
     const options = {
@@ -24,7 +37,10 @@ function App() {
       "https://localhost:7283" + "/jobsea/User/login",
       options
     );
-    console.log(await response.json());
+    if (response.ok) {
+      const responseObject = await response.json();
+      setToken(responseObject.token);
+    }
   };
 
   const registration = async () => {
@@ -43,7 +59,11 @@ function App() {
       "https://localhost:7283" + "/jobSea/User/AddUser",
       options
     );
-    console.log(await response.json());
+    if (response.ok) {
+      const responseObject = await response.json();
+      console.log("response object: ", responseObject);
+      setToken(responseObject.token);
+    }
   };
 
   return (
