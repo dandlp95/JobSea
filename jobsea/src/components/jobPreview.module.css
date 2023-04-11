@@ -6,15 +6,23 @@
   border-radius: 1rem;
   margin: 0 auto;
   margin-top: 6rem;
+  padding: 1rem 0 0rem 0
 }
 
 .jobPreviewCSS .flexContainer {
   display: flex;
   flex-wrap: wrap;
-  width: 87%;
-  margin: 0 auto;
+  width: 86%;
+  height: 4rem;
+  margin-right: auto;
+  margin-left: 2rem;
 }
 
 .jobPreviewCSS .flexContainer > div {
   flex-grow: 1;
+  width: 50%;
+}
+
+.jobPreviewCSS .flexContainer > div:nth-child(2){
+  text-align: right;
 }
