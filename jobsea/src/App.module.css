@@ -3,7 +3,8 @@
   --spanish-pink: #f2bfba;
   --grey: #808080;
   --white: #ffffff;
-  --vermillion: #db4c40
+  --vermillion: #db4c40;
+  --melon: #EFAFA9;
 }
 
 .appCSS {
@@ -43,6 +44,7 @@
 .appCSS .registrationDiv {
   flex-grow: 2;
 }
+
 .appCSS .pageTitle {
   flex: 1;
 }
@@ -106,8 +108,8 @@
   padding: 2rem 8rem;
 }
 
-.appCSS .loginInputDiv input:focus ~ .floatingLabel,
-input:not(:focus):valid ~ .floatingLabel {
+.appCSS .loginInputDiv input:focus~.floatingLabel,
+input:not(:focus):valid~.floatingLabel {
   top: 5px;
   bottom: 11px;
   left: 10px;
@@ -115,8 +117,8 @@ input:not(:focus):valid ~ .floatingLabel {
   opacity: 1;
 }
 
-.appCSS .registrationInputDiv input:focus ~ .floatingLabel,
-input:not(:focus):valid ~ .floatingLabel {
+.appCSS .registrationInputDiv input:focus~.floatingLabel,
+input:not(:focus):valid~.floatingLabel {
   top: 5px;
   bottom: 11px;
   left: 10px;
