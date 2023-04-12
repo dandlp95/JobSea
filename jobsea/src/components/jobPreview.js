@@ -1,8 +1,17 @@
 import React from "react";
 import jobPreviewCSS from "./jobPreview.module.css";
 import { MdKeyboardArrowDown } from "react-icons/md"
+import Button from "./button";
 
 const JobPreview = (props) => {
+
+  const buttonStyleRules = {
+    padding: "0.75rem",
+    backgroundColor: "#7981A4",
+    fontSize: "1rem",
+    width: "9rem"
+  }
+
   return (
     <div className={jobPreviewCSS.jobPreviewCSS}>
       {/* <div className={jobPreviewCSS.flexContainer}>
@@ -33,6 +42,10 @@ const JobPreview = (props) => {
       </div>
       <div className={jobPreviewCSS.applicationDetails}>
         HELLOW WORLD
+        <div className={jobPreviewCSS.buttons}>
+          <Button btnText="Add Update" styleRules={buttonStyleRules} />
+          <Button btnText="Delete" styleRules={buttonStyleRules} />
+        </div>
       </div>
     </div>
   );

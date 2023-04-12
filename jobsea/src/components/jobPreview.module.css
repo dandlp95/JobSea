@@ -35,7 +35,7 @@
   font-size: 2.5rem;
   position: absolute;
   right: 1rem;
-  cursor:pointer;
+  cursor: pointer;
 
 }
 
@@ -60,4 +60,14 @@
 /*Change the hover to on click*/
 .jobPreviewCSS .arrowIcon svg:hover {
   transform: rotate(180deg);
+}
+
+.jobPreviewCSS .buttons div {
+  display: inline;
+  margin-left:1rem;
+  
+}
+
+.jobPreviewCSS .buttons {
+  margin-top: 2rem;
 }

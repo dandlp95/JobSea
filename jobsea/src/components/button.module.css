@@ -7,10 +7,10 @@
 }
 
 .btnCSS button {
-  background-color: var(--space-cadet);
-  padding: 1rem 2.5rem;
+  /* background-color: var(--space-cadet); */
+  /* padding: 1rem 2.5rem; */
   font-family: Consolas;
-  font-size: 1.25rem;
+  /* font-size: 1.25rem; */
   color: white;
   border-radius: 0.5rem;
   outline: 0;

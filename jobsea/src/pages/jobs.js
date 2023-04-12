@@ -31,6 +31,17 @@ const Jobs = () => {
     position: "Full Stack Developer",
     status: "Applied on 1/11/2022",
     company: "Shopify",
+    updates: [
+      {
+        preview: "talked to them on the phone..."
+      },
+      {
+        preview: "I had the best interview"
+      },
+      {
+        preview: "I don't know what else to put here..."
+      }
+    ]
   };
 
   return (

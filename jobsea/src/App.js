@@ -24,6 +24,12 @@ function App() {
     }
   }, [token]);
 
+  const buttonStyleRules = {
+    padding: "1rem 2.5rem",
+    backgroundColor: "#2d3142",
+    fontSize: "1.25rem"
+  }
+
   const login = async () => {
     const options = {
       method: "POST",
@@ -118,7 +124,7 @@ function App() {
                   Password:{" "}
                 </label>
               </div>
-              <Button btnText="Log in" clickAction={login} />
+              <Button btnText="Log in" styleRules={buttonStyleRules} clickAction={login} />
             </div>
           </form>
           <form
