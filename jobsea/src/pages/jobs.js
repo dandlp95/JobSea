@@ -17,7 +17,7 @@ const Header = (props) => {
 const Jobs = () => {
   const [searchQuery, setSearchQuery] = useState();
 
-  useEffect(() => {}, [searchQuery]);
+  useEffect(() => { }, [searchQuery]);
 
   const signOut = () => {
     localStorage.removeItem("token");

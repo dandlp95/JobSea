@@ -10,7 +10,8 @@
   width: 40%;
   height: 4rem;
   margin: 0 auto;
-  padding: 1rem 0 0rem 0;
+  padding: 1rem 0 5rem 0;
+  box-sizing: border-box;
 }
 
 .jobPreviewCSS .flexContainer {
@@ -50,6 +51,8 @@
   background-color: var(--melon);
   width: 40%;
   margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 /*ONLY WHEN EXPANDED*/
@@ -64,10 +67,34 @@
 
 .jobPreviewCSS .buttons div {
   display: inline;
-  margin-left:1rem;
-  
+  margin-left: 1rem;
+
 }
 
 .jobPreviewCSS .buttons {
   margin-top: 2rem;
+}
+
+/*UPDATES*/
+.jobPreviewCSS{
+  position: relative;
+}
+.jobPreviewCSS .updateContainer:not(:first-child){
+  margin-top:1rem;
+}
+
+.jobPreviewCSS .seeMore {
+  color: #0000EE;
+  cursor: pointer;
+}
+
+.jobPreviewCSS .updateContainer > div{
+  display:flex;
+  gap: 40px;
+  width: 100%;
+}
+
+.jobPreviewCSS .updateDate{
+ flex-grow: 1;
+ text-align: right;
 }

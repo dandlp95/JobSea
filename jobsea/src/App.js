@@ -173,7 +173,7 @@ function App() {
                   </label>
                 </div>
               </div>
-              <Button btnText="Register" clickAction={registration} />
+              <Button btnText="Register" clickAction={registration} styleRules={buttonStyleRules} />
             </div>
           </form>
         </div>
