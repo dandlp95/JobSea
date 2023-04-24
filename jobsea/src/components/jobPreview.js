@@ -31,7 +31,7 @@ const JobPreview = props => {
         </div>
       </div>
       <div className={jobPreviewCSS.arrowIcon}><MdKeyboardArrowDown /></div> */}
-      <div className={jobPreviewCSS.previewContainer}>
+      <div className={`${jobPreviewCSS.previewContainer} ${!isCollapsed?jobPreviewCSS.flattenBorder:''}`}>
         <div className={jobPreviewCSS.flexContainer}>
           <div>
             Position: <span>{props.job.position}</span>
