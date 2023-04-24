@@ -45,6 +45,10 @@
   transition: transform 1s ease;
 }
 
+.jobPreviewCSS .arrowIconRotate svg {
+  transform: rotate(180deg);
+}
+
 
 /*EXPANDABLE*/
 .jobPreviewCSS .applicationDetails {
@@ -53,16 +57,21 @@
   margin: 0 auto;
   padding: 1rem;
   box-sizing: border-box;
+  transition: 0.5s ease;
+}
+
+.jobPreviewCSS .applicationDetailsCollapse {
+  overflow: hidden;
+  max-height: 0;
+  width: 40%;
+  transition: 0.5s ease;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /*ONLY WHEN EXPANDED*/
 .jobPreviewCSS .previewContainer {
   border-radius: 1rem 1rem 0 0;
-}
-
-/*Change the hover to on click*/
-.jobPreviewCSS .arrowIcon svg:hover {
-  transform: rotate(180deg);
 }
 
 .jobPreviewCSS .buttons div {
@@ -76,11 +85,12 @@
 }
 
 /*UPDATES*/
-.jobPreviewCSS{
+.jobPreviewCSS {
   position: relative;
 }
-.jobPreviewCSS .updateContainer:not(:first-child){
-  margin-top:1rem;
+
+.jobPreviewCSS .updateContainer:not(:first-child) {
+  margin-top: 1rem;
 }
 
 .jobPreviewCSS .seeMore {
@@ -88,13 +98,13 @@
   cursor: pointer;
 }
 
-.jobPreviewCSS .updateContainer > div{
-  display:flex;
+.jobPreviewCSS .updateContainer>div {
+  display: flex;
   gap: 40px;
   width: 100%;
 }
 
-.jobPreviewCSS .updateDate{
- flex-grow: 1;
- text-align: right;
+.jobPreviewCSS .updateDate {
+  flex-grow: 1;
+  text-align: right;
 }

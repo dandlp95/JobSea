@@ -1,18 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import jobPreviewCSS from './jobPreview.module.css'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import Button from './button'
 
 const JobPreview = props => {
+  const [isCollapsed, setIsCollapse] = useState(false)
+
+  const handleToggle = () => {
+    setIsCollapse(!isCollapsed)
+  }
+
   const buttonStyleRules = {
     padding: '0.75rem',
     backgroundColor: '#7981A4',
     fontSize: '1rem',
     width: '9rem'
   }
-  const updates = props.job.updates.map(update => {
-    console.log(update.preview)
-  })
 
   return (
     <div className={jobPreviewCSS.jobPreviewCSS}>
@@ -41,10 +44,18 @@ const JobPreview = props => {
           </div>
         </div>
         <div className={jobPreviewCSS.arrowIcon}>
-          <MdKeyboardArrowDown />
+          <div className={!isCollapsed && jobPreviewCSS.arrowIconRotate}>
+            <MdKeyboardArrowDown onClick={handleToggle} />
+          </div>
         </div>
       </div>
-      <div className={jobPreviewCSS.applicationDetails}>
+      <div
+        className={
+          isCollapsed
+            ? jobPreviewCSS.applicationDetailsCollapse
+            : jobPreviewCSS.applicationDetails
+        }
+      >
         <div className={jobPreviewCSS.updatesContainer}>
           {props.job.updates.map(update => (
             <div className={jobPreviewCSS.updateContainer}>
