@@ -12,7 +12,7 @@
   margin: 0 auto;
   padding: 1rem 0 5rem 0;
   box-sizing: border-box;
-  transition: 0.5s ease;
+  transition: 0.1s ease;
 }
 
 /*ONLY WHEN EXPANDED*/
@@ -57,22 +57,29 @@
 
 
 /*EXPANDABLE*/
+.jobPreviewCSS .applicationDetailsCollapsed {
+  background-color: var(--melon);
+  width: 40%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow: hidden;
+  max-height: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s ease-out;  
+}
+
+
 .jobPreviewCSS .applicationDetails {
   background-color: var(--melon);
   width: 40%;
   margin: 0 auto;
-  padding: 1rem;
   box-sizing: border-box;
-  transition: 0.5s ease;
-}
-
-.jobPreviewCSS .applicationDetailsCollapse {
-  overflow: hidden;
-  max-height: 0;
-  width: 40%;
-  transition: 0.5s ease;
-  margin: 0 auto;
-  box-sizing: border-box;
+  max-height: 20rem;
+  /* overflow: visible; */
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s ease-in, opacity 0.7s ease-in;
 }
 
 
@@ -85,6 +92,7 @@
 
 .jobPreviewCSS .buttons {
   margin-top: 2rem;
+  padding-bottom:1rem;
 }
 
 /*UPDATES*/
@@ -104,7 +112,9 @@
 .jobPreviewCSS .updateContainer>div {
   display: flex;
   gap: 40px;
-  width: 100%;
+  width: 95%;
+  margin: 0 auto;
+  padding-top:1rem
 }
 
 .jobPreviewCSS .updateDate {

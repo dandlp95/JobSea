@@ -4,7 +4,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md'
 import Button from './button'
 
 const JobPreview = props => {
-  const [isCollapsed, setIsCollapse] = useState(false)
+  const [isCollapsed, setIsCollapse] = useState(true)
 
   const handleToggle = () => {
     setIsCollapse(!isCollapsed)
@@ -31,7 +31,11 @@ const JobPreview = props => {
         </div>
       </div>
       <div className={jobPreviewCSS.arrowIcon}><MdKeyboardArrowDown /></div> */}
-      <div className={`${jobPreviewCSS.previewContainer} ${!isCollapsed?jobPreviewCSS.flattenBorder:''}`}>
+      <div
+        className={`${jobPreviewCSS.previewContainer} ${
+          !isCollapsed ? jobPreviewCSS.flattenBorder : ''
+        }`}
+      >
         <div className={jobPreviewCSS.flexContainer}>
           <div>
             Position: <span>{props.job.position}</span>
@@ -52,7 +56,7 @@ const JobPreview = props => {
       <div
         className={
           isCollapsed
-            ? jobPreviewCSS.applicationDetailsCollapse
+            ? jobPreviewCSS.applicationDetailsCollapsed
             : jobPreviewCSS.applicationDetails
         }
       >
