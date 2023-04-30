@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import AddJobCSS from './addJob.module.css'
+import Button from './button'
 
 const AddJob = () => {
   const [selectedRadioOption, setSelectedRadioOption] = useState()
@@ -28,30 +29,43 @@ const AddJob = () => {
     setComments(event.target.value)
   }
 
-  const sendRequest = () => {
+  const sendRequest = async () => {
     
+
+    const options = {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      Authorization:,
+      body: JSON.stringify({
+        position: position,
+        company: company,
+        link: link,
+        comments: comments,
+        jobStatus: selectedRadioOption
+      })
+    }
   }
 
   return (
     <div className={AddJobCSS.AddJobCSS}>
       <form>
         <div>
+          <label for='position'>Enter the name of your position</label>
           <input
             required
             type='text'
             name='position'
             onChange={handlePositionChange}
           />
-          <label for='position'>Enter the name of your position</label>
         </div>
         <div>
+          <label for='company'>Enter the Company name: </label>
           <input
             required
             type='text'
             name='company'
             onChange={handleCompanyChange}
           />
-          <label for='company'>Enter the Company name: </label>
         </div>
         <div className={AddJobCSS.RadioMenu}>
           Select your current's application status:
@@ -101,12 +115,12 @@ const AddJob = () => {
           </div>
         </div>
         <div>
-          <input type='text' name='link' onChange={handleLinkChange} />
           <label for='link'>Enter the url where you found this job: </label>
+          <input type='text' name='link' onChange={handleLinkChange} />
         </div>
         <div>
-          <input type='text' name='comment' onChange={handleCommentChange} />
           <label for='comment'>Additional notes: </label>
+          <input type='text' name='comment' onChange={handleCommentChange} />
         </div>
       </form>
     </div>

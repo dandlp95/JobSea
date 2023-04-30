@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import SearchBar from "../components/searchBar";
 import JobPreview from "../components/jobPreview";
 import jobsCSS from "./jobs.module.css";
+import AddJob from "../components/addJob";
 import { useState } from "react";
 
 const Header = (props) => {
@@ -48,9 +49,11 @@ const Jobs = () => {
     <div className={jobsCSS.jobsCSS}>
       <Header signOut={signOut} />
       <SearchBar getInput={getSearchQuery} />
+  
       <div className={jobsCSS.jobs}>
         <JobPreview job={job} />
       </div>
+      <AddJob />
     </div>
   );
 };
