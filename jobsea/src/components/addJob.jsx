@@ -8,6 +8,8 @@ const AddJob = () => {
   const [company, setCompany] = useState()
   const [link, setLink] = useState()
   const [comments, setComments] = useState()
+  const [salary, setSalary] = useState()
+  const [location, setLocation] = useState()
 
   const handleRadioOptionChange = event => {
     setSelectedRadioOption(event.target.value)
@@ -29,16 +31,26 @@ const AddJob = () => {
     setComments(event.target.value)
   }
 
+  const handleSalaryChange = event => {
+    setSalary(event.target.value)
+  }
+
+  const handleLocationChange = event => {
+    setLocation(event.target.value)
+  }
+
   const sendRequest = async () => {
-    
+     // const token = localStorage.getItem <- GET TOKEN FROM LOCAL STORAGE
 
     const options = {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      Authorization:,
+      Authorization: `Bearer ${'TOKEN GOES HERE'}`,
       body: JSON.stringify({
-        position: position,
-        company: company,
+        JobTitle: position,
+        Company: company,
+        Salary: salary,
+        location: location,
         link: link,
         comments: comments,
         jobStatus: selectedRadioOption
@@ -113,6 +125,14 @@ const AddJob = () => {
               Not selected
             </label>
           </div>
+        </div>
+        <div>
+          <label for='salary'>Salary: </label>
+          <input type='text' name='salary' onChange={handleSalaryChange}/>
+        </div>
+        <div>
+          <label for='location'>Location: </label>
+          <input type='text' name='location' onChange={handleLocationChange}/>
         </div>
         <div>
           <label for='link'>Enter the url where you found this job: </label>
