@@ -45,6 +45,7 @@ function App() {
     );
     if (response.ok) {
       const responseObject = await response.json();
+      localStorage.setItem("username", loginName)
       setToken(responseObject.token);
     }
   };
@@ -67,7 +68,7 @@ function App() {
     );
     if (response.ok) {
       const responseObject = await response.json();
-      console.log("response object: ", responseObject);
+      localStorage.setItem("username", rUsername)
       setToken(responseObject.token);
     }
   };

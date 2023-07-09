@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../components/searchBar";
 import JobPreview from "../components/jobPreview";
 import jobsCSS from "./jobs.module.css";
 import AddJob from "../components/addJob";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = (props) => {
   return (
@@ -16,12 +16,15 @@ const Header = (props) => {
 };
 
 const Jobs = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState();
 
   useEffect(() => { }, [searchQuery]);
 
   const signOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    navigate("/")
   };
 
   const getSearchQuery = (searchInput) => {
@@ -49,7 +52,6 @@ const Jobs = () => {
     <div className={jobsCSS.jobsCSS}>
       <Header signOut={signOut} />
       <SearchBar getInput={getSearchQuery} />
-  
       <div className={jobsCSS.jobs}>
         <JobPreview job={job} />
       </div>
