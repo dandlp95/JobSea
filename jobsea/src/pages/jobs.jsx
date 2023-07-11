@@ -18,23 +18,35 @@ const Header = props => {
 const Jobs = () => {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState()
+  const [jobs, setJobs] = useState([])
+  const [urlChange, setUrlChange] = useState()
 
   useEffect(() => {}, [searchQuery])
+
   useEffect(() => {
     const getApplications = async () => {
       const token = localStorage.getItem('token')
-      //const userId = localStorage.
+      const userId = localStorage.getItem('userId')
       const options = {
         method: 'GET',
         headers: {
           'Content-type': 'application/json',
-          Authorization: token
+          Authorization: `Bearer ${token}`
         }
       }
       const response = await fetch(
-        'https://localhost:7283' + '/jobsea/jobapplication/GetAllApplication/'
+        'https://localhost:7283' +
+          '/jobsea/jobapplication/GetAllApplications/' +
+          userId,
+        options
       )
+      if (response.ok) {
+        const responseObject = await response.json()
+        setJobs(responseObject.result)
+        console.log(responseObject)
+      }
     }
+    getApplications()
   }, [])
 
   const signOut = () => {
@@ -70,7 +82,10 @@ const Jobs = () => {
       <Header signOut={signOut} />
       <SearchBar getInput={getSearchQuery} />
       <div className={jobsCSS.jobs}>
-        <JobPreview job={job} />
+        {/* <JobPreview job={job} /> */}
+        {/* {jobs && jobs.map((job)=>(
+          <JobPreview job={job}/>
+        ))} */}
       </div>
       <AddJob />
     </div>

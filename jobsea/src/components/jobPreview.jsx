@@ -5,6 +5,35 @@ import Button from './button'
 
 const JobPreview = props => {
   const [isCollapsed, setIsCollapse] = useState(true)
+  const [updates, setUpdates] = useState([])
+  const [latestUpdate, setLatestUpdate] = useState()
+
+  useEffect(() => {
+    const getUpdates = async () => {
+      const token = localStorage.getItem('token')
+      const userId = localStorage.getItem('userId')
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+      const response = await fetch(
+        'https://localhost:7283' +
+          `/jobsea/JobApplications/GetAllApplicationUpdates/${props.job.applicationId}/${userId}`,
+        options
+      )
+      if (response.ok) {
+        const responseObject = await response.json()
+        setUpdates(responseObject.result)
+        // Sort in descending order
+        responseObject.result.sort((a, b) => b.created - a.created)
+        // Assign most recent date (first element in array after sorting)
+        setLatestUpdate(responseObject.result[0])
+      }
+    }
+  }, [])
 
   const handleToggle = () => {
     setIsCollapse(!isCollapsed)
@@ -26,10 +55,11 @@ const JobPreview = props => {
       >
         <div className={jobPreviewCSS.flexContainer}>
           <div>
-            Position: <span>{props.job.position}</span>
+            Position: <span>{props.job.jobTitle}</span>
           </div>
           <div>
-            Status: <span>{props.job.status}</span>
+            Status:{' '}
+            <span>{latestUpdate && latestUpdate.status.statusName}</span>
           </div>
           <div>
             Company: <span>{props.job.company}</span>
@@ -49,12 +79,12 @@ const JobPreview = props => {
         }
       >
         <div className={jobPreviewCSS.updatesContainer}>
-          {props.job.updates.map(update => (
+          {updates.map(update => (
             <div className={jobPreviewCSS.updateContainer}>
               <div>
-                <div> {update.preview}</div>
+                <div> {update.notes}</div>
                 <span className={jobPreviewCSS.seeMore}>See more</span>
-                <span className={jobPreviewCSS.updateDate}>06/10/2023</span>
+                <span className={jobPreviewCSS.updateDate}>{update.eventDate}</span>
               </div>
             </div>
           ))}
