@@ -4,6 +4,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md'
 import Button from './button'
 
 const JobPreview = props => {
+  // Need to work on css, if there aren't any updates, the expandable doesn't look good.
   const [isCollapsed, setIsCollapse] = useState(true)
   const [updates, setUpdates] = useState([])
   const [latestUpdate, setLatestUpdate] = useState()
@@ -21,7 +22,7 @@ const JobPreview = props => {
       }
       const response = await fetch(
         'https://localhost:7283' +
-          `/jobsea/JobApplications/GetAllApplicationUpdates/${props.job.applicationId}/${userId}`,
+          `/jobsea/JobApplication/GetApplicationUpdates/${props.job.applicationId}/${userId}`,
         options
       )
       if (response.ok) {
@@ -33,6 +34,7 @@ const JobPreview = props => {
         setLatestUpdate(responseObject.result[0])
       }
     }
+    getUpdates()
   }, [])
 
   const handleToggle = () => {

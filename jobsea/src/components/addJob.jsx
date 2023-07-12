@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AddJobCSS from './addJob.module.css'
 import Button from './button'
 
@@ -10,6 +10,22 @@ const AddJob = () => {
   const [comments, setComments] = useState()
   const [salary, setSalary] = useState()
   const [location, setLocation] = useState()
+  const [statusOptions, setStatusOptions] = useState()
+
+  useEffect(()=>{
+    const getStatusOptions = async () => {
+      const options = {
+        method: "GET",
+        headers: { "Content-type": "application/json" },
+      }
+      const response = await fetch("https://localhost:7283" + "/jobsea/JobApplication/GetStatusOptions")
+      if(response.ok){
+        const responseObject = await response.json()
+        setStatusOptions(responseObject.response)
+      }
+    }
+    getStatusOptions()
+  },[])
 
   const handleRadioOptionChange = event => {
     setSelectedRadioOption(event.target.value)
@@ -47,9 +63,9 @@ const AddJob = () => {
       headers: { 'Content-type': 'application/json' },
       Authorization: `Bearer ${'TOKEN GOES HERE'}`,
       body: JSON.stringify({
-        JobTitle: position,
-        Company: company,
-        Salary: salary,
+        jobTitle: position,
+        company: company,
+        salary: salary,
         location: location,
         link: link,
         comments: comments,
