@@ -43,7 +43,6 @@ const Jobs = () => {
       if (response.ok) {
         const responseObject = await response.json()
         setJobs(responseObject.result)
-        console.log(responseObject)
       }
     }
     getApplications()

@@ -12,20 +12,24 @@ const AddJob = () => {
   const [location, setLocation] = useState()
   const [statusOptions, setStatusOptions] = useState()
 
-  useEffect(()=>{
+  useEffect(() => {
     const getStatusOptions = async () => {
       const options = {
-        method: "GET",
-        headers: { "Content-type": "application/json" },
+        method: 'GET',
+        headers: { 'Content-type': 'application/json' }
       }
-      const response = await fetch("https://localhost:7283" + "/jobsea/JobApplication/GetStatusOptions")
-      if(response.ok){
+      const response = await fetch(
+        'https://localhost:7283' + '/jobsea/JobApplication/GetStatusOptions',
+        options
+      )
+      if (response.ok) {
         const responseObject = await response.json()
-        setStatusOptions(responseObject.response)
+        console.log(responseObject)
+        setStatusOptions(responseObject.result)
       }
     }
     getStatusOptions()
-  },[])
+  }, [])
 
   const handleRadioOptionChange = event => {
     setSelectedRadioOption(event.target.value)
@@ -56,7 +60,7 @@ const AddJob = () => {
   }
 
   const sendRequest = async () => {
-     // const token = localStorage.getItem <- GET TOKEN FROM LOCAL STORAGE
+    // const token = localStorage.getItem <- GET TOKEN FROM LOCAL STORAGE
 
     const options = {
       method: 'POST',
@@ -97,58 +101,28 @@ const AddJob = () => {
         </div>
         <div className={AddJobCSS.RadioMenu}>
           Select your current's application status:
-          <div>
-            <label>
-              <input
-                type='radio'
-                value='applied'
-                checked={selectedRadioOption === 'applied'}
-                onChange={handleRadioOptionChange}
-              />
-              Just Applied
-            </label>
-          </div>
-          <div>
-            <label>
-              <input
-                type='radio'
-                value='waiting'
-                checked={selectedRadioOption === 'waiting'}
-                onChange={handleRadioOptionChange}
-              />
-              Waiting to hear back
-            </label>
-          </div>
-          <div>
-            <label>
-              <input
-                type='radio'
-                value='interviewScheduled'
-                checked={selectedRadioOption === 'interviewScheduled'}
-                onChange={handleRadioOptionChange}
-              />
-              Scheduled Interviewed
-            </label>
-          </div>
-          <div>
-            <label>
-              <input
-                type='radio'
-                value='rejected'
-                checked={selectedRadioOption === 'rejected'}
-                onChange={handleRadioOptionChange}
-              />
-              Not selected
-            </label>
-          </div>
+          {statusOptions &&
+            statusOptions.map(statusOption => (
+              <div>
+                <label>
+                  <input
+                    type='radio'
+                    value={statusOption.statusId}
+                    checked={selectedRadioOption == statusOption.statusId}
+                    onChange={handleRadioOptionChange}
+                  />
+                  {statusOption.statusName}
+                </label>
+              </div>
+            ))}
         </div>
         <div>
           <label for='salary'>Salary: </label>
-          <input type='text' name='salary' onChange={handleSalaryChange}/>
+          <input type='text' name='salary' onChange={handleSalaryChange} />
         </div>
         <div>
           <label for='location'>Location: </label>
-          <input type='text' name='location' onChange={handleLocationChange}/>
+          <input type='text' name='location' onChange={handleLocationChange} />
         </div>
         <div>
           <label for='link'>Enter the url where you found this job: </label>
