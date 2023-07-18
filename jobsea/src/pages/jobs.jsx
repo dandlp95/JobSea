@@ -20,6 +20,7 @@ const Jobs = () => {
   const [searchQuery, setSearchQuery] = useState()
   const [jobs, setJobs] = useState([])
   const [urlChange, setUrlChange] = useState()
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   useEffect(() => {}, [searchQuery])
 
@@ -46,7 +47,7 @@ const Jobs = () => {
       }
     }
     getApplications()
-  }, [])
+  }, [formSubmitted])
 
   const signOut = () => {
     localStorage.removeItem('token')
@@ -59,6 +60,10 @@ const Jobs = () => {
     setSearchQuery(searchInput)
   }
 
+  const reRenderParent = () => {
+    setFormSubmitted(!formSubmitted)
+  }
+
   return (
     <div className={jobsCSS.jobsCSS}>
       <Header signOut={signOut} />
@@ -69,7 +74,7 @@ const Jobs = () => {
           <JobPreview job={job}/>
         ))} *
       </div>
-      <AddJob />
+      <AddJob reRenderParentFunction={reRenderParent}/>
     </div>
   )
 }

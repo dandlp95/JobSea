@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import AddJobCSS from './addJob.module.css'
 import Button from './button'
 
-const AddJob = () => {
+const AddJob = (props) => {
   const [selectedRadioOption, setSelectedRadioOption] = useState()
   const [position, setPosition] = useState()
   const [company, setCompany] = useState()
@@ -106,11 +106,12 @@ const AddJob = () => {
       'https://localhost:7283' + '/jobsea/JobApplication/CreateApplication',
       options
     )
-
+      console.log(response)
     if (response.ok) {
       // This is a placeholder
-      alert('Success')
+      //alert('Success')
       clearCreateApplicationForm()
+      props.reRenderParentFunction()
     }
   }
 
@@ -127,7 +128,7 @@ const AddJob = () => {
 
   return (
     <div className={AddJobCSS.AddJobCSS}>
-      <form>
+      <form  onSubmit={(e) => e.preventDefault()}>
         <div>
           <label for='position'>Enter the name of your position</label>
           <input
