@@ -21,6 +21,7 @@ const Jobs = () => {
   const [jobs, setJobs] = useState([])
   const [urlChange, setUrlChange] = useState()
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [isAddJobActive, setIsAddJobActive] = useState(false)
 
   useEffect(() => {}, [searchQuery])
 
@@ -69,12 +70,9 @@ const Jobs = () => {
       <Header signOut={signOut} />
       <SearchBar getInput={getSearchQuery} />
       <div className={jobsCSS.jobs}>
-        {/* <JobPreview job={job} /> */}
-        {jobs && jobs.map((job)=>(
-          <JobPreview job={job}/>
-        ))} *
+        {jobs && jobs.map(job => <JobPreview job={job} />)}
       </div>
-      <AddJob reRenderParentFunction={reRenderParent}/>
+      {isAddJobActive && <AddJob reRenderParentFunction={reRenderParent} />}
     </div>
   )
 }

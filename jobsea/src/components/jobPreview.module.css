@@ -2,12 +2,17 @@
   margin-top: 4rem;
 }
 
+.jobPreviewCSS .jobContainer{
+  width: 40%;
+  margin: 0 auto;
+}
+
+
 .jobPreviewCSS .previewContainer {
   position: relative;
   border-radius: 1rem;
   background-color: var(--vermillion);
   color: var(--white);
-  width: 40%;
   height: 4rem;
   margin: 0 auto;
   padding: 1rem 0 5rem 0;
@@ -59,7 +64,6 @@
 /*EXPANDABLE*/
 .jobPreviewCSS .applicationDetailsCollapsed {
   background-color: var(--melon);
-  width: 40%;
   margin: 0 auto;
   box-sizing: border-box;
   overflow: hidden;
@@ -72,7 +76,6 @@
 
 .jobPreviewCSS .applicationDetails {
   background-color: var(--melon);
-  width: 40%;
   margin: 0 auto;
   box-sizing: border-box;
   max-height: 20rem;

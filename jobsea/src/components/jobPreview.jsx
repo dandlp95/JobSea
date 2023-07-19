@@ -50,6 +50,7 @@ const JobPreview = props => {
 
   return (
     <div className={jobPreviewCSS.jobPreviewCSS}>
+      <div className={jobPreviewCSS.jobContainer}>
       <div
         className={`${jobPreviewCSS.previewContainer} ${
           !isCollapsed ? jobPreviewCSS.flattenBorder : ''
@@ -95,6 +96,7 @@ const JobPreview = props => {
           <Button btnText='Add Update' styleRules={buttonStyleRules} />
           <Button btnText='Delete' styleRules={buttonStyleRules} />
         </div>
+      </div>
       </div>
     </div>
   )
