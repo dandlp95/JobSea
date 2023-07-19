@@ -68,9 +68,11 @@ const Jobs = () => {
   return (
     <div className={jobsCSS.jobsCSS}>
       <Header signOut={signOut} />
-      <SearchBar getInput={getSearchQuery} />
-      <div className={jobsCSS.jobs}>
-        {jobs && jobs.map(job => <JobPreview job={job} />)}
+      <div className={jobsCSS.alignContainer}>
+        <SearchBar getInput={getSearchQuery} />
+        <div className={jobsCSS.jobs}>
+          {jobs && jobs.map(job => <JobPreview job={job} />)}
+        </div>
       </div>
       {isAddJobActive && <AddJob reRenderParentFunction={reRenderParent} />}
     </div>

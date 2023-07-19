@@ -21,3 +21,9 @@
 .jobsCSS .logonOptions div:nth-child(3) {
   cursor: pointer;
 }
+
+.jobsCSS .alignContainer{
+  display: flex;
+  flex-direction: column;
+  margin-left:30%;
+}
