@@ -4,6 +4,7 @@ import JobPreview from '../components/jobPreview'
 import jobsCSS from './jobs.module.css'
 import AddJob from '../components/addJob'
 import { useNavigate } from 'react-router-dom'
+import { AiOutlinePlus } from 'react-icons/ai'
 
 const Header = props => {
   return (
@@ -69,7 +70,13 @@ const Jobs = () => {
     <div className={jobsCSS.jobsCSS}>
       <Header signOut={signOut} />
       <div className={jobsCSS.alignContainer}>
-        <SearchBar getInput={getSearchQuery} />
+        <div className={jobsCSS.topContainer}>
+          <SearchBar getInput={getSearchQuery} />
+          <div className={jobsCSS.addApplicationSection}>
+              <AiOutlinePlus />
+            <span>Add Application</span>
+          </div>
+        </div>
         <div className={jobsCSS.jobs}>
           {jobs && jobs.map(job => <JobPreview job={job} />)}
         </div>
