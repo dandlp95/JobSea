@@ -1,19 +1,18 @@
-.searchBarCSS{
-    padding-top: 4rem;
-    width: 90%;
-    margin-left: 0 auto
+.searchBarCSS {
+    flex-grow: 2;
+
 }
 
-.searchBarCSS input{
-    width: 40%;
-    padding: 0 0 0 3rem;
+.searchBarCSS input {
+    width: 80%;
+    padding: 0 0 0 2rem;
     height: 2rem;
     border-radius: 1rem;
     font-size: 1.5rem;
     border-color: var(--white);
-    border: 0;    
+    border: 0;
 }
 
-.searchBarCSS input:focus{
+.searchBarCSS input:focus {
     outline: none;
 }

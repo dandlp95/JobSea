@@ -29,23 +29,24 @@
 }
 
 .jobsCSS .topContainer {
-  position: relative;
+  display:flex;
+  width: 55%;
 }
 
+
 .jobsCSS .topContainer .addApplicationSection {
-  position: absolute;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  gap: 8px
+  gap: 7px;
 }
 
 .jobsCSS .topContainer svg {
-  font-size: 2rem;
+  font-size: 1.35rem;
 }
 
 .jobsCSS .topContainer span {
-  font-size: 1.45rem;
+  font-size: 1.2rem;
 }
