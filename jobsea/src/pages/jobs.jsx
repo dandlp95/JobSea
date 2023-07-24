@@ -58,6 +58,14 @@ const Jobs = () => {
     navigate('/')
   }
 
+  const addApplication = () => {
+    setIsAddJobActive(true)
+  }
+
+  const closeApplication = () => {
+    setIsAddJobActive(false)
+  }
+
   const getSearchQuery = searchInput => {
     setSearchQuery(searchInput)
   }
@@ -72,8 +80,11 @@ const Jobs = () => {
       <div className={jobsCSS.alignContainer}>
         <div className={jobsCSS.topContainer}>
           <SearchBar getInput={getSearchQuery} />
-          <div className={jobsCSS.addApplicationSection}>
-              <AiOutlinePlus />
+          <div
+            className={jobsCSS.addApplicationSection}
+            onClick={addApplication}
+          >
+            <AiOutlinePlus />
             <span>Add Application</span>
           </div>
         </div>
@@ -81,7 +92,9 @@ const Jobs = () => {
           {jobs && jobs.map(job => <JobPreview job={job} />)}
         </div>
       </div>
-      {isAddJobActive && <AddJob reRenderParentFunction={reRenderParent} />}
+      {isAddJobActive && (
+        <AddJob reRenderParentFunction={reRenderParent} closeComponentFunction={closeApplication} />
+      )}
     </div>
   )
 }
