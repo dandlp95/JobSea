@@ -89,7 +89,7 @@ const Jobs = () => {
           </div>
         </div>
         <div className={jobsCSS.jobs}>
-          {jobs && jobs.map(job => <JobPreview job={job} />)}
+          {jobs && jobs.map(job => <JobPreview job={job} reRenderParentFunction={reRenderParent}/>)}
         </div>
       </div>
       {isAddJobActive && (

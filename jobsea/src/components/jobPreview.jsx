@@ -8,7 +8,7 @@ const JobPreview = props => {
   const [isCollapsed, setIsCollapse] = useState(true)
   const [updates, setUpdates] = useState([])
   const [latestUpdate, setLatestUpdate] = useState()
-
+  console.log('job: ', props.job)
   useEffect(() => {
     const getUpdates = async () => {
       const token = localStorage.getItem('token')
@@ -39,6 +39,30 @@ const JobPreview = props => {
 
   const handleToggle = () => {
     setIsCollapse(!isCollapsed)
+  }
+
+  const deleteApplication = async () => {
+    const token = localStorage.getItem('token')
+    const userId = localStorage.getItem('userId')
+    const applicationId = props.job.applicationId
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const response = await fetch(
+      'https://localhost:7283' +
+        `/jobsea/JobApplication/DeleteApplication/${props.job.applicationId}`,
+      options
+    )
+    if (response.ok) {
+      alert('Application Deleted')
+      props.reRenderParentFunction()
+    } else {
+      alert('error')
+    }
   }
 
   const buttonStyleRules = {
@@ -96,7 +120,11 @@ const JobPreview = props => {
           </div>
           <div className={jobPreviewCSS.buttons}>
             <Button btnText='Add Update' styleRules={buttonStyleRules} />
-            <Button btnText='Delete' styleRules={buttonStyleRules} />
+            <Button
+              btnText='Delete'
+              styleRules={buttonStyleRules}
+              clickAction={deleteApplication}
+            />
           </div>
         </div>
       </div>
