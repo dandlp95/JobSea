@@ -8,7 +8,6 @@ const JobPreview = props => {
   const [isCollapsed, setIsCollapse] = useState(true)
   const [updates, setUpdates] = useState([])
   const [latestUpdate, setLatestUpdate] = useState()
-  console.log('job: ', props.job)
   useEffect(() => {
     const getUpdates = async () => {
       const token = localStorage.getItem('token')

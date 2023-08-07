@@ -26,7 +26,6 @@ const AddJob = props => {
       )
       if (response.ok) {
         const responseObject = await response.json()
-        console.log(responseObject)
         setStatusOptions(responseObject.result)
       }
     }
@@ -125,10 +124,11 @@ const AddJob = props => {
   }
 
   return (
+    statusOptions &&
     <div className={AddJobCSS.AddJobCSS}>
       <form onSubmit={e => e.preventDefault()}>
         <div>
-          <label for='position'>Enter the name of your position</label>
+          <label for='position'>Enter the name of your position: </label>
           <input
             required
             type='text'
@@ -162,7 +162,7 @@ const AddJob = props => {
               </div>
             ))}
           {eventDateQuestion && (
-            <div>
+            <div className={AddJobCSS.eventDateQuestion}>
               <label for='eventDate'>{eventDateQuestion} </label>
               <input type='date' name='eventDate' onChange={handlEventDate} />
             </div>
@@ -184,8 +184,10 @@ const AddJob = props => {
           <label for='comment'>Additional notes: </label>
           <input type='text' name='comment' onChange={handleCommentChange} />
         </div>
-        <Button btnText='Create Application' clickAction={sendRequest} />
-        <Button btnText='Close' clickAction={props.closeComponentFunction} />
+        <div className={AddJobCSS.buttonsDiv}>
+          <Button btnText='Create Application' clickAction={sendRequest} />
+          <Button btnText='Close' clickAction={props.closeComponentFunction} />
+        </div>
       </form>
     </div>
   )

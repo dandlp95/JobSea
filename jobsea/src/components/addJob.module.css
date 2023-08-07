@@ -1,3 +1,42 @@
-.AddJobCSS{
-    
+.AddJobCSS {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.AddJobCSS form {
+    position: relative;
+    width: 35%;
+    left: 30%;
+    top: 20%;
+    background: var(--vermillion);
+    padding: 1.45rem;
+    color: white;
+    font-size: 1.15rem;
+    border-radius: 25px;
+}
+
+.AddJobCSS .buttonsDiv {
+    display: flex;
+    gap: 40px;
+}
+
+.AddJobCSS form>div {
+    margin-top: 1rem;
+}
+
+.AddJobCSS form>div:not(.RadioMenu) input {
+    display: block;
+    height: 1.2rem;
+    width: 20rem;
+    border-radius: 7px;
+    border: none;
+    outline: none;
+}
+
+.AddJobCSS .eventDateQuestion {
+    margin-top: 0.25rem;
 }
