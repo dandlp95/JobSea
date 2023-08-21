@@ -40,7 +40,7 @@ function App() {
       }),
     };
     const response = await fetch(
-      "https://localhost:7283" + "/jobsea/User/login",
+      "https://localhost:7283" + "/jobsea/users/auth",
       options
     );
     if (response.ok) {
@@ -64,7 +64,7 @@ function App() {
     };
 
     const response = await fetch(
-      "https://localhost:7283" + "/jobSea/User/AddUser",
+      "https://localhost:7283" + "/jobSea/users",
       options
     );
     if (response.ok) {

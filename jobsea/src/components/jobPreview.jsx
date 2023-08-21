@@ -21,7 +21,7 @@ const JobPreview = props => {
       }
       const response = await fetch(
         'https://localhost:7283' +
-          `/jobsea/JobApplication/GetApplicationUpdates/${props.job.applicationId}/${userId}`,
+          `/jobsea/user/${userId}/applications/${props.job.applicationId}/updates`,
         options
       )
       if (response.ok) {
@@ -53,7 +53,7 @@ const JobPreview = props => {
     }
     const response = await fetch(
       'https://localhost:7283' +
-        `/jobsea/JobApplication/DeleteApplication/${props.job.applicationId}`,
+        `/jobsea/users/${userId}/applications/${props.job.applicationId}`,
       options
     )
     if (response.ok) {

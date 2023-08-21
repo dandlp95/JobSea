@@ -39,9 +39,7 @@ const Jobs = () => {
       }
       const response = await fetch(
         'https://localhost:7283' +
-          '/jobsea/jobapplication/GetAllApplications/' +
-          userId,
-        options
+          `/jobsea/users/${userId}/applications`, options
       )
       if (response.ok) {
         const responseObject = await response.json()
