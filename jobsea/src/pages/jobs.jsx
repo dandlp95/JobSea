@@ -41,8 +41,8 @@ const Jobs = () => {
         'https://localhost:7283' +
           `/jobsea/users/${userId}/applications`, options
       )
+      const responseObject = await response.json()
       if (response.ok) {
-        const responseObject = await response.json()
         setJobs(responseObject.result)
       }
     }

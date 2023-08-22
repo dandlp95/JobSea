@@ -6,11 +6,11 @@ const AddJob = props => {
   const [formData, setFormData] = useState({
     company: '',
     position: '',
-    salary: null,
+    salary: '',
     location: '',
     link: '',
     comments: '',
-    eventDate: '',
+    eventDate: null,
     selectedRadioOption: ''
   })
   const [statusOptions, setStatusOptions] = useState()
@@ -88,12 +88,12 @@ const AddJob = props => {
         Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
-        company: formData.company,
-        jobTitle: formData.position,
-        salary: formData.salary,
-        location: formData.location,
-        link: formData.link,
-        comments: formData.comments,
+        Company: formData.company,
+        JobTitle: formData.position,
+        Salary: formData.salary,
+        Location: formData.location,
+        Link: formData.link,
+        Comments: formData.comments,
         firstUpdate: {
           eventDate: formData.eventDate,
           notes: formData.comments,
@@ -120,11 +120,11 @@ const AddJob = props => {
     setFormData({
       company: '',
       position: '',
-      salary: null,
+      salary: '',
       location: '',
       link: '',
       comments: '',
-      eventDate: '',
+      eventDate: null,
       selectedRadioOption: ''
     })
     setEventDateQuestion()
