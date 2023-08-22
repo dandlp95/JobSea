@@ -38,8 +38,8 @@ const Jobs = () => {
         }
       }
       const response = await fetch(
-        'https://localhost:7283' +
-          `/jobsea/users/${userId}/applications`, options
+        'https://localhost:7283' + `/jobsea/users/${userId}/applications`,
+        options
       )
       const responseObject = await response.json()
       if (response.ok) {
@@ -87,11 +87,17 @@ const Jobs = () => {
           </div>
         </div>
         <div className={jobsCSS.jobs}>
-          {jobs && jobs.map(job => <JobPreview job={job} reRenderParentFunction={reRenderParent}/>)}
+          {jobs &&
+            jobs.map(job => (
+              <JobPreview job={job} reRenderParentFunction={reRenderParent} />
+            ))}
         </div>
       </div>
       {isAddJobActive && (
-        <AddJob reRenderParentFunction={reRenderParent} closeComponentFunction={closeApplication} />
+        <AddJob
+          reRenderParentFunction={reRenderParent}
+          closeComponentFunction={closeApplication}
+        />
       )}
     </div>
   )

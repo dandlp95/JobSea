@@ -111,6 +111,7 @@ const AddJob = props => {
       alert('Success')
       clearCreateApplicationForm()
       props.reRenderParentFunction()
+      props.closeComponentFunction()
     } else {
       alert('error submitting form')
     }

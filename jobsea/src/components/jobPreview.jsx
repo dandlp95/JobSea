@@ -21,11 +21,12 @@ const JobPreview = props => {
       }
       const response = await fetch(
         'https://localhost:7283' +
-          `/jobsea/user/${userId}/applications/${props.job.applicationId}/updates`,
+          `/jobsea/users/${userId}/applications/${props.job.applicationId}/updates`,
         options
       )
+      const responseObject = await response.json()
+      console.log(responseObject)
       if (response.ok) {
-        const responseObject = await response.json()
         setUpdates(responseObject.result)
         // Sort in descending order
         responseObject.result.sort((a, b) => b.created - a.created)
