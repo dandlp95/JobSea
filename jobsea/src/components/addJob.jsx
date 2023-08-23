@@ -3,6 +3,10 @@ import AddJobCSS from './addJob.module.css'
 import Button from './button'
 
 const AddJob = props => {
+  const hiredQuestion = 'Congrats! When will your new job start?'
+  const interviewQuestion = 'When will your interview be?'
+  const waitingQuestion = 'When do you estimate you will hear back from them?'
+
   const [formData, setFormData] = useState({
     company: '',
     position: '',
@@ -11,6 +15,7 @@ const AddJob = props => {
     link: '',
     comments: '',
     eventDate: null,
+    eventTime: null,
     selectedRadioOption: ''
   })
   const [statusOptions, setStatusOptions] = useState()
@@ -67,11 +72,11 @@ const AddJob = props => {
     setFormData({ ...formData, eventDate: event.target.value })
   }
 
-  const setQuestion = statusId => {
-    const hiredQuestion = 'Congrats! When will your new job start?'
-    const interviewQuestion = 'When will your interview be?'
-    const waitingQuestion = 'When do you estimate you will hear back from them?'
+  const handleTimeChange = event => {
+    setFormData({ ...formData, eventTime: event.target.value })
+  }
 
+  const setQuestion = statusId => {
     if (statusId == 1) setEventDateQuestion(hiredQuestion)
     else if (statusId == 3) setEventDateQuestion(interviewQuestion)
     else if (statusId == 5) setEventDateQuestion(waitingQuestion)
@@ -96,17 +101,19 @@ const AddJob = props => {
         Comments: formData.comments,
         firstUpdate: {
           eventDate: formData.eventDate,
+          eventTime: formData.eventTime + ':00',
           notes: formData.comments,
           statusId: formData.selectedRadioOption
         },
         userId: userId
       })
     }
-
+    console.log(options.body)
     const response = await fetch(
       'https://localhost:7283' + `/jobsea/users/${userId}/applications`,
       options
     )
+    console.log(await response.json())
     if (response.ok) {
       alert('Success')
       clearCreateApplicationForm()
@@ -126,6 +133,7 @@ const AddJob = props => {
       link: '',
       comments: '',
       eventDate: null,
+      eventTime: null,
       selectedRadioOption: ''
     })
     setEventDateQuestion()
@@ -175,13 +183,29 @@ const AddJob = props => {
               ))}
             {eventDateQuestion && (
               <div className={AddJobCSS.eventDateQuestion}>
-                <label for='eventDate'>{eventDateQuestion} </label>
-                <input
-                  type='date'
-                  name='eventDate'
-                  value={formData.eventDate}
-                  onChange={handlEventDate}
-                />
+                <div>
+                  <label for='eventDate'>{eventDateQuestion} </label>
+                  <input
+                    type='date'
+                    name='eventDate'
+                    value={formData.eventDate}
+                    onChange={handlEventDate}
+                  />
+                </div>
+                <br></br>
+                {eventDateQuestion == interviewQuestion ? (
+                  <div>
+                    <label for='eventTime'>Time (optional): </label>
+                    <input
+                      type='time'
+                      name='eventTime'
+                      value={formData.eventTime}
+                      onChange={handleTimeChange}
+                    />
+                  </div>
+                ) : (
+                  <div></div>
+                )}
               </div>
             )}
           </div>
