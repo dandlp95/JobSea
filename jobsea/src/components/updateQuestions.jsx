@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useStatusOptions } from '../customHooks/useStatusOptions'
 
 const UpdateQuestions = props => {
   const hiredQuestion = 'Congrats! When will your new job start?'
