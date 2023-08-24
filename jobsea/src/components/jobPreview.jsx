@@ -112,7 +112,7 @@ const JobPreview = props => {
                   <div> {update.notes}</div>
                   <span className={jobPreviewCSS.seeMore}>See more</span>
                   <span className={jobPreviewCSS.updateDate}>
-                    {new Date(update.eventDate).toLocaleString('en-US', {
+                    {new Date(update.created).toLocaleString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',

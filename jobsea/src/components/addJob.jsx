@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import AddJobCSS from './addJob.module.css'
 import Button from './button'
+import { useStatusOptions } from '../customHooks/useStatusOptions'
 
 const AddJob = props => {
   const hiredQuestion = 'Congrats! When will your new job start?'
   const interviewQuestion = 'When will your interview be?'
   const waitingQuestion = 'When do you estimate you will hear back from them?'
+  const statusOptions = useStatusOptions()
 
   const [formData, setFormData] = useState({
     company: '',
@@ -18,26 +20,7 @@ const AddJob = props => {
     eventTime: null,
     selectedRadioOption: ''
   })
-  const [statusOptions, setStatusOptions] = useState()
   const [eventDateQuestion, setEventDateQuestion] = useState()
-
-  useEffect(() => {
-    const getStatusOptions = async () => {
-      const options = {
-        method: 'GET',
-        headers: { 'Content-type': 'application/json' }
-      }
-      const response = await fetch(
-        'https://localhost:7283' + '/jobsea/statusOptions',
-        options
-      )
-      if (response.ok) {
-        const responseObject = await response.json()
-        setStatusOptions(responseObject.result)
-      }
-    }
-    getStatusOptions()
-  }, [])
 
   const handleRadioOptionChange = event => {
     setFormData({ ...formData, selectedRadioOption: event.target.value })
