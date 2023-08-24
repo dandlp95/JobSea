@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AddJobCSS from './addJob.module.css'
 import Button from './button'
+import UpdateQuestions from './updateQuestions'
 import { useStatusOptions } from '../customHooks/useStatusOptions'
 
 const AddJob = props => {
@@ -8,7 +9,6 @@ const AddJob = props => {
   const interviewQuestion = 'When will your interview be?'
   const waitingQuestion = 'When do you estimate you will hear back from them?'
   const statusOptions = useStatusOptions()
-
   const [formData, setFormData] = useState({
     company: '',
     position: '',
@@ -146,52 +146,17 @@ const AddJob = props => {
               onChange={handleCompanyChange}
             />
           </div>
-          <div className={AddJobCSS.RadioMenu}>
-            Select your current's application status:
-            {statusOptions &&
-              statusOptions.map(statusOption => (
-                <div>
-                  <label>
-                    <input
-                      type='radio'
-                      value={statusOption.statusId}
-                      checked={
-                        formData.selectedRadioOption == statusOption.statusId
-                      }
-                      onChange={handleRadioOptionChange}
-                    />
-                    {statusOption.statusName}
-                  </label>
-                </div>
-              ))}
-            {eventDateQuestion && (
-              <div className={AddJobCSS.eventDateQuestion}>
-                <div>
-                  <label for='eventDate'>{eventDateQuestion} </label>
-                  <input
-                    type='date'
-                    name='eventDate'
-                    value={formData.eventDate}
-                    onChange={handlEventDate}
-                  />
-                </div>
-                <br></br>
-                {eventDateQuestion == interviewQuestion ? (
-                  <div>
-                    <label for='eventTime'>Time (optional): </label>
-                    <input
-                      type='time'
-                      name='eventTime'
-                      value={formData.eventTime}
-                      onChange={handleTimeChange}
-                    />
-                  </div>
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            )}
-          </div>
+          <UpdateQuestions
+            radioCSS={AddJobCSS.RadioMenu}
+            selectedRadioOption={formData.selectedRadioOption}
+            handleRadioOptionChange={handleRadioOptionChange}
+            eventDateCSS={AddJobCSS.eventDateQuestion}
+            eventDate={formData.eventDate}
+            eventTime={formData.eventTime}
+            handleTimeChange={handleTimeChange}
+            eventDateQuestion={eventDateQuestion}
+            statusOptions={statusOptions}
+          />
           <div>
             <label for='salary'>Salary: </label>
             <input
