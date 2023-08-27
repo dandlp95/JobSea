@@ -154,6 +154,7 @@ const AddJob = props => {
             handleTimeChange={handleTimeChange}
             eventDateQuestion={eventDateQuestion}
             statusOptions={statusOptions}
+            handlEventDateChange={handlEventDate}
           />
           <div>
             <label for='salary'>Salary: </label>
@@ -184,7 +185,7 @@ const AddJob = props => {
           </div>
           <div>
             <label for='comment'>Additional notes: </label>
-            <input
+            <textarea
               type='text'
               name='comment'
               value={formData.comments}

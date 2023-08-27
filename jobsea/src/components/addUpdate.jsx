@@ -28,8 +28,12 @@ const AddUpdate = props => {
     else setEventDateQuestion()
   }
 
-  const handleTimeChange = () => {
-    
+  const handleTimeChange = event => {
+    setFormData({ ...formData, eventTime: event.target.value })
+  }
+
+  const handlEventDate = event => {
+    setFormData({ ...formData, eventDate: event.target.value })
   }
 
   return (
@@ -45,6 +49,7 @@ const AddUpdate = props => {
             handleTimeChange={handleTimeChange}
             eventDateQuestion={eventDateQuestion}
             statusOptions={statusOptions}
+            handlEventDateChange={handlEventDate}
           />
       </form>
     </div>
