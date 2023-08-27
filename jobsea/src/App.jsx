@@ -1,79 +1,76 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import appCSS from "./App.module.css";
-import { TypeAnimation } from "react-type-animation";
-import Button from "./components/button";
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import appCSS from './App.module.css'
+import { TypeAnimation } from 'react-type-animation'
+import Button from './components/button'
+import apiService from './utilities/ApiService'
 
-function App() {
-  const [loginName, setLoginName] = useState();
-  const [lPassword, setLPassword] = useState();
-  const [rUsername, setRUsername] = useState();
-  const [rPassword, setRPassword] = useState();
-  const [rPasswordConfirm, setRPasswordConfirm] = useState();
-  const [rEmail, setREmail] = useState();
-  const [token, setToken] = useState();
-  const navigate = useNavigate();
+function App () {
+  const [loginName, setLoginName] = useState()
+  const [lPassword, setLPassword] = useState()
+  const [rUsername, setRUsername] = useState()
+  const [rPassword, setRPassword] = useState()
+  const [rPasswordConfirm, setRPasswordConfirm] = useState()
+  const [rEmail, setREmail] = useState()
+  const [token, setToken] = useState()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const browserToken = localStorage.getItem("token");
+    const browserToken = localStorage.getItem('token')
     if (browserToken) {
-      navigate("/jobs");
+      navigate('/jobs')
     } else if (token) {
-      localStorage.setItem("token", token);
-      navigate("/jobs");
+      localStorage.setItem('token', token)
+      navigate('/jobs')
     }
-  }, [token]);
+  }, [token])
 
   const buttonStyleRules = {
-    padding: "1rem 2.5rem",
-    backgroundColor: "#2d3142",
-    fontSize: "1.25rem"
+    padding: '1rem 2.5rem',
+    backgroundColor: '#2d3142',
+    fontSize: '1.25rem'
   }
 
   const login = async () => {
     const options = {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({
         Username: loginName,
-        password: lPassword,
-      }),
-    };
-    const response = await fetch(
-      "https://localhost:7283" + "/jobsea/users/auth",
-      options
-    );
-    if (response.ok) {
-      const responseObject = await response.json();
-      localStorage.setItem("username", responseObject.result.username)
-      localStorage.setItem("userId", responseObject.result.userId)
-      setToken(responseObject.token);
+        password: lPassword
+      })
     }
-  };
+    const response = await fetch(
+      'https://localhost:7283' + '/jobsea/users/auth',
+      options
+    )
+    if (response.ok) {
+      const responseObject = await response.json()
+      localStorage.setItem('username', responseObject.result.username)
+      localStorage.setItem('userId', responseObject.result.userId)
+      setToken(responseObject.token)
+    }
+  }
 
-  const registration = async () => {
-    const options = {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
+  const registration = () => {
+    try {
+      const body = JSON.stringify({
         Username: rUsername,
         Email: rEmail,
         Password: rPassword,
-        ConfirmPassword: rPasswordConfirm,
-      }),
-    };
+        ConfirmPassword: rPasswordConfirm
+      })
 
-    const response = await fetch(
-      "https://localhost:7283" + "/jobSea/users",
-      options
-    );
-    if (response.ok) {
-      const responseObject = await response.json();
-      localStorage.setItem("username",  responseObject.result.username)
-      localStorage.setItem("userId", responseObject.result.userId)
-      setToken(responseObject.token);
+      apiService.post('users', null, body).then(response => {
+        localStorage.setItem('username', response.result.username)
+        localStorage.setItem('userId', response.result.userId)
+        setToken(response.token)
+      })
+    } catch (err) {
+      console.error(err)
+      alert('Error logging in')
     }
-  };
+  }
 
   return (
     <div className={appCSS.appCSS}>
@@ -83,64 +80,65 @@ function App() {
           <div className={appCSS.typeAnimation}>
             <TypeAnimation
               sequence={[
-                "Easy to use...",
+                'Easy to use...',
                 1000,
-                "No more spreadsheets...",
+                'No more spreadsheets...',
                 1000,
-                "No more messiness...",
+                'No more messiness...',
                 1000,
-                "No more stress...",
-                1000,
+                'No more stress...',
+                1000
               ]}
               speed={50} // Custom Speed from 1-99 - Default Speed: 40
-              style={{ fontSize: "2em" }}
-              wrapper="span" // Animation will be rendered as a <span>
+              style={{ fontSize: '2em' }}
+              wrapper='span' // Animation will be rendered as a <span>
               repeat={0} // Repeat this Animation Sequence infinitely
             />
           </div>
         </div>
         <div className={appCSS.registrationDiv}>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className={appCSS.loginForm}
-          >
+          <form onSubmit={e => e.preventDefault()} className={appCSS.loginForm}>
             <div className={appCSS.inFormContainer}>
               <div className={appCSS.loginInputDiv}>
                 <input
                   required
-                  type="text"
-                  onChange={(e) => setLoginName(e.target.value)}
-                  name="loginName"
+                  type='text'
+                  onChange={e => setLoginName(e.target.value)}
+                  name='loginName'
                 />
-                <label for="loginName" className={appCSS.floatingLabel}>
-                  Username:{" "}
+                <label for='loginName' className={appCSS.floatingLabel}>
+                  Username:{' '}
                 </label>
               </div>
               <div className={appCSS.loginInputDiv}>
                 <input
                   required
-                  type="password"
-                  name="lPassword"
-                  onChange={(e) => setLPassword(e.target.value)}
+                  type='password'
+                  name='lPassword'
+                  onChange={e => setLPassword(e.target.value)}
                 />
-                <label for="lPassword" className={appCSS.floatingLabel}>
-                  Password:{" "}
+                <label for='lPassword' className={appCSS.floatingLabel}>
+                  Password:{' '}
                 </label>
               </div>
-              <Button btnText="Log in" styleRules={buttonStyleRules} clickAction={login} />
+              <Button
+                btnText='Log in'
+                styleRules={buttonStyleRules}
+                clickAction={login}
+              />
             </div>
           </form>
           <form
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={e => e.preventDefault()}
             className={appCSS.registrationForm}
           >
             <div className={appCSS.inFormContainer}>
               <div className={appCSS.registrationInputDiv}>
                 <input
-                  type="text"
+                  type='text'
                   required
-                  name="username"
-                  onChange={(e) => setRUsername(e.target.value)}
+                  name='username'
+                  onChange={e => setRUsername(e.target.value)}
                 />
                 <label className={appCSS.floatingLabel}>Username: </label>
               </div>
@@ -148,41 +146,45 @@ function App() {
               <div className={appCSS.registrationInputDiv}>
                 <input
                   required
-                  type="text"
-                  onChange={(e) => setREmail(e.target.value)}
-                  name="rEmail"
+                  type='text'
+                  onChange={e => setREmail(e.target.value)}
+                  name='rEmail'
                 />
                 <label className={appCSS.floatingLabel}>Email: </label>
               </div>
               <div className={appCSS.registrationInputDiv}>
                 <input
                   required
-                  type="password"
-                  onChange={(e) => setRPassword(e.target.value)}
-                  name="password"
-                />{" "}
+                  type='password'
+                  onChange={e => setRPassword(e.target.value)}
+                  name='password'
+                />{' '}
                 <label className={appCSS.floatingLabel}>Password: </label>
               </div>
               <div>
                 <div className={appCSS.registrationInputDiv}>
                   <input
                     required
-                    type="password"
-                    onChange={(e) => setRPasswordConfirm(e.target.value)}
-                    name="rPasswordConfirm"
+                    type='password'
+                    onChange={e => setRPasswordConfirm(e.target.value)}
+                    name='rPasswordConfirm'
                   />
                   <label className={appCSS.floatingLabel}>
-                    Confirm Password:{" "}
+                    Confirm Password:{' '}
                   </label>
                 </div>
               </div>
-              <Button btnText="Register" clickAction={registration} styleRules={buttonStyleRules} />
+              <Button
+                btnText='Register'
+                clickAction={registration}
+                styleRules={buttonStyleRules}
+              />
             </div>
           </form>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -5,6 +5,7 @@ import UpdateQuestions from './updateQuestions'
 import { useStatusOptions } from '../customHooks/useStatusOptions'
 import questions from '../utilities/questions'
 import CommentTextarea from './CommentTextarea'
+import apiService from '../utilities/ApiService'
 
 const AddJob = props => {
   const statusOptions = useStatusOptions()
@@ -66,15 +67,12 @@ const AddJob = props => {
   }
 
   const sendRequest = async () => {
-    const token = localStorage.getItem('token')
-    const userId = localStorage.getItem('userId')
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
+    try {
+      const userId = localStorage.getItem('userId')
+      const pathParams = {
+        userId
+      }
+      const body = JSON.stringify({
         Company: formData.company,
         JobTitle: formData.position,
         Salary: formData.salary,
@@ -89,18 +87,15 @@ const AddJob = props => {
         },
         userId: userId
       })
-    }
-    const response = await fetch(
-      'https://localhost:7283' + `/jobsea/users/${userId}/applications`,
-      options
-    )
-    console.log(await response.json())
-    if (response.ok) {
+
+      await apiService.post('users/{userId}/applications', pathParams, body)
+      
       alert('Success')
       clearCreateApplicationForm()
       props.reRenderParentFunction()
       props.closeComponentFunction()
-    } else {
+
+    } catch (err) {
       alert('error submitting form')
     }
   }

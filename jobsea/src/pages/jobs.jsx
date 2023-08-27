@@ -5,6 +5,7 @@ import jobsCSS from './jobs.module.css'
 import AddJob from '../components/addJob'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlinePlus } from 'react-icons/ai'
+import apiService from '../utilities/ApiService'
 
 const Header = props => {
   return (
@@ -28,23 +29,15 @@ const Jobs = () => {
 
   useEffect(() => {
     const getApplications = async () => {
-      const token = localStorage.getItem('token')
       const userId = localStorage.getItem('userId')
-      const options = {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          Authorization: `Bearer ${token}`
-        }
+      const pathParam = {
+        userId: userId
       }
-      const response = await fetch(
-        'https://localhost:7283' + `/jobsea/users/${userId}/applications`,
-        options
-      )
-      const responseObject = await response.json()
-      if (response.ok) {
-        setJobs(responseObject.result)
-      }
+      apiService
+        .get('users/{userId}/applications', pathParam)
+        .then(response => {
+          setJobs(response.result)
+        })
     }
     getApplications()
   }, [formSubmitted])
