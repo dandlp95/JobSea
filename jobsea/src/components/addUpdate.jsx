@@ -4,6 +4,8 @@ import UpdateQuestions from './updateQuestions'
 import addUpdateCSS from './addUpdate.module.css'
 import questions from '../utilities/questions'
 import CommentTextarea from './CommentTextarea'
+import Button from './button'
+import ApiService from '../utilities/ApiService'
 
 const AddUpdate = props => {
   const [updateForm, setUpdateForm] = useState({
@@ -12,10 +14,21 @@ const AddUpdate = props => {
     notes: '',
     statusId: ''
   })
-
+  const [isEditMode, setIsEditMode] = useState(false)
+  const [eventDateQuestion, setEventDateQuestion] = useState()
   const statusOptions = useStatusOptions()
 
-  const [eventDateQuestion, setEventDateQuestion] = useState()
+  useEffect(() => {
+    var formAction
+    var buttonText
+    if (props.formAction == 'update') {
+      formAction = updateUpdate
+      buttonText = 'Update'
+    } else if (props.formAction == 'create') {
+      formAction = createUpdate
+      buttonText = 'Add Update'
+    }
+  }, [])
 
   const handleRadioOptionChange = event => {
     setUpdateForm({ ...updateForm, statudId: event.target.value })
@@ -40,7 +53,35 @@ const AddUpdate = props => {
   const handleNotesChange = event => {
     setUpdateForm({ ...updateForm, notes: event.target.value })
   }
-  
+
+  const createUpdate = () => {
+    const userId = localStorage.getItem('userId')
+    const pathParams = {
+      userId: userId,
+      applicationId: props.applicationId
+    }
+    ApiService.post('users/{userId}/applications/{applicationId}/updates').then(
+      response => {}
+    )
+  }
+
+  const updateUpdate = () => {
+    const userId = localStorage.getItem('userId')
+    const applicationId = props.applicationId
+    const updateId = props.updateId
+    const pathParams = {
+      userId: userId,
+      applicationId: applicationId,
+      updateId: updateId
+    }
+    ApiService.put(
+      'users/{userId}/applications/{applicationId}/updates/{updateId}',
+      pathParams
+    ).then(response => {
+      setIsEditMode(false)
+    })
+  }
+
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
@@ -55,12 +96,16 @@ const AddUpdate = props => {
           eventDateQuestion={eventDateQuestion}
           statusOptions={statusOptions}
           handlEventDateChange={handlEventDate}
+          isDisabled={isEditMode && false}
         />
         <CommentTextarea
           labelText='Additional Notes: '
           comments={updateForm.notes}
           handleCommentChange={handleNotesChange}
+          isReadOnly={isEditMode && false}
         />
+        <Button btnText={buttonText} clickAction={formAction} />
+        <Button btnText='Close' />
       </form>
     </div>
   )

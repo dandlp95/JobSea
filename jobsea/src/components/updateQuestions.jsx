@@ -12,6 +12,7 @@ const UpdateQuestions = props => {
             <div>
               <label>
                 <input
+                  disabled={props.isDisabled ? props.isDisabled : false}
                   type='radio'
                   value={statusOption.statusId}
                   checked={props.selectedRadioOption == statusOption.statusId}
@@ -26,6 +27,7 @@ const UpdateQuestions = props => {
             <div>
               <label for='eventDate'>{props.eventDateQuestion} </label>
               <input
+                disabled={props.isDisabled ? props.isDisabled : false}
                 type='date'
                 name='eventDate'
                 value={props.eventDate}
@@ -37,6 +39,7 @@ const UpdateQuestions = props => {
               <div>
                 <label for='eventTime'>Time (optional): </label>
                 <input
+                  disabled={props.isDisabled ? props.isDisabled : false}
                   type='time'
                   name='eventTime'
                   value={props.eventTime}

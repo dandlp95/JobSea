@@ -5,6 +5,7 @@ const CommentTextarea = props => {
     <div className={commentTextareaCSS.CommentTextarea}>
       <label for='comment'>{props.labelText}</label>
       <textarea
+        readOnly={props.isReadonly ? true : false}
         type='text'
         name='comment'
         value={props.comments}
