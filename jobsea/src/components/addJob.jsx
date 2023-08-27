@@ -83,14 +83,13 @@ const AddJob = props => {
         Comments: formData.comments,
         firstUpdate: {
           eventDate: formData.eventDate,
-          eventTime: formData.eventTime + ':00',
+          eventTime: formData.eventTime ? formData.eventTime + ':00' : null,
           notes: formData.comments,
           statusId: formData.selectedRadioOption
         },
         userId: userId
       })
     }
-    console.log(options.body)
     const response = await fetch(
       'https://localhost:7283' + `/jobsea/users/${userId}/applications`,
       options

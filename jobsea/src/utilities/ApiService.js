@@ -1,26 +1,27 @@
+const token = localStorage.getItem('token')
 class ApiService {
   constructor () {
-    ;(this.baseURL = 'https://localhost:7283/jobsea/'),
-      (this.headers = {
-        Authorization: `'Bearer ${localStorage.getItem('token')}`, // Your authorization header
-        'Content-Type': 'application/json' // Set the appropriate content type
-      })
+    this.baseURL = 'https://localhost:7283/jobsea/'
+    this.headers = {
+      Authorization: `Bearer ${token}`, // Your authorization header
+      'Content-Type': 'application/json' // Set the appropriate content type
+    }
   }
 
   async get (url, pathParams = {}) {
-    this._apiCall(url, pathParams, 'GET')
+    return this._apiCall(url, pathParams, 'GET')
   }
 
   async post (url, pathParams = {}) {
-    this._apiCall(url, pathParams, 'POST')
+    return this._apiCall(url, pathParams, 'POST')
   }
 
   async put (url, pathParams = {}) {
-    this._apiCall(url, pathParams, 'PUT')
+    return this._apiCall(url, pathParams, 'PUT')
   }
 
   async delete (url, pathParams = {}) {
-    this._apiCall(url, pathParams, 'DELETE')
+    return this._apiCall(url, pathParams, 'DELETE')
   }
 
   _formatUrlWithParams (url, params = {}) {
@@ -40,8 +41,11 @@ class ApiService {
       headers: this.headers
     }
     const response = await fetch(`${this.baseURL}${formattedUrl}`, options)
-    return response.json()
+    if (response.ok) {
+      return response.status !== 204 ? response.json() : response
+    }
+    throw new Error(`Error fetching api data`)
   }
 }
 
-export default new ApiService();
+export default new ApiService()

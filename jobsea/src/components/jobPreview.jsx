@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import jobPreviewCSS from './jobPreview.module.css'
 import { MdKeyboardArrowDown } from 'react-icons/md'
+import apiService from '../utilities/ApiService'
 import Button from './button'
 
 const JobPreview = props => {
@@ -10,29 +11,20 @@ const JobPreview = props => {
   const [latestUpdate, setLatestUpdate] = useState()
   useEffect(() => {
     const getUpdates = async () => {
-      const token = localStorage.getItem('token')
       const userId = localStorage.getItem('userId')
-      const options = {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          Authorization: `Bearer ${token}`
-        }
+      const params = {
+        userId: userId,
+        applicationId: props.job.applicationId
       }
-      const response = await fetch(
-        'https://localhost:7283' +
-          `/jobsea/users/${userId}/applications/${props.job.applicationId}/updates`,
-        options
-      )
-      const responseObject = await response.json()
-      console.log(responseObject)
-      if (response.ok) {
-        setUpdates(responseObject.result)
-        // Sort in descending order
-        responseObject.result.sort((a, b) => b.created - a.created)
-        // Assign most recent date (first element in array after sorting)
-        setLatestUpdate(responseObject.result[0])
-      }
+      apiService
+        .get('users/{userId}/applications/{applicationId}/updates', params)
+        .then(response => {
+          setUpdates(response.result)
+          // Sort in descending order
+          response.result.sort((a, b) => b.created - a.created)
+          // Assign most recent date (first element in array after sorting)
+          setLatestUpdate(response.result[0])
+        })
     }
     getUpdates()
   }, [])
@@ -42,26 +34,22 @@ const JobPreview = props => {
   }
 
   const deleteApplication = async () => {
-    const token = localStorage.getItem('token')
-    const userId = localStorage.getItem('userId')
-    const applicationId = props.job.applicationId
-    const options = {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${token}`
+    try {
+      const userId = localStorage.getItem('userId')
+      const pathParams = {
+        userId: userId,
+        applicationId: props.job.applicationId
       }
-    }
-    const response = await fetch(
-      'https://localhost:7283' +
-        `/jobsea/users/${userId}/applications/${props.job.applicationId}`,
-      options
-    )
-    if (response.ok) {
-      alert('Application Deleted')
+
+      await apiService.delete(
+        'users/{userId}/applications/{applicationId}',
+        pathParams
+      )
+      alert('Application Deleted.')
       props.reRenderParentFunction()
-    } else {
-      alert('error')
+    } catch (err) {
+      console.error(err)
+      alert('Error deleting application')
     }
   }
 
