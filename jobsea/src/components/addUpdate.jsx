@@ -3,6 +3,7 @@ import { useStatusOptions } from '../customHooks/useStatusOptions'
 import UpdateQuestions from './updateQuestions'
 import addUpdateCSS from './addUpdate.module.css'
 import questions from '../utilities/questions'
+import CommentTextarea from './CommentTextarea'
 
 const AddUpdate = props => {
   const [updateForm, setUpdateForm] = useState({
@@ -36,22 +37,30 @@ const AddUpdate = props => {
     setFormData({ ...formData, eventDate: event.target.value })
   }
 
+  const handleNotesChange = event => {
+    setFormData({ ...formData, notes: event.target.value })
+  }
+
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
-          <UpdateQuestions
-            radioCSS={addUpdateCSS.RadioMenu}
-            selectedRadioOption={formData.statusId}
-            handleRadioOptionChange={handleRadioOptionChange}
-            eventDateCSS={addUpdateCSS.eventDateQuestion}
-            eventDate={updateForm.eventDate}
-            eventTime={updateForm.eventTime}
-            handleTimeChange={handleTimeChange}
-            eventDateQuestion={eventDateQuestion}
-            statusOptions={statusOptions}
-            handlEventDateChange={handlEventDate}
-          />
-          
+        <UpdateQuestions
+          radioCSS={addUpdateCSS.RadioMenu}
+          selectedRadioOption={formData.statusId}
+          handleRadioOptionChange={handleRadioOptionChange}
+          eventDateCSS={addUpdateCSS.eventDateQuestion}
+          eventDate={updateForm.eventDate}
+          eventTime={updateForm.eventTime}
+          handleTimeChange={handleTimeChange}
+          eventDateQuestion={eventDateQuestion}
+          statusOptions={statusOptions}
+          handlEventDateChange={handlEventDate}
+        />
+        <CommentTextarea
+          labelText='Additional Notes: '
+          comments={updateForm.notes}
+          handleCommentChange={handleNotesChange}
+        />
       </form>
     </div>
   )
