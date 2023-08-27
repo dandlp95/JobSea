@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 const UpdateQuestions = props => {
-  const hiredQuestion = 'Congrats! When will your new job start?'
   const interviewQuestion = 'When will your interview be?'
-  const waitingQuestion = 'When do you estimate you will hear back from them?'
 
   return (
     props.statusOptions && (

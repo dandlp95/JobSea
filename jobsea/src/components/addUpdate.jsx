@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useStatusOptions } from '../customHooks/useStatusOptions'
+import UpdateQuestions from './updateQuestions'
 import addUpdateCSS from './addUpdate.module.css'
+import questions from '../utilities/questions'
 
 const AddUpdate = props => {
   const [updateForm, setUpdateForm] = useState({
@@ -9,16 +11,41 @@ const AddUpdate = props => {
     notes: '',
     statusId: ''
   })
+
   const statusOptions = useStatusOptions()
 
   const [eventDateQuestion, setEventDateQuestion] = useState()
 
+  const handleRadioOptionChange = event => {
+    setFormData({ ...formData, selectedRadioOption: event.target.value })
+    setQuestion(event.target.value)
+  }
+
+  const setQuestion = statusId => {
+    if (statusId == 1) setEventDateQuestion(questions.hiredQuestion)
+    else if (statusId == 3) setEventDateQuestion(questions.interviewQuestion)
+    else if (statusId == 5) setEventDateQuestion(questions.waitingQuestion)
+    else setEventDateQuestion()
+  }
+
+  const handleTimeChange = () => {
+    
+  }
+
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
-        <div>
-          <label for=''></label>
-        </div>
+          <UpdateQuestions
+            radioCSS={addUpdateCSS.RadioMenu}
+            selectedRadioOption={formData.statusId}
+            handleRadioOptionChange={handleRadioOptionChange}
+            eventDateCSS={addUpdateCSS.eventDateQuestion}
+            eventDate={updateForm.eventDate}
+            eventTime={updateForm.eventTime}
+            handleTimeChange={handleTimeChange}
+            eventDateQuestion={eventDateQuestion}
+            statusOptions={statusOptions}
+          />
       </form>
     </div>
   )

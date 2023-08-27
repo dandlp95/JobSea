@@ -3,11 +3,9 @@ import AddJobCSS from './addJob.module.css'
 import Button from './button'
 import UpdateQuestions from './updateQuestions'
 import { useStatusOptions } from '../customHooks/useStatusOptions'
+import questions from '../utilities/questions'
 
 const AddJob = props => {
-  const hiredQuestion = 'Congrats! When will your new job start?'
-  const interviewQuestion = 'When will your interview be?'
-  const waitingQuestion = 'When do you estimate you will hear back from them?'
   const statusOptions = useStatusOptions()
   const [formData, setFormData] = useState({
     company: '',
@@ -60,9 +58,9 @@ const AddJob = props => {
   }
 
   const setQuestion = statusId => {
-    if (statusId == 1) setEventDateQuestion(hiredQuestion)
-    else if (statusId == 3) setEventDateQuestion(interviewQuestion)
-    else if (statusId == 5) setEventDateQuestion(waitingQuestion)
+    if (statusId == 1) setEventDateQuestion(questions.hiredQuestion)
+    else if (statusId == 3) setEventDateQuestion(questions.interviewQuestion)
+    else if (statusId == 5) setEventDateQuestion(questions.waitingQuestion)
     else setEventDateQuestion()
   }
 
