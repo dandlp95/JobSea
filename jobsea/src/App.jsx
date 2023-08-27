@@ -118,7 +118,7 @@ function App () {
                   onChange={e => setLPassword(e.target.value)}
                 />
                 <label for='lPassword' className={appCSS.floatingLabel}>
-                  Password:{' '}
+                  Password:
                 </label>
               </div>
               <Button
