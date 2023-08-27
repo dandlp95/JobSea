@@ -18,7 +18,7 @@ const AddUpdate = props => {
   const [eventDateQuestion, setEventDateQuestion] = useState()
 
   const handleRadioOptionChange = event => {
-    setFormData({ ...formData, selectedRadioOption: event.target.value })
+    setUpdateForm({ ...updateForm, statudId: event.target.value })
     setQuestion(event.target.value)
   }
 
@@ -30,23 +30,23 @@ const AddUpdate = props => {
   }
 
   const handleTimeChange = event => {
-    setFormData({ ...formData, eventTime: event.target.value })
+    setUpdateForm({ ...updateForm, eventTime: event.target.value })
   }
 
   const handlEventDate = event => {
-    setFormData({ ...formData, eventDate: event.target.value })
+    setUpdateForm({ ...updateForm, eventDate: event.target.value })
   }
 
   const handleNotesChange = event => {
-    setFormData({ ...formData, notes: event.target.value })
+    setUpdateForm({ ...updateForm, notes: event.target.value })
   }
-
+  
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
         <UpdateQuestions
           radioCSS={addUpdateCSS.RadioMenu}
-          selectedRadioOption={formData.statusId}
+          selectedRadioOption={updateForm.statusId}
           handleRadioOptionChange={handleRadioOptionChange}
           eventDateCSS={addUpdateCSS.eventDateQuestion}
           eventDate={updateForm.eventDate}
