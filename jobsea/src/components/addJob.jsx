@@ -4,6 +4,7 @@ import Button from './button'
 import UpdateQuestions from './updateQuestions'
 import { useStatusOptions } from '../customHooks/useStatusOptions'
 import questions from '../utilities/questions'
+import CommentTextarea from './CommentTextarea'
 
 const AddJob = props => {
   const statusOptions = useStatusOptions()
@@ -183,15 +184,11 @@ const AddJob = props => {
               onChange={handleLinkChange}
             />
           </div>
-          <div>
-            <label for='comment'>Additional notes: </label>
-            <textarea
-              type='text'
-              name='comment'
-              value={formData.comments}
-              onChange={handleCommentChange}
-            />
-          </div>
+          <CommentTextarea
+            labelText='Additional Notes: '
+            comments={formData.comments}
+            handleCommentChange={handleCommentChange}
+          />
           <div className={AddJobCSS.buttonsDiv}>
             <Button btnText='Create Application' clickAction={sendRequest} />
             <Button

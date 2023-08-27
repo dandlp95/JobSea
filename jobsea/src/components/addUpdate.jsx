@@ -51,6 +51,7 @@ const AddUpdate = props => {
             statusOptions={statusOptions}
             handlEventDateChange={handlEventDate}
           />
+          
       </form>
     </div>
   )

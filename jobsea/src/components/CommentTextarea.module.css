@@ -1,0 +1,9 @@
+.CommentTextarea textarea{
+    height: 6rem;
+    width: 30rem;
+    padding: 0.35rem;
+    border-radius: 7px;
+    border: none;
+    outline: none;
+    display:block;
+}

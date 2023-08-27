@@ -37,16 +37,6 @@
     outline: none;
 }
 
-.AddJobCSS textarea{
-    height: 6rem;
-    width: 30rem;
-    padding: 0.35rem;
-    border-radius: 7px;
-    border: none;
-    outline: none;
-    display:block;
-}
-
 .AddJobCSS .eventDateQuestion {
     margin-top: 0.25rem;
 }
