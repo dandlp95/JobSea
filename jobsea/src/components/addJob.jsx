@@ -18,7 +18,7 @@ const AddJob = props => {
     comments: '',
     eventDate: null,
     eventTime: null,
-    selectedRadioOption: ''
+    selectedRadioOption: 0
   })
   const [eventDateQuestion, setEventDateQuestion] = useState()
 
@@ -110,7 +110,7 @@ const AddJob = props => {
       comments: '',
       eventDate: null,
       eventTime: null,
-      selectedRadioOption: ''
+      selectedRadioOption: 0
     })
     setEventDateQuestion()
   }

@@ -15,9 +15,9 @@ const SearchBar = (props) => {
   return (
     <div className={searchBarCSS.searchBarCSS}>
       <input
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={setSearchQuery}
         placeholder="Search..."
-        onKeyDown={(e) => isKeyEntered(e)}
+        onKeyDown={isKeyEntered}
       />
     </div>
   );
