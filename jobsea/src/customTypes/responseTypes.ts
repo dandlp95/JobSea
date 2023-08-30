@@ -47,7 +47,7 @@ export type ApiResponse = {
 export type ApiData<T> = {
   StatusCode: number
   IsSuccess: boolean
-  Errors: string[]
+  Errors: string[] | null
   Result: T | null
-  Token: string
+  Token: string | null
 }

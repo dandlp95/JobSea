@@ -35,3 +35,15 @@ export type UpdateApplicationDTO = {
   Link: string | null
   Comments: string | null
 }
+
+export type UserCreateDTO = {
+  Username: string
+  Email: string
+  Password: string
+  ConfirmPassword: string
+}
+
+export type LoginInfo = {
+  Username: string
+  password: string
+}
