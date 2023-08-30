@@ -5,7 +5,7 @@ import {
   ApiResponse
 } from '../../customTypes/responseTypes'
 
-interface IStatusesApiService extends IApiService<ApiData<StatusOption[]>> {
+interface IStatusesApiService extends IApiService<StatusOption> {
   getStatuses(url: string): Promise<ApiData<StatusOption[]> | ApiResponse>
 }
 

@@ -7,7 +7,7 @@ import {
 } from '../customTypes/responseTypes'
 
 class StatusesApiService
-  extends ApiService<ApiData<StatusOption[]>>
+  extends ApiService<StatusOption>
   implements IStatusesApiService
 {
   constructor () {

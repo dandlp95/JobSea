@@ -1,6 +1,6 @@
 import IApiService from './interfaces/IApiService'
 import { PathParams } from '../customTypes/requestTypes'
-import { ApiResponse } from '../customTypes/responseTypes'
+import { ApiData, ApiResponse } from '../customTypes/responseTypes'
 
 const token: string | null = localStorage.getItem('token')
 
@@ -16,7 +16,15 @@ class ApiService<T> implements IApiService<T> {
     }
   }
 
-  async get (url: string, pathParams: PathParams | null): Promise<T | ApiResponse> {
+  async get (url: string, pathParams: PathParams | null): Promise<ApiData<T[]> | ApiResponse> {
+
+    // with ApiResponse type, you can put this in a try catch or handle scenarios where 
+    // backend respond was not okay.
+    const response:Response = await this._apiCall(url, pathParams, 'GET')
+    return response.json()
+  }
+
+  async getSingle (url: string, pathParams: PathParams | null): Promise<ApiData<T> | ApiResponse> {
 
     // with ApiResponse type, you can put this in a try catch or handle scenarios where 
     // backend respond was not okay.
@@ -28,12 +36,12 @@ class ApiService<T> implements IApiService<T> {
     url: string,
     pathParams: PathParams,
     body: object = {}
-  ): Promise<T | ApiResponse> {
+  ): Promise<ApiData<T> | ApiResponse> {
     const response:Response = await this._apiCall(url, pathParams, 'POST', body)
     return response.json()
   }
 
-  async put (url: string, pathParams: PathParams, body: object): Promise<T> {
+  async put (url: string, pathParams: PathParams, body: object): Promise<ApiData<T> | ApiResponse> {
     const response:Response = await this._apiCall(url, pathParams, 'PUT', body)
     return response.json();
   }
