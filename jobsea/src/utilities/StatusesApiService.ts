@@ -1,15 +1,24 @@
-import ApiService from "./ApiService";
-import IStatusesApiService from "./interfaces/IStatusesApiService";
-import { ApiData, ApiResponse, StatusOption } from "../customTypes/responseTypes";
+import ApiService from './ApiService'
+import IStatusesApiService from './interfaces/IStatusesApiService'
+import {
+  ApiData,
+  ApiResponse,
+  StatusOption
+} from '../customTypes/responseTypes'
 
-class StatusesApiService extends ApiService<ApiData<StatusOption>> implements IStatusesApiService{
-    constructor(){
-        super();
-    }
+class StatusesApiService
+  extends ApiService<ApiData<StatusOption[]>>
+  implements IStatusesApiService
+{
+  constructor () {
+    super()
+  }
 
-    async getStatuses(url: string): Promise<ApiData<StatusOption> | ApiResponse> {
-        return super.get(url, null);
-    }
+  async getStatuses (
+    url: string
+  ): Promise<ApiData<StatusOption[]> | ApiResponse> {
+    return super.get(url, null)
+  }
 }
 
 export default StatusesApiService
