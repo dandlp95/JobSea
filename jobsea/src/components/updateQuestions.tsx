@@ -1,5 +1,5 @@
 import React, { CSSProperties, ChangeEventHandler } from 'react'
-import { StatusOption } from '../customObjects/customObjects'
+import { StatusOption } from '../customTypes/responseTypes'
 
 type Props = {
   isDisabled: boolean

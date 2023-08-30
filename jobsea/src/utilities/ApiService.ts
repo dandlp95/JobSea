@@ -1,7 +1,8 @@
 import IApiService from './interfaces/IApiService'
-import { PathParams } from '../customObjects/customObjects'
+import { PathParams } from '../customTypes/requestTypes'
+import { ApiResponse } from '../customTypes/responseTypes'
 
-const token = localStorage.getItem('token')
+const token: string | null = localStorage.getItem('token')
 
 class ApiService<T> implements IApiService<T> {
   private _baseURL: string
@@ -15,20 +16,26 @@ class ApiService<T> implements IApiService<T> {
     }
   }
 
-  async get (url: string, pathParams: PathParams): Promise<T> {
-    return this._apiCall(url, pathParams, 'GET')
+  async get (url: string, pathParams: PathParams | null): Promise<T | ApiResponse> {
+
+    // with ApiResponse type, you can put this in a try catch or handle scenarios where 
+    // backend respond was not okay.
+    const response:Response = await this._apiCall(url, pathParams, 'GET')
+    return response.json()
   }
 
   async post (
     url: string,
     pathParams: PathParams,
     body: object = {}
-  ): Promise<T> {
-    return this._apiCall(url, pathParams, 'POST', body)
+  ): Promise<T | ApiResponse> {
+    const response:Response = await this._apiCall(url, pathParams, 'POST', body)
+    return response.json()
   }
 
   async put (url: string, pathParams: PathParams, body: object): Promise<T> {
-    return this._apiCall(url, pathParams, 'PUT', body)
+    const response:Response = await this._apiCall(url, pathParams, 'PUT', body)
+    return response.json();
   }
 
   async delete (url: string, pathParams: PathParams): Promise<Response> {
@@ -45,11 +52,14 @@ class ApiService<T> implements IApiService<T> {
 
   async _apiCall (
     url: string,
-    pathParams: PathParams,
+    pathParams: PathParams | null,
     method: string,
     body: object = {}
-  ) {
-    const formattedUrl: string = this._formatUrlWithParams(url, pathParams)
+  ):Promise<Response> {
+    var formattedUrl: string = ''
+    if (pathParams !== null) {
+      formattedUrl = this._formatUrlWithParams(url, pathParams)
+    }
     const options: RequestInit = {
       method: method,
       headers: this._headers,
@@ -67,8 +77,8 @@ class ApiService<T> implements IApiService<T> {
     if (!response.ok) {
       throw new Error(`Error fetching api data`)
     }
-    return response.status !== 204 ? response.json() : response
+    return response
   }
 }
 
-export default new ApiService()
+export default ApiService

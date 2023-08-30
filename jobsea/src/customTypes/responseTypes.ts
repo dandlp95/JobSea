@@ -3,12 +3,6 @@ export type StatusOption = {
   statusName: String
 }
 
-export type PathParams = {
-  userId: number | null
-  applicationId: number | null
-  updateId: number | null
-}
-
 export type ApplicationDTO = {
   applicationId: number
   Company: string
@@ -44,10 +38,10 @@ export type UserDTO = {
   CreatedDate: string
 }
 
-type ApiResponse<T> = {
+export type ApiResponse = {
   isSuccess: boolean
   statusCode: number
-  data: T
+  data: string
 }
 
 export type ApiData<T> = {
