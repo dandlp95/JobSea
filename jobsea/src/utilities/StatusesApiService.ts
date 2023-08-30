@@ -16,7 +16,7 @@ class StatusesApiService
 
   async getStatuses (
     url: string
-  ): Promise<ApiData<StatusOption[]> | ApiResponse> {
+  ): Promise<ApiData<StatusOption[]> | ApiData<null>> {
     return super.get(url, null)
   }
 }

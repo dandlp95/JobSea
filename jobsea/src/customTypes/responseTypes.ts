@@ -48,6 +48,6 @@ export type ApiData<T> = {
   StatusCode: number
   IsSuccess: boolean
   Errors: string[]
-  Result: T
+  Result: T | null
   Token: string
 }

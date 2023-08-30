@@ -16,19 +16,23 @@ class ApiService<T> implements IApiService<T> {
     }
   }
 
-  async get (url: string, pathParams: PathParams | null): Promise<ApiData<T[]> | ApiResponse> {
-
-    // with ApiResponse type, you can put this in a try catch or handle scenarios where 
+  async get (
+    url: string,
+    pathParams: PathParams | null
+  ): Promise<ApiData<T[]> | ApiData<null>> {
+    // with ApiResponse type, you can put this in a try catch or handle scenarios where
     // backend respond was not okay.
-    const response:Response = await this._apiCall(url, pathParams, 'GET')
+    const response: Response = await this._apiCall(url, pathParams, 'GET')
     return response.json()
   }
 
-  async getSingle (url: string, pathParams: PathParams | null): Promise<ApiData<T> | ApiResponse> {
-
-    // with ApiResponse type, you can put this in a try catch or handle scenarios where 
+  async getSingle (
+    url: string,
+    pathParams: PathParams | null
+  ): Promise<ApiData<T> | ApiData<null>> {
+    // with ApiResponse type, you can put this in a try catch or handle scenarios where
     // backend respond was not okay.
-    const response:Response = await this._apiCall(url, pathParams, 'GET')
+    const response: Response = await this._apiCall(url, pathParams, 'GET')
     return response.json()
   }
 
@@ -36,17 +40,26 @@ class ApiService<T> implements IApiService<T> {
     url: string,
     pathParams: PathParams,
     body: object = {}
-  ): Promise<ApiData<T> | ApiResponse> {
-    const response:Response = await this._apiCall(url, pathParams, 'POST', body)
+  ): Promise<ApiData<T> | ApiData<null>> {
+    const response: Response = await this._apiCall(
+      url,
+      pathParams,
+      'POST',
+      body
+    )
     return response.json()
   }
 
-  async put (url: string, pathParams: PathParams, body: object): Promise<ApiData<T> | ApiResponse> {
-    const response:Response = await this._apiCall(url, pathParams, 'PUT', body)
-    return response.json();
+  async put (
+    url: string,
+    pathParams: PathParams,
+    body: object
+  ): Promise<ApiData<T> | ApiData<null>> {
+    const response: Response = await this._apiCall(url, pathParams, 'PUT', body)
+    return response.json()
   }
 
-  async delete (url: string, pathParams: PathParams): Promise<Response> {
+  async delete (url: string, pathParams: PathParams): Promise<Response | ApiData<null>> {
     return this._apiCall(url, pathParams, 'DELETE')
   }
 
@@ -63,7 +76,7 @@ class ApiService<T> implements IApiService<T> {
     pathParams: PathParams | null,
     method: string,
     body: object = {}
-  ):Promise<Response> {
+  ): Promise<Response> {
     var formattedUrl: string = ''
     if (pathParams !== null) {
       formattedUrl = this._formatUrlWithParams(url, pathParams)

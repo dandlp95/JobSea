@@ -16,3 +16,22 @@ export type UpdateCreateDTO = {
   EventTime: string | null
   StatusId: number
 }
+
+export type CreateApplicationDTO = {
+  Company: string
+  JobTitle: string
+  Salary: number | null
+  Location: string | null
+  Link: string | null
+  Comments: string | null
+  firstUpdate: UpdateCreateDTO
+}
+
+export type UpdateApplicationDTO = {
+  Company: string
+  JobTitle: string
+  Salary: number | null
+  Location: string | null
+  Link: string | null
+  Comments: string | null
+}

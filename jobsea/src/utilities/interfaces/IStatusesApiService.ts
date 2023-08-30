@@ -6,7 +6,7 @@ import {
 } from '../../customTypes/responseTypes'
 
 interface IStatusesApiService extends IApiService<StatusOption> {
-  getStatuses(url: string): Promise<ApiData<StatusOption[]> | ApiResponse>
+  getStatuses(url: string): Promise<ApiData<StatusOption[]> | ApiData<null>>
 }
 
 export default IStatusesApiService

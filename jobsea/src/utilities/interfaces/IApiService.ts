@@ -3,11 +3,25 @@ import { ApiResponse, ApiData } from '../../customTypes/responseTypes'
 
 // Interface for ApiService class
 interface IApiService<T> {
-  get(url: string, pathParams: PathParams | null): Promise<ApiData<T[]> | ApiResponse>
-  getSingle(url: string, pathParams: PathParams | null): Promise<ApiData<T> | ApiResponse>
-  post(url: string, pathParams: PathParams, body: object): Promise<ApiData<T> | ApiResponse>
-  put(url: string, pathParams: PathParams, body: object): Promise<ApiData<T> | ApiResponse>
-  delete(url: string, pathParams: PathParams): Promise<Response>
+  get(
+    url: string,
+    pathParams: PathParams | null
+  ): Promise<ApiData<T[]> | ApiData<null>>
+  getSingle(
+    url: string,
+    pathParams: PathParams | null
+  ): Promise<ApiData<T> | ApiData<null>>
+  post(
+    url: string,
+    pathParams: PathParams,
+    body: object
+  ): Promise<ApiData<T> | ApiData<null>>
+  put(
+    url: string,
+    pathParams: PathParams,
+    body: object
+  ): Promise<ApiData<T> | ApiData<null>>
+  delete(url: string, pathParams: PathParams): Promise<Response | ApiData<null>>
   _formatUrlWithParams(url: string, params: PathParams): string
   _apiCall(
     url: string,

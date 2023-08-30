@@ -18,14 +18,14 @@ class UpdatesApiService
   async getUpdates (
     url: string,
     pathParams: PathParams
-  ): Promise<ApiData<UpdateDTO[]> | ApiResponse> {
+  ): Promise<ApiData<UpdateDTO[]> | ApiData<null>> {
     return super.get(url, pathParams)
   }
 
   async getUpdate (
     url: string,
     pathParams: PathParams
-  ): Promise<ApiData<UpdateDTO> | ApiResponse> {
+  ): Promise<ApiData<UpdateDTO> | ApiData<null>> {
     return super.getSingle(url, pathParams)
   }
 
@@ -33,7 +33,7 @@ class UpdatesApiService
     url: string,
     pathParams: PathParams,
     requestBody: UpdateCreateDTO
-  ): Promise<ApiData<UpdateDTO> | ApiResponse> {
+  ): Promise<ApiData<UpdateDTO> | ApiData<null>> {
     return super.post(url, pathParams, requestBody)
   }
 
@@ -41,8 +41,12 @@ class UpdatesApiService
     url: string,
     pathParams: PathParams,
     requestBody: UpdateUpdateDTO
-  ): Promise<ApiData<UpdateDTO> | ApiResponse> {
+  ): Promise<ApiData<UpdateDTO> | ApiData<null>> {
     return super.put(url, pathParams, requestBody)
+  }
+  
+  async deleteUpdate (url: string, pathParams: PathParams): Promise<Response | ApiData<null>> {
+    return super.delete(url, pathParams)
   }
 }
 
