@@ -34,4 +34,4 @@ class UsersApiService extends ApiService<UserDTO> implements IUsersApiService {
   }
 }
 
-export default UsersApiService
+export default new UsersApiService();

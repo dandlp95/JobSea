@@ -3,16 +3,25 @@ import { useNavigate } from 'react-router-dom'
 import appCSS from './App.module.css'
 import { TypeAnimation } from 'react-type-animation'
 import Button from './components/button'
-import apiService from './utilities/ApiService'
+// import apiService from './utilities/ApiService'
+import UsersAPIService from './utilities/UsersApiService'
+import { PathParams } from './customTypes/requestTypes'
+import { UserCreateDTO, LoginInfo } from './customTypes/requestTypes'
 
-function App () {
-  const [loginName, setLoginName] = useState()
-  const [lPassword, setLPassword] = useState()
-  const [rUsername, setRUsername] = useState()
-  const [rPassword, setRPassword] = useState()
-  const [rPasswordConfirm, setRPasswordConfirm] = useState()
-  const [rEmail, setREmail] = useState()
-  const [token, setToken] = useState()
+const params: PathParams = {
+  userId: null,
+  applicationId: null,
+  updateId: null
+}
+
+const App: React.FunctionComponent = () => {
+  const [loginName, setLoginName] = useState('')
+  const [lPassword, setLPassword] = useState('')
+  const [rUsername, setRUsername] = useState('')
+  const [rPassword, setRPassword] = useState('')
+  const [rPasswordConfirm, setRPasswordConfirm] = useState('')
+  const [rEmail, setREmail] = useState('')
+  const [token, setToken] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -32,39 +41,37 @@ function App () {
   }
 
   const login = async () => {
-    const options = {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({
-        Username: loginName,
-        password: lPassword
-      })
+    const bodyRequest: LoginInfo = {
+      Username: loginName,
+      password: lPassword
     }
-    const response = await fetch(
-      'https://localhost:7283' + '/jobsea/users/auth',
-      options
-    )
-    if (response.ok) {
-      const responseObject = await response.json()
-      localStorage.setItem('username', responseObject.result.username)
-      localStorage.setItem('userId', responseObject.result.userId)
-      setToken(responseObject.token)
-    }
+    UsersAPIService.auth('users/auth', params, bodyRequest).then(response => {
+      if (response.result && response.token) {
+        console.log('entered!')
+        console.log(response)
+        localStorage.setItem('username', response.result.username)
+        localStorage.setItem('userId', response.result.userId.toString())
+        setToken(response.token)
+      }
+    })
   }
 
   const registration = () => {
     try {
-      const body = JSON.stringify({
+      const bodyRequest: UserCreateDTO = {
         Username: rUsername,
         Email: rEmail,
         Password: rPassword,
         ConfirmPassword: rPasswordConfirm
-      })
+      }
 
-      apiService.post('users', null, body).then(response => {
-        localStorage.setItem('username', response.result.username)
-        localStorage.setItem('userId', response.result.userId)
-        setToken(response.token)
+      UsersAPIService.postUser('users', params, bodyRequest).then(response => {
+
+        if (response.result && response.token) {
+          localStorage.setItem('username', response.result.username);
+          localStorage.setItem('userId', response.result.userId.toString());
+          setToken(response.token)
+        }
       })
     } catch (err) {
       console.error(err)
@@ -106,7 +113,7 @@ function App () {
                   onChange={e => setLoginName(e.target.value)}
                   name='loginName'
                 />
-                <label for='loginName' className={appCSS.floatingLabel}>
+                <label htmlFor='loginName' className={appCSS.floatingLabel}>
                   Username:{' '}
                 </label>
               </div>
@@ -117,7 +124,7 @@ function App () {
                   name='lPassword'
                   onChange={e => setLPassword(e.target.value)}
                 />
-                <label for='lPassword' className={appCSS.floatingLabel}>
+                <label htmlFor='lPassword' className={appCSS.floatingLabel}>
                   Password:
                 </label>
               </div>

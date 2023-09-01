@@ -1,41 +1,41 @@
 export type StatusOption = {
   statusId: number
-  statusName: String
+  statusName: string
 }
 
 export type ApplicationDTO = {
   applicationId: number
-  Company: string
-  JobTitle: string
-  Salary: string
-  Location: string | null
-  Link: string | null
-  Comments: string | null
-  Created: string
-  LastUpdated: string
+  company: string
+  jobTitle: string
+  salary: string
+  location: string | null
+  link: string | null
+  comments: string | null
+  created: string
+  lastUpdated: string
   userId: number
 }
 
 export type Status = {
-  StatusId: string
-  StatusName: string
+  statusId: string
+  statusName: string
 }
 
 export type UpdateDTO = {
-  UpdateId: number
-  Created: string
-  EventDate: string | null
-  EvemtTime: string | null
+  updateId: number
+  created: string
+  eventDate: string | null
+  eventTime: string | null
   notes: string
-  Status: Status
-  ApplicationId: string
+  status: Status
+  applicationId: string
 }
 
 export type UserDTO = {
-  UserId: number
-  Username: string
+  userId: number
+  username: string
   email: string
-  CreatedDate: string
+  createdDate: string
 }
 
 export type ApiResponse = {
@@ -45,9 +45,9 @@ export type ApiResponse = {
 }
 
 export type ApiData<T> = {
-  StatusCode: number
-  IsSuccess: boolean
-  Errors: string[] | null
-  Result: T | null
-  Token: string | null
+  statusCode: number
+  isSuccess: boolean
+  errors: string[] | null
+  result: T | null
+  token: string | null
 }
