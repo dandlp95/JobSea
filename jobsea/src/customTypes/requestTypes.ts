@@ -1,7 +1,7 @@
 export type PathParams = {
-  userId: number | null
-  applicationId: number | null
-  updateId: number | null
+  userId?: number
+  applicationId?: number
+  updateId?: number
 }
 
 export type UpdateUpdateDTO = {
@@ -14,6 +14,7 @@ export type UpdateUpdateDTO = {
 export type UpdateCreateDTO = {
   EventDate: string | null
   EventTime: string | null
+  notes: string | null
   StatusId: number
 }
 

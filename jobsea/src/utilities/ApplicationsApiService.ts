@@ -40,4 +40,4 @@ class ApplicationApiService extends ApiService<ApplicationDTO> implements IAppli
   }
 }
 
-export default ApplicationApiService
+export default new ApplicationApiService()

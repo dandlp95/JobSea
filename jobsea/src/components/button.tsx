@@ -3,9 +3,9 @@ import React from "react";
 import btnCSS from "./button.module.css";
 
 type Props = {
-  clickAction: MouseEventHandler,
+  clickAction: MouseEventHandler<HTMLButtonElement>,
   btnText: string, 
-  styleRules: CSSProperties
+  styleRules?: CSSProperties
 }
 
 const Button:React.FunctionComponent<Props> = ({clickAction, btnText, styleRules}: Props) => {

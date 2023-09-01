@@ -3,15 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import appCSS from './App.module.css'
 import { TypeAnimation } from 'react-type-animation'
 import Button from './components/button'
-// import apiService from './utilities/ApiService'
 import UsersAPIService from './utilities/UsersApiService'
 import { PathParams } from './customTypes/requestTypes'
 import { UserCreateDTO, LoginInfo } from './customTypes/requestTypes'
 
 const params: PathParams = {
-  userId: null,
-  applicationId: null,
-  updateId: null
+
 }
 
 const App: React.FunctionComponent = () => {
@@ -45,6 +42,7 @@ const App: React.FunctionComponent = () => {
       Username: loginName,
       password: lPassword
     }
+
     UsersAPIService.auth('users/auth', params, bodyRequest).then(response => {
       if (response.result && response.token) {
         console.log('entered!')

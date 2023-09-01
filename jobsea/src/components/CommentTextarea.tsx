@@ -2,7 +2,7 @@ import React, { ChangeEventHandler } from 'react'
 import commentTextareaCSS from './CommentTextarea.module.css'
 
 type Props = {
-  isReadonly: boolean,
+  isReadonly?: boolean,
   comments: string,
   handleCommentChange: ChangeEventHandler,
   labelText: string

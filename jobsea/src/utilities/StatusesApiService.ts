@@ -21,4 +21,4 @@ class StatusesApiService
   }
 }
 
-export default StatusesApiService
+export default new StatusesApiService()

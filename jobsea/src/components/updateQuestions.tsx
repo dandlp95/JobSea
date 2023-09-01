@@ -2,16 +2,16 @@ import React, { CSSProperties, ChangeEventHandler } from 'react'
 import { StatusOption } from '../customTypes/responseTypes'
 
 type Props = {
-  isDisabled: boolean
+  isDisabled?: boolean
   radioCSS: string
   statusOptions: StatusOption[]
   selectedRadioOption: number
   handleRadioOptionChange: ChangeEventHandler
-  eventDateQuestion: string,
+  eventDateQuestion?: string | null,
   eventDateCSS: string,
-  eventDate: string, // not date?
+  eventDate?: string | null,
   handlEventDateChange: ChangeEventHandler,
-  eventTime: string,
+  eventTime?: string | null,
   handleTimeChange: ChangeEventHandler
 }
 
@@ -57,9 +57,10 @@ const UpdateQuestions: React.FunctionComponent<Props> = ({
                 disabled={isDisabled ? isDisabled : false}
                 type='date'
                 name='eventDate'
-                value={eventDate}
+                value={eventDate ? eventDate : ''}
                 onChange={handlEventDateChange}
               />
+
             </div>
             <br></br>
             {eventDateQuestion == interviewQuestion ? (
@@ -69,7 +70,7 @@ const UpdateQuestions: React.FunctionComponent<Props> = ({
                   disabled={isDisabled ? isDisabled : false}
                   type='time'
                   name='eventTime'
-                  value={eventTime}
+                  value={eventTime ? eventTime : ''}
                   onChange={handleTimeChange}
                 />
               </div>
