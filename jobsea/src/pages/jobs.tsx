@@ -6,38 +6,49 @@ import AddJob from '../components/addJob'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlinePlus } from 'react-icons/ai'
 import apiService from '../utilities/ApiService'
+import { ApplicationDTO } from '../customTypes/responseTypes'
+import ApplicationsApiService from '../utilities/ApplicationsApiService'
+import { PathParams } from '../customTypes/requestTypes'
 
-const Header = props => {
+type HeaderProps = {
+  signOut: () => void
+}
+
+const Header: React.FunctionComponent<HeaderProps> = ({ signOut }) => {
   return (
     <div className={jobsCSS.logonOptions}>
       <div>Hello Daniel</div>
       <div>|</div>
-      <div onClick={props.signOut}>Sign out</div>
+      <div onClick={signOut}>Sign out</div>
     </div>
   )
 }
 
-const Jobs = () => {
+const Jobs: React.FunctionComponent = () => {
   const navigate = useNavigate()
-  const [searchQuery, setSearchQuery] = useState()
-  const [jobs, setJobs] = useState([])
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [jobs, setJobs] = useState<ApplicationDTO[]>([])
   const [urlChange, setUrlChange] = useState()
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [isAddJobActive, setIsAddJobActive] = useState(false)
 
-  useEffect(() => {}, [searchQuery])
+  useEffect(() => { }, [searchQuery])
 
   useEffect(() => {
     const getApplications = async () => {
       const userId = localStorage.getItem('userId')
-      const pathParam = {
-        userId: userId
-      }
-      apiService
-        .get('users/{userId}/applications', pathParam)
-        .then(response => {
-          setJobs(response.result)
+      if (userId) {
+        const pathParam: PathParams = {
+          userId: parseInt(userId)
+        }
+        ApplicationsApiService.getApplications('users/{userId}/applications', pathParam).then(response => {
+          if (response.result) {
+            setJobs(response.result)
+          }
         })
+      } else {
+        // implement later.
+      }
     }
     getApplications()
   }, [formSubmitted])
@@ -57,7 +68,7 @@ const Jobs = () => {
     setIsAddJobActive(false)
   }
 
-  const getSearchQuery = searchInput => {
+  const getSearchQuery = (searchInput: string) => {
     setSearchQuery(searchInput)
   }
 

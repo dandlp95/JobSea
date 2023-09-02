@@ -1,11 +1,10 @@
-import React, { useState, useEffect, MouseEventHandler, ChangeEventHandler } from 'react'
+import React, { useState, MouseEventHandler, ChangeEventHandler } from 'react'
 import AddJobCSS from './addJob.module.css'
 import Button from './button'
 import UpdateQuestions from './updateQuestions'
 import useStatusOptions from '../customHooks/useStatusOptions'
 import questions from '../utilities/questions'
 import CommentTextarea from './CommentTextarea'
-import apiService from '../utilities/ApiService'
 import ApplicationApiService from '../utilities/ApplicationsApiService'
 import { CreateApplicationDTO, PathParams } from '../customTypes/requestTypes'
 

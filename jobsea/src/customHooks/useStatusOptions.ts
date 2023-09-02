@@ -6,10 +6,12 @@ function useStatusOptions () {
   const [statusOptions, setStatusOptions] = useState<StatusOption[]>([])
 
   useEffect(() => {
+    console.log('statuses use effect entered.')
     try {
       const getStatusOptions = () => {
         StatusesApiService.getStatuses('statuses').then(response => {
           if (response.result) {
+            console.log(response)
             localStorage.setItem('statusOptions', JSON.stringify(response.result))
             setStatusOptions(response.result)
           }

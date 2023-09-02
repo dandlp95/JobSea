@@ -1,30 +1,42 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactComponentElement, useEffect, useState } from 'react'
 import jobPreviewCSS from './jobPreview.module.css'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import apiService from '../utilities/ApiService'
 import Button from './button'
+import { ApplicationDTO } from '../customTypes/responseTypes'
+import UpdatesApiService from '../utilities/UpdatesApiService'
+import { PathParams } from '../customTypes/requestTypes'
+import { UpdateDTO } from '../customTypes/responseTypes'
+import ApplicationsApiService from '../utilities/ApplicationsApiService'
 
-const JobPreview = props => {
+type Props = {
+  job: ApplicationDTO,
+  reRenderParentFunction: () => void
+}
+
+const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunction }) => {
   // Need to work on css, if there aren't any updates, the expandable doesn't look good.
-  const [isCollapsed, setIsCollapse] = useState(true)
-  const [updates, setUpdates] = useState([])
-  const [latestUpdate, setLatestUpdate] = useState()
+  const [isCollapsed, setIsCollapse] = useState<boolean>(true)
+  const [updates, setUpdates] = useState<UpdateDTO[]>([])
+  const [latestUpdate, setLatestUpdate] = useState<UpdateDTO | null>()
   useEffect(() => {
-    const getUpdates = async () => {
+    const getUpdates = () => {
       const userId = localStorage.getItem('userId')
-      const params = {
-        userId: userId,
-        applicationId: props.job.applicationId
+
+      const params: PathParams = {
+        userId: userId ? parseInt(userId) : 0,
+        applicationId: job.applicationId
       }
-      apiService
-        .get('users/{userId}/applications/{applicationId}/updates', params)
-        .then(response => {
-          setUpdates(response.result)
-          // Sort in descending order
-          response.result.sort((a, b) => b.created - a.created)
-          // Assign most recent date (first element in array after sorting)
-          setLatestUpdate(response.result[0])
-        })
+
+      UpdatesApiService.getUpdates('users/{userId}/applications/{applicationId}/updates', params).then(response => {
+        if (response.result !== null) {
+          const responseUpdates: UpdateDTO[] = response.result
+          setUpdates(responseUpdates)
+          responseUpdates.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
+          setLatestUpdate(responseUpdates[0])
+        }
+        // throw an error if result is null
+      })
     }
     getUpdates()
   }, [])
@@ -36,20 +48,29 @@ const JobPreview = props => {
   const deleteApplication = async () => {
     try {
       const userId = localStorage.getItem('userId')
-      const pathParams = {
-        userId: userId,
-        applicationId: props.job.applicationId
-      }
+      if (userId !== null) {
+        const pathParams: PathParams = {
+          userId: parseInt(userId),
+          applicationId: job.applicationId
+        }
 
-      await apiService.delete(
-        'users/{userId}/applications/{applicationId}',
-        pathParams
-      )
-      alert('Application Deleted.')
-      props.reRenderParentFunction()
+        const response = await ApplicationsApiService.deleteApplication('users/{userId}/applications/{applicationId}', pathParams)
+        if (response.ok) {
+          alert('Application Deleted')
+          reRenderParentFunction()
+        }
+      }
     } catch (err) {
       console.error(err)
       alert('Error deleting application')
+    }
+  }
+
+  const addUpdate = () => {
+    try {
+      // Not implemented yet
+    } catch (err) {
+
     }
   }
 
@@ -64,20 +85,19 @@ const JobPreview = props => {
     <div className={jobPreviewCSS.jobPreviewCSS}>
       <div className={jobPreviewCSS.jobContainer}>
         <div
-          className={`${jobPreviewCSS.previewContainer} ${
-            !isCollapsed ? jobPreviewCSS.flattenBorder : ''
-          }`}
+          className={`${jobPreviewCSS.previewContainer} ${!isCollapsed ? jobPreviewCSS.flattenBorder : ''
+            }`}
         >
           <div className={jobPreviewCSS.flexContainer}>
             <div>
-              Position: <span>{props.job.jobTitle}</span>
+              Position: <span>{job.jobTitle}</span>
             </div>
             <div>
               Status:{' '}
               <span>{latestUpdate && latestUpdate.status.statusName}</span>
             </div>
             <div>
-              Company: <span>{props.job.company}</span>
+              Company: <span>{job.company}</span>
             </div>
           </div>
           <div className={jobPreviewCSS.arrowIcon}>
@@ -112,7 +132,7 @@ const JobPreview = props => {
             ))}
           </div>
           <div className={jobPreviewCSS.buttons}>
-            <Button btnText='Add Update' styleRules={buttonStyleRules} />
+            <Button btnText='Add Update' styleRules={buttonStyleRules} clickAction={addUpdate} />
             <Button
               btnText='Delete'
               styleRules={buttonStyleRules}

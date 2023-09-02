@@ -1,16 +1,9 @@
 import ApiService from './ApiService'
 import IUpdatesApiService from './interfaces/IUpdatesApiService'
-import {
-  PathParams,
-  UpdateCreateDTO,
-  UpdateUpdateDTO
-} from '../customTypes/requestTypes'
+import { PathParams, UpdateCreateDTO, UpdateUpdateDTO } from '../customTypes/requestTypes'
 import { ApiResponse, ApiData, UpdateDTO } from '../customTypes/responseTypes'
 
-class UpdatesApiService
-  extends ApiService<UpdateDTO>
-  implements IUpdatesApiService
-{
+class UpdatesApiService extends ApiService<UpdateDTO> implements IUpdatesApiService {
   constructor () {
     super()
   }
@@ -44,10 +37,10 @@ class UpdatesApiService
   ): Promise<ApiData<UpdateDTO> | ApiData<null>> {
     return super.put(url, pathParams, requestBody)
   }
-  
+
   async deleteUpdate (url: string, pathParams: PathParams): Promise<Response | ApiData<null>> {
     return super.delete(url, pathParams)
   }
 }
 
-export default UpdatesApiService
+export default new UpdatesApiService()

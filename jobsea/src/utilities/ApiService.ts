@@ -77,9 +77,11 @@ class ApiService<T> implements IApiService<T> {
     method: string,
     body: object = {}
   ): Promise<Response> {
-    var formattedUrl: string = ''
+    var formattedUrl: string
     if (pathParams !== null) {
       formattedUrl = this._formatUrlWithParams(url, pathParams)
+    } else {
+      formattedUrl = url
     }
     const options: RequestInit = {
       method: method,
@@ -87,9 +89,9 @@ class ApiService<T> implements IApiService<T> {
       body: undefined
     }
 
-    if (method === 'POST') {
+    if (method === 'POST' || method === 'PUT') {
       if (Object.keys(body).length === 0) {
-        throw new Error('Body was not passed in POST request')
+        throw new Error('Body has to be passed in PUT or POST request.')
       }
       options.body = JSON.stringify(body)
     }

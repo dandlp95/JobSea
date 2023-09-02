@@ -17,7 +17,7 @@ interface IApplicationApiService extends IApiService<ApplicationDTO> {
     pathParams: PathParams,
     requestBody: CreateApplicationDTO
   ): Promise<ApiData<ApplicationDTO> | ApiData<null>>
-  deleteApplication(url: string, pathParams: PathParams): Promise<Response | ApiData<null>>
+  deleteApplication(url: string, pathParams: PathParams): Promise<Response>
   putApplication(
     url: string,
     pathParams: PathParams,

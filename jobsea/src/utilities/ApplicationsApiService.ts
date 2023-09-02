@@ -27,8 +27,12 @@ class ApplicationApiService extends ApiService<ApplicationDTO> implements IAppli
     return super.post(url, PathParams, requestBody)
   }
 
-  async deleteApplication (url: string, pathParams: PathParams): Promise<ApiData<null> | Response> {
-    return super.delete(url, pathParams)
+  async deleteApplication (url: string, pathParams: PathParams): Promise<Response> {
+    const result = await super.delete(url, pathParams)
+    if (result instanceof Response) {
+      return result
+    }
+    throw new Error('Unexpected result type')
   }
 
   async putApplication (

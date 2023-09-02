@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import searchBarCSS from "./searchBar.module.css";
 
+type Props = {
+  
+}
+
 const SearchBar = (props) => {
   const [searchQuery, setSearchQuery] = useState();
   
