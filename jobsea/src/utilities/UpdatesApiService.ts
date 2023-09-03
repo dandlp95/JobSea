@@ -3,9 +3,10 @@ import IUpdatesApiService from './interfaces/IUpdatesApiService'
 import { PathParams, UpdateRequestDTO } from '../customTypes/requestTypes'
 import { ApiResponse, ApiData, UpdateDTO } from '../customTypes/responseTypes'
 
+const token: string | null = localStorage.getItem('token')
 class UpdatesApiService extends ApiService<UpdateDTO> implements IUpdatesApiService {
   constructor () {
-    super()
+    super(token ? token : undefined)
   }
 
   async getUpdates (

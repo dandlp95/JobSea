@@ -2,13 +2,13 @@ import IApiService from './interfaces/IApiService'
 import { PathParams } from '../customTypes/requestTypes'
 import { ApiData, ApiResponse } from '../customTypes/responseTypes'
 
-const token: string | null = localStorage.getItem('token')
+// const token: string | null = localStorage.getItem('token')
 
 class ApiService<T> implements IApiService<T> {
   private _baseURL: string
   private _headers: HeadersInit
 
-  constructor () {
+  constructor (token?:string) {
     this._baseURL = 'https://localhost:7283/jobsea/'
     this._headers = {
       Authorization: `Bearer ${token}`, // Your authorization header
@@ -88,6 +88,8 @@ class ApiService<T> implements IApiService<T> {
       headers: this._headers,
       body: undefined
     }
+    console.log('options: ', options)
+    console.log('url: ', formattedUrl)
 
     if (method === 'POST' || method === 'PUT') {
       if (Object.keys(body).length === 0) {

@@ -5,7 +5,6 @@ import jobsCSS from './jobs.module.css'
 import AddJob from '../components/addJob'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlinePlus } from 'react-icons/ai'
-import apiService from '../utilities/ApiService'
 import { ApplicationDTO } from '../customTypes/responseTypes'
 import ApplicationsApiService from '../utilities/ApplicationsApiService'
 import { PathParams } from '../customTypes/requestTypes'
@@ -41,11 +40,8 @@ const Jobs: React.FunctionComponent = () => {
         const pathParam: PathParams = {
           userId: parseInt(userId)
         }
-        ApplicationsApiService.getApplications('users/{userId}/applications', pathParam).then(response => {
-          if (response.result) {
-            setJobs(response.result)
-          }
-        })
+        const apiData = await ApplicationsApiService.getApplications('users/{userId}/applications', pathParam)
+        setJobs(apiData.result ? apiData.result : [])
       } else {
         // implement later.
       }

@@ -3,10 +3,10 @@ import ApiService from './ApiService'
 import { ApplicationDTO, ApiData } from '../customTypes/responseTypes'
 import { PathParams, CreateApplicationDTO, UpdateApplicationDTO } from '../customTypes/requestTypes'
 import { Path } from 'typescript'
-
+const token: string | null = localStorage.getItem('token')
 class ApplicationApiService extends ApiService<ApplicationDTO> implements IApplicationApiService {
   constructor () {
-    super()
+    super(token ? token : undefined)
   }
 
   async getApplications (

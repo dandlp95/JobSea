@@ -3,9 +3,10 @@ import ApiService from './ApiService'
 import { UserDTO, ApiData } from '../customTypes/responseTypes'
 import { PathParams, UserCreateDTO, LoginInfo } from '../customTypes/requestTypes'
 
+const token: string | null = localStorage.getItem('token')
 class UsersApiService extends ApiService<UserDTO> implements IUsersApiService {
   constructor () {
-    super()
+    super(token ? token : undefined)
   }
 
   getUsers (url: string, pathParams: PathParams): Promise<ApiData<UserDTO[]> | ApiData<null>> {
@@ -34,4 +35,4 @@ class UsersApiService extends ApiService<UserDTO> implements IUsersApiService {
   }
 }
 
-export default new UsersApiService();
+export default new UsersApiService()
