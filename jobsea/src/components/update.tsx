@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, useEffect, useState } from 'react'
 import useStatusOptions from '../customHooks/useStatusOptions'
 import UpdateQuestions from './updateQuestions'
-import addUpdateCSS from './addUpdate.module.css'
+import addUpdateCSS from './update.module.css'
 import questions from '../utilities/questions'
 import CommentTextarea from './CommentTextarea'
 import Button from './button'
@@ -13,8 +13,8 @@ import { StatusOption, UpdateDTO } from '../customTypes/responseTypes'
 type Props = {
   editMode: boolean
   applicationId: number
-  updateId?: number
-  closeComponentFunction: (arg: boolean) => void
+  updateId: number | null
+  closeComponentFunction: (isSubmmited:boolean) => void
 }
 
 const userId = localStorage.getItem('userId')
@@ -33,15 +33,16 @@ const AddUpdate: React.FunctionComponent<Props> = ({
   })
   const [isEditMode, setIsEditMode] = useState<boolean>(editMode)
   const [eventDateQuestion, setEventDateQuestion] = useState<string>()
-  const [updateEntityId, setUpdateEntityId] = useState<number | undefined>(updateId)
+  const [updateEntityId, setUpdateEntityId] = useState<number | null>(updateId ? updateId : null)
+  const [updateSubmitted, setUpdateSubmitted] = useState(false)
   const statusOptions: StatusOption[] = useStatusOptions()
 
   useEffect(() => {
-    const getUpdate = async (updateId: number, params: PathParams) => {
+    const getUpdate = async (params: PathParams) => {
       try {
         const responseUpdate = (
           await UpdatesApiService.getSingle(
-            'users/{userId}/applications/{applicationId}/updates',
+            'users/{userId}/applications/{applicationId}/updates/{updateId}',
             params
           )
         ).result
@@ -58,9 +59,10 @@ const AddUpdate: React.FunctionComponent<Props> = ({
     if (updateEntityId && userId) {
       const params: PathParams = {
         userId: parseInt(userId),
-        applicationId: applicationId
+        applicationId: applicationId,
+        updateId: updateEntityId
       }
-      getUpdate(updateEntityId, params)
+      getUpdate(params)
     }
   }, [])
 
@@ -101,13 +103,17 @@ const AddUpdate: React.FunctionComponent<Props> = ({
         pathParams,
         updateForm
       ).then(response => {
-        setUpdateEntityId(response.result?.updateId)
+        if (response.result) {
+          setUpdateEntityId(response.result.updateId)
+        }
+        // Determines if parent function rerenders
+        setUpdateSubmitted(true)
       })
     }
   }
 
   const updateUpdate = () => {
-    if (userId) {
+    if (userId && updateEntityId) {
       const pathParams: PathParams = {
         userId: parseInt(userId),
         applicationId: applicationId,
@@ -119,12 +125,14 @@ const AddUpdate: React.FunctionComponent<Props> = ({
         updateForm
       ).then(response => {
         setIsEditMode(false)
+        // Determines if parent function rerenders
+        setUpdateSubmitted(true)
       })
     }
   }
 
   const closeComponent = () => {
-    closeComponentFunction(false)
+    closeComponentFunction(updateSubmitted)
   }
 
   const activateEditMode = () => {

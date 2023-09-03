@@ -1,7 +1,6 @@
-import React, { ReactComponentElement, useEffect, useState } from 'react'
+import React, { ChangeEventHandler, ReactComponentElement, useEffect, useState } from 'react'
 import jobPreviewCSS from './jobPreview.module.css'
 import { MdKeyboardArrowDown } from 'react-icons/md'
-import apiService from '../utilities/ApiService'
 import Button from './button'
 import { ApplicationDTO } from '../customTypes/responseTypes'
 import UpdatesApiService from '../utilities/UpdatesApiService'
@@ -20,7 +19,10 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
   const [isCollapsed, setIsCollapse] = useState<boolean>(true)
   const [updates, setUpdates] = useState<UpdateDTO[]>([])
   const [latestUpdate, setLatestUpdate] = useState<UpdateDTO | null>()
-  const [isUpdateOpen, setIsUpdateOpen] = useState<boolean>()
+  const [isUpdateOpen, setIsUpdateOpen] = useState<boolean>(false)
+  const [updateEditMode, setUpdateEditMode] = useState<boolean>(false)
+  const [isUpdateSubmitted, setIsUpdateSubmitted] = useState<boolean>(false)
+  const [activeUpdateId, setActiveUpdateId] = useState<number | null>(null)
 
   useEffect(() => {
     const getUpdates = () => {
@@ -42,7 +44,7 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
       })
     }
     getUpdates()
-  }, [])
+  }, [isUpdateSubmitted])
 
   const handleToggle = () => {
     setIsCollapse(!isCollapsed)
@@ -69,12 +71,28 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
     }
   }
 
-  const addUpdate = () => {
+  const openUpdateEditModeOn = () => {
     try {
-      // Not implemented yet
+      setActiveUpdateId(null)
+      setIsUpdateOpen(true)
     } catch (err) {
 
     }
+  }
+
+  const openUpdateEditModeOff = (updateId: number ) => {
+    setActiveUpdateId(updateId)
+    setIsUpdateOpen(true)
+  }
+
+  const closeUpdateComponent = (isSubmmited: boolean) => {
+    setActiveUpdateId(null)
+    setIsUpdateOpen(false)
+    isSubmmited && reRenderParent()
+  }
+
+  const reRenderParent = () => {
+    setIsUpdateSubmitted(!isUpdateSubmitted)
   }
 
   const buttonStyleRules = {
@@ -121,7 +139,7 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
               <div className={jobPreviewCSS.updateContainer}>
                 <div>
                   <div> {update.notes}</div>
-                  <span className={jobPreviewCSS.seeMore}>See more</span>
+                  <span className={jobPreviewCSS.seeMore} onClick={e => openUpdateEditModeOff(update.updateId)}>See more</span>
                   <span className={jobPreviewCSS.updateDate}>
                     {new Date(update.created).toLocaleString('en-US', {
                       year: 'numeric',
@@ -134,8 +152,16 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
               </div>
             ))}
           </div>
+          {isUpdateOpen && <div>
+            <Update
+              editMode={updateEditMode}
+              applicationId={job.applicationId}
+              closeComponentFunction={closeUpdateComponent}
+              updateId={activeUpdateId}
+            />
+          </div>}
           <div className={jobPreviewCSS.buttons}>
-            <Button btnText='Add Update' styleRules={buttonStyleRules} clickAction={addUpdate} />
+            <Button btnText='Add Update' styleRules={buttonStyleRules} clickAction={openUpdateEditModeOn} />
             <Button
               btnText='Delete'
               styleRules={buttonStyleRules}
