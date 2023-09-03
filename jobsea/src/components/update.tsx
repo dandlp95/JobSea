@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, useEffect, useState } from 'react'
 import useStatusOptions from '../customHooks/useStatusOptions'
 import UpdateQuestions from './updateQuestions'
-import addUpdateCSS from './update.module.css'
+import updateCSS from './update.module.css'
 import questions from '../utilities/questions'
 import CommentTextarea from './CommentTextarea'
 import Button from './button'
@@ -116,13 +116,13 @@ const AddUpdate: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <div>
+    <div className={updateCSS.updateContainer}>
       <form onSubmit={e => e.preventDefault()}>
         <UpdateQuestions
-          radioCSS={addUpdateCSS.RadioMenu}
+          radioCSS={updateCSS.RadioMenu}
           selectedRadioOption={updateForm.statusId}
           handleRadioOptionChange={handleRadioOptionChange}
-          eventDateCSS={addUpdateCSS.eventDateQuestion}
+          eventDateCSS={updateCSS.eventDateQuestion}
           eventDate={updateForm.eventDate}
           eventTime={updateForm.eventTime}
           handleTimeChange={handleTimeChange}
@@ -137,14 +137,14 @@ const AddUpdate: React.FunctionComponent<Props> = ({
           handleCommentChange={handleNotesChange}
           isReadonly={isEditMode ? false : true}
         />
-        <div>
+        <div className={updateCSS.buttonsDiv}> 
           {isEditMode ? (
             <Button btnText='Save' clickAction={updateEntityId ? updateUpdate : createUpdate} />
           ) : (
             <Button btnText='Edit' clickAction={activateEditMode} />
           )}
-        </div>
         <Button btnText='Close' clickAction={closeComponent} />
+        </div>
       </form>
     </div>
   )

@@ -1,0 +1,29 @@
+.updateContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.updateContainer form{
+    position: relative;
+    width: 28%;
+    left: 37%;
+    top: 20%;
+    background: var(--vermillion);
+    padding: 1.45rem;
+    color: white;
+    font-size: 1.15rem;
+    border-radius: 25px;
+}
+
+.updateContainer .RadioMenu{
+    padding-bottom: 2rem;
+}
+
+.updateContainer .buttonsDiv {
+    display: flex;
+    gap: 40px;
+}
