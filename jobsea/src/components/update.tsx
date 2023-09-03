@@ -38,8 +38,6 @@ const AddUpdate: React.FunctionComponent<Props> = ({
   )
   const [updateSubmitted, setUpdateSubmitted] = useState(false)
   const statusOptions: StatusOption[] = useStatusOptions()
-  console.log('edit more: ', editMode)
-  // console.log('updateId: ', updateId)
 
   useEffect(() => {}, [])
 
@@ -96,6 +94,7 @@ const AddUpdate: React.FunctionComponent<Props> = ({
         applicationId: applicationId,
         updateId: updateEntityId
       }
+      console.log('update form: ',updateForm)
       UpdatesApiService.put(
         'users/{userId}/applications/{applicationId}/updates/{updateId}',
         pathParams,

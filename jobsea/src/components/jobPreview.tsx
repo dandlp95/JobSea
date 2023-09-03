@@ -22,31 +22,28 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
   const [isUpdateOpen, setIsUpdateOpen] = useState<boolean>(false)
   const [updateEditMode, setUpdateEditMode] = useState<boolean>(false)
   const [isUpdateSubmitted, setIsUpdateSubmitted] = useState<boolean>(false)
-  const [update, setUpdate]=useState<UpdateDTO>()
+  const [update, setUpdate] = useState<UpdateDTO>()
 
   useEffect(() => {
-    const getUpdates = () => {
+    const getUpdates = async () => {
       const userId = localStorage.getItem('userId')
 
       const params: PathParams = {
         userId: userId ? parseInt(userId) : 0,
         applicationId: job.applicationId
       }
-
-      UpdatesApiService.getUpdates(
+      const response = await UpdatesApiService.getUpdates(
         'users/{userId}/applications/{applicationId}/updates',
         params
-      ).then(response => {
-        if (response.result !== null) {
-          const responseUpdates: UpdateDTO[] = response.result
-          setUpdates(responseUpdates)
-          responseUpdates.sort(
-            (a, b) => new Date(b.created).getTime() - new Date(a.created).getTime()
-          )
-          setLatestUpdate(responseUpdates[0])
-        }
-        // throw an error if result is null
-      })
+      )
+      if (response.result !== null) {
+        const responseUpdates: UpdateDTO[] = response.result
+        setUpdates(responseUpdates)
+        responseUpdates.sort(
+          (a, b) => new Date(b.created).getTime() - new Date(a.created).getTime()
+        )
+        setLatestUpdate(responseUpdates[0])
+      }
     }
     getUpdates()
   }, [isUpdateSubmitted])
@@ -85,7 +82,7 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
     setIsUpdateOpen(true)
   }
 
-  const openUpdateEditModeOff = (update:UpdateDTO) => {
+  const openUpdateEditModeOff = (update: UpdateDTO) => {
     setUpdate(update)
     setUpdateEditMode(false)
     setIsUpdateOpen(true)
