@@ -32,8 +32,8 @@ const data: AddJobForm = {
   location: '',
   link: '',
   comments: '',
-  eventDate: '',
-  eventTime: '',
+  eventDate: null,
+  eventTime: null,
   selectedRadioOption: ''
 }
 
@@ -47,7 +47,12 @@ const AddJob: React.FunctionComponent<Props> = ({
   const [eventDateQuestion, setEventDateQuestion] = useState<string>()
 
   const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = event => {
-    setFormData({ ...formData, selectedRadioOption: event.target.value })
+    setFormData({
+      ...formData,
+      selectedRadioOption: event.target.value,
+      eventDate: null,
+      eventTime: null
+    })
     setQuestion(parseInt(event.target.value))
   }
 
@@ -115,7 +120,11 @@ const AddJob: React.FunctionComponent<Props> = ({
         }
       }
 
-      await ApplicationApiService.postApplication('users/{userId}/applications', params, requestBody)
+      await ApplicationApiService.postApplication(
+        'users/{userId}/applications',
+        params,
+        requestBody
+      )
 
       alert('Success')
       clearCreateApplicationForm()

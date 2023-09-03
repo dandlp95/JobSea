@@ -47,7 +47,7 @@ const AddUpdate: React.FunctionComponent<Props> = ({
 
   const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = event => {
     const selectedRadioOption = parseInt(event.target.value)
-    setUpdateForm({ ...updateForm, statusId: selectedRadioOption, eventDate: '', eventTime: '' })
+    setUpdateForm({ ...updateForm, statusId: selectedRadioOption, eventDate: null, eventTime: null })
     setQuestion(selectedRadioOption)
   }
 
