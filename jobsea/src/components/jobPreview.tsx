@@ -8,6 +8,7 @@ import UpdatesApiService from '../utilities/UpdatesApiService'
 import { PathParams } from '../customTypes/requestTypes'
 import { UpdateDTO } from '../customTypes/responseTypes'
 import ApplicationsApiService from '../utilities/ApplicationsApiService'
+import Update from './update'
 
 type Props = {
   job: ApplicationDTO,
@@ -19,6 +20,8 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
   const [isCollapsed, setIsCollapse] = useState<boolean>(true)
   const [updates, setUpdates] = useState<UpdateDTO[]>([])
   const [latestUpdate, setLatestUpdate] = useState<UpdateDTO | null>()
+  const [isUpdateOpen, setIsUpdateOpen] = useState<boolean>()
+
   useEffect(() => {
     const getUpdates = () => {
       const userId = localStorage.getItem('userId')

@@ -1,6 +1,6 @@
 import IApiService from './IApiService'
 import { ApiData, ApiResponse, UpdateDTO } from '../../customTypes/responseTypes'
-import { UpdateUpdateDTO, UpdateCreateDTO } from '../../customTypes/requestTypes'
+import { UpdateRequestDTO } from '../../customTypes/requestTypes'
 import { PathParams } from '../../customTypes/requestTypes'
 
 interface IUpdatesApiService extends IApiService<UpdateDTO> {
@@ -11,12 +11,12 @@ interface IUpdatesApiService extends IApiService<UpdateDTO> {
   postUpdate(
     url: string,
     pathParams: PathParams,
-    requestBody: UpdateCreateDTO
+    requestBody: UpdateRequestDTO
   ): Promise<ApiData<UpdateDTO> | ApiData<null>>
   putUpdate(
     url: string,
     pathParams: PathParams,
-    requestBody: UpdateUpdateDTO
+    requestBody: UpdateRequestDTO
   ): Promise<ApiData<UpdateDTO> | ApiData<null>>
 
   deleteUpdate(url: string, pathParams: PathParams): Promise<Response | ApiData<null>>

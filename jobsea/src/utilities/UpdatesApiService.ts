@@ -1,6 +1,6 @@
 import ApiService from './ApiService'
 import IUpdatesApiService from './interfaces/IUpdatesApiService'
-import { PathParams, UpdateCreateDTO, UpdateUpdateDTO } from '../customTypes/requestTypes'
+import { PathParams, UpdateRequestDTO } from '../customTypes/requestTypes'
 import { ApiResponse, ApiData, UpdateDTO } from '../customTypes/responseTypes'
 
 class UpdatesApiService extends ApiService<UpdateDTO> implements IUpdatesApiService {
@@ -25,7 +25,7 @@ class UpdatesApiService extends ApiService<UpdateDTO> implements IUpdatesApiServ
   async postUpdate (
     url: string,
     pathParams: PathParams,
-    requestBody: UpdateCreateDTO
+    requestBody: UpdateRequestDTO
   ): Promise<ApiData<UpdateDTO> | ApiData<null>> {
     return super.post(url, pathParams, requestBody)
   }
@@ -33,7 +33,7 @@ class UpdatesApiService extends ApiService<UpdateDTO> implements IUpdatesApiServ
   async putUpdate (
     url: string,
     pathParams: PathParams,
-    requestBody: UpdateUpdateDTO
+    requestBody: UpdateRequestDTO
   ): Promise<ApiData<UpdateDTO> | ApiData<null>> {
     return super.put(url, pathParams, requestBody)
   }
