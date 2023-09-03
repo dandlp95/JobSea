@@ -6,7 +6,7 @@ import AddJob from '../components/addJob'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { ApplicationDTO } from '../customTypes/responseTypes'
-import ApplicationsApiService from '../utilities/ApplicationsApiService'
+import { createApplicationApiService } from '../utilities/ApiServices/ApplicationsApiService'
 import { PathParams } from '../customTypes/requestTypes'
 
 type HeaderProps = {
@@ -31,7 +31,7 @@ const Jobs: React.FunctionComponent = () => {
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [isAddJobActive, setIsAddJobActive] = useState(false)
 
-  useEffect(() => { }, [searchQuery])
+  useEffect(() => {}, [searchQuery])
 
   useEffect(() => {
     const getApplications = async () => {
@@ -40,7 +40,11 @@ const Jobs: React.FunctionComponent = () => {
         const pathParam: PathParams = {
           userId: parseInt(userId)
         }
-        const apiData = await ApplicationsApiService.getApplications('users/{userId}/applications', pathParam)
+        const ApplicationsApiService = createApplicationApiService()
+        const apiData = await ApplicationsApiService.getApplications(
+          'users/{userId}/applications',
+          pathParam
+        )
         setJobs(apiData.result ? apiData.result : [])
       } else {
         // implement later.
@@ -78,26 +82,18 @@ const Jobs: React.FunctionComponent = () => {
       <div className={jobsCSS.alignContainer}>
         <div className={jobsCSS.topContainer}>
           <SearchBar getInput={getSearchQuery} />
-          <div
-            className={jobsCSS.addApplicationSection}
-            onClick={addApplication}
-          >
+          <div className={jobsCSS.addApplicationSection} onClick={addApplication}>
             <AiOutlinePlus />
             <span>Add Application</span>
           </div>
         </div>
         <div className={jobsCSS.jobs}>
           {jobs &&
-            jobs.map(job => (
-              <JobPreview job={job} reRenderParentFunction={reRenderParent} />
-            ))}
+            jobs.map(job => <JobPreview job={job} reRenderParentFunction={reRenderParent} />)}
         </div>
       </div>
       {isAddJobActive && (
-        <AddJob
-          reRenderParentFunction={reRenderParent}
-          closeComponentFunction={closeApplication}
-        />
+        <AddJob reRenderParentFunction={reRenderParent} closeComponentFunction={closeApplication} />
       )}
     </div>
   )

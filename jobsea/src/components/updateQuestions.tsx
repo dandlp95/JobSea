@@ -1,4 +1,4 @@
-import React, { CSSProperties, ChangeEventHandler } from 'react'
+import React, { ChangeEventHandler } from 'react'
 import { StatusOption } from '../customTypes/responseTypes'
 
 type Props = {

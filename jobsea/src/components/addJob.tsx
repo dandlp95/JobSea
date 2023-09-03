@@ -5,23 +5,23 @@ import UpdateQuestions from './updateQuestions'
 import useStatusOptions from '../customHooks/useStatusOptions'
 import questions from '../utilities/questions'
 import CommentTextarea from './CommentTextarea'
-import ApplicationApiService from '../utilities/ApplicationsApiService'
+import { createApplicationApiService } from '../utilities/ApiServices/ApplicationsApiService'
 import { CreateApplicationDTO, PathParams } from '../customTypes/requestTypes'
 
 type Props = {
-  closeComponentFunction: () => void,
-  reRenderParentFunction: () => void;
+  closeComponentFunction: () => void
+  reRenderParentFunction: () => void
 }
 
 type AddJobForm = {
-  company: string,
-  position: string,
-  salary: string,
-  location: string | null,
-  link: string | null,
-  comments: string | null,
-  eventDate: string | null,
-  eventTime: string | null,
+  company: string
+  position: string
+  salary: string
+  location: string | null
+  link: string | null
+  comments: string | null
+  eventDate: string | null
+  eventTime: string | null
   selectedRadioOption: string
 }
 
@@ -37,45 +37,49 @@ const data: AddJobForm = {
   selectedRadioOption: ''
 }
 
-const AddJob: React.FunctionComponent<Props> = ({ closeComponentFunction, reRenderParentFunction }) => {
+const AddJob: React.FunctionComponent<Props> = ({
+  closeComponentFunction,
+  reRenderParentFunction
+}) => {
+  const ApplicationApiService = createApplicationApiService()
   const statusOptions = useStatusOptions()
   const [formData, setFormData] = useState(data)
   const [eventDateQuestion, setEventDateQuestion] = useState<string>()
 
-  const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, selectedRadioOption: event.target.value })
     setQuestion(parseInt(event.target.value))
   }
 
-  const handlePositionChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handlePositionChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, position: event.target.value })
   }
 
-  const handleCompanyChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleCompanyChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, company: event.target.value })
   }
 
-  const handleLinkChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleLinkChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, link: event.target.value })
   }
 
-  const handleCommentChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleCommentChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, comments: event.target.value })
   }
 
-  const handleSalaryChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleSalaryChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, salary: event.target.value })
   }
 
-  const handleLocationChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleLocationChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, location: event.target.value })
   }
 
-  const handlEventDate: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handlEventDate: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, eventDate: event.target.value })
   }
 
-  const handleTimeChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleTimeChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, eventTime: event.target.value })
   }
 
@@ -111,13 +115,12 @@ const AddJob: React.FunctionComponent<Props> = ({ closeComponentFunction, reRend
         }
       }
 
-      await ApplicationApiService.post('users/{userId}/applications', params, requestBody)
+      await ApplicationApiService.postApplication('users/{userId}/applications', params, requestBody)
 
       alert('Success')
       clearCreateApplicationForm()
       reRenderParentFunction()
       closeComponentFunction()
-
     } catch (err) {
       alert('error submitting form')
     }
@@ -138,7 +141,7 @@ const AddJob: React.FunctionComponent<Props> = ({ closeComponentFunction, reRend
     setEventDateQuestion('')
   }
 
-  const closeComponentEventHandler: MouseEventHandler<HTMLButtonElement> = (event) => {
+  const closeComponentEventHandler: MouseEventHandler<HTMLButtonElement> = event => {
     closeComponentFunction()
   }
 
@@ -212,10 +215,7 @@ const AddJob: React.FunctionComponent<Props> = ({ closeComponentFunction, reRend
           />
           <div className={AddJobCSS.buttonsDiv}>
             <Button btnText='Create Application' clickAction={sendRequest} />
-            <Button
-              btnText='Close'
-              clickAction={closeComponentEventHandler}
-            />
+            <Button btnText='Close' clickAction={closeComponentEventHandler} />
           </div>
         </form>
       </div>

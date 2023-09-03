@@ -3,10 +3,10 @@ import jobPreviewCSS from './jobPreview.module.css'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import Button from './button'
 import { ApplicationDTO } from '../customTypes/responseTypes'
-import UpdatesApiService from '../utilities/UpdatesApiService'
+import { createUpdatesApiService } from '../utilities/ApiServices/UpdatesApiService'
 import { PathParams } from '../customTypes/requestTypes'
 import { UpdateDTO } from '../customTypes/responseTypes'
-import ApplicationsApiService from '../utilities/ApplicationsApiService'
+import { createApplicationApiService } from '../utilities/ApiServices/ApplicationsApiService'
 import Update from './update'
 
 type Props = {
@@ -16,6 +16,9 @@ type Props = {
 
 const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunction }) => {
   // Need to work on css, if there aren't any updates, the expandable doesn't look good.
+  const UpdatesApiService = createUpdatesApiService()
+  const ApplicationsApiService = createApplicationApiService()
+  
   const [isCollapsed, setIsCollapse] = useState<boolean>(true)
   const [updates, setUpdates] = useState<UpdateDTO[]>([])
   const [latestUpdate, setLatestUpdate] = useState<UpdateDTO | null>()

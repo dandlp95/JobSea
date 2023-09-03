@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import StatusesApiService from '../utilities/StatusesApiService'
+import StatusesApiService from '../utilities/ApiServices/StatusesApiService'
 import { StatusOption } from '../customTypes/responseTypes'
 
 function useStatusOptions () {

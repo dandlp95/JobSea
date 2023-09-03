@@ -1,9 +1,8 @@
-import IApiService from './IApiService'
 import { ApplicationDTO, ApiData, ApiResponse } from '../../customTypes/responseTypes'
 import { PathParams } from '../../customTypes/requestTypes'
 import { CreateApplicationDTO, UpdateApplicationDTO } from '../../customTypes/requestTypes'
 
-interface IApplicationApiService extends IApiService<ApplicationDTO> {
+interface IApplicationApiService {
   getApplications(
     url: string,
     pathParams: PathParams

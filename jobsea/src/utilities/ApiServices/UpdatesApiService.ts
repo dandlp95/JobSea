@@ -1,12 +1,11 @@
 import ApiService from './ApiService'
-import IUpdatesApiService from './interfaces/IUpdatesApiService'
-import { PathParams, UpdateRequestDTO } from '../customTypes/requestTypes'
-import { ApiResponse, ApiData, UpdateDTO } from '../customTypes/responseTypes'
+import IUpdatesApiService from '../interfaces/IUpdatesApiService'
+import { PathParams, UpdateRequestDTO } from '../../customTypes/requestTypes'
+import { ApiResponse, ApiData, UpdateDTO } from '../../customTypes/responseTypes'
 
-const token: string | null = localStorage.getItem('token')
 class UpdatesApiService extends ApiService<UpdateDTO> implements IUpdatesApiService {
-  constructor () {
-    super(token ? token : undefined)
+  constructor (token:string) {
+    super(token)
   }
 
   async getUpdates (
@@ -44,4 +43,12 @@ class UpdatesApiService extends ApiService<UpdateDTO> implements IUpdatesApiServ
   }
 }
 
-export default new UpdatesApiService()
+export function createUpdatesApiService (): UpdatesApiService {
+  const token: string | null = localStorage.getItem('token')
+  if (token) {
+    return new UpdatesApiService(token)
+  } else {
+    throw new Error('Invalid Token')
+  }
+}
+

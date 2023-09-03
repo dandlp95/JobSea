@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import appCSS from './App.module.css'
 import { TypeAnimation } from 'react-type-animation'
 import Button from './components/button'
-import UsersAPIService from './utilities/UsersApiService'
+import AuthApiService from './utilities/ApiServices/AuthApiService'
 import { PathParams } from './customTypes/requestTypes'
 import { UserCreateDTO, LoginInfo } from './customTypes/requestTypes'
 
@@ -42,8 +42,7 @@ const App: React.FunctionComponent = () => {
       username: loginName,
       password: lPassword
     }
-
-    UsersAPIService.auth('users/auth', params, bodyRequest).then(response => {
+    AuthApiService.auth('users/auth', params, bodyRequest).then(response => {
       if (response.result && response.token) {
         localStorage.setItem('username', response.result.username)
         localStorage.setItem('userId', response.result.userId.toString())
@@ -61,7 +60,7 @@ const App: React.FunctionComponent = () => {
         confirmPassword: rPasswordConfirm
       }
 
-      UsersAPIService.postUser('users', params, bodyRequest).then(response => {
+      AuthApiService.postUser('users', params, bodyRequest).then(response => {
 
         if (response.result && response.token) {
           localStorage.setItem('username', response.result.username);

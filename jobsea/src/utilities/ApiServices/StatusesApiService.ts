@@ -1,10 +1,10 @@
 import ApiService from './ApiService'
-import IStatusesApiService from './interfaces/IStatusesApiService'
+import IStatusesApiService from '../interfaces/IStatusesApiService'
 import {
   ApiData,
   ApiResponse,
   StatusOption
-} from '../customTypes/responseTypes'
+} from '../../customTypes/responseTypes'
 
 class StatusesApiService
   extends ApiService<StatusOption>

@@ -5,7 +5,7 @@ import updateCSS from './update.module.css'
 import questions from '../utilities/questions'
 import CommentTextarea from './CommentTextarea'
 import Button from './button'
-import UpdatesApiService from '../utilities/UpdatesApiService'
+import { createUpdatesApiService } from '../utilities/ApiServices/UpdatesApiService'
 import { PathParams } from '../customTypes/requestTypes'
 import { UpdateRequestDTO } from '../customTypes/requestTypes'
 import { StatusOption, UpdateDTO } from '../customTypes/responseTypes'
@@ -25,6 +25,7 @@ const AddUpdate: React.FunctionComponent<Props> = ({
   applicationId,
   closeComponentFunction
 }) => {
+  const UpdatesApiService = createUpdatesApiService();
   const [updateForm, setUpdateForm] = useState<UpdateRequestDTO>({
     eventDate: updateDTO?.eventDate ? updateDTO.eventDate : null,
     eventTime: updateDTO?.eventTime ? updateDTO.eventTime : null,
@@ -38,8 +39,6 @@ const AddUpdate: React.FunctionComponent<Props> = ({
   )
   const [updateSubmitted, setUpdateSubmitted] = useState(false)
   const statusOptions: StatusOption[] = useStatusOptions()
-
-  useEffect(() => {}, [])
 
   const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = event => {
     const selectedRadioOption = parseInt(event.target.value)
@@ -73,7 +72,7 @@ const AddUpdate: React.FunctionComponent<Props> = ({
         applicationId: applicationId
       }
 
-      UpdatesApiService.post(
+      UpdatesApiService.postUpdate(
         'users/{userId}/applications/{applicationId}/updates',
         pathParams,
         updateForm
@@ -94,8 +93,8 @@ const AddUpdate: React.FunctionComponent<Props> = ({
         applicationId: applicationId,
         updateId: updateEntityId
       }
-      console.log('update form: ',updateForm)
-      UpdatesApiService.put(
+      console.log('update form: ', updateForm)
+      UpdatesApiService.putUpdate(
         'users/{userId}/applications/{applicationId}/updates/{updateId}',
         pathParams,
         updateForm
@@ -137,13 +136,13 @@ const AddUpdate: React.FunctionComponent<Props> = ({
           handleCommentChange={handleNotesChange}
           isReadonly={isEditMode ? false : true}
         />
-        <div className={updateCSS.buttonsDiv}> 
+        <div className={updateCSS.buttonsDiv}>
           {isEditMode ? (
             <Button btnText='Save' clickAction={updateEntityId ? updateUpdate : createUpdate} />
           ) : (
             <Button btnText='Edit' clickAction={activateEditMode} />
           )}
-        <Button btnText='Close' clickAction={closeComponent} />
+          <Button btnText='Close' clickAction={closeComponent} />
         </div>
       </form>
     </div>

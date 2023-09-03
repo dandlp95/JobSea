@@ -1,9 +1,8 @@
-import IApiService from './IApiService'
 import { ApiData, ApiResponse, UpdateDTO } from '../../customTypes/responseTypes'
 import { UpdateRequestDTO } from '../../customTypes/requestTypes'
 import { PathParams } from '../../customTypes/requestTypes'
 
-interface IUpdatesApiService extends IApiService<UpdateDTO> {
+interface IUpdatesApiService {
   getUpdates(url: string, pathParams: PathParams): Promise<ApiData<UpdateDTO[]> | ApiData<null>>
 
   getUpdate(url: string, pathParams: PathParams): Promise<ApiData<UpdateDTO> | ApiData<null>>

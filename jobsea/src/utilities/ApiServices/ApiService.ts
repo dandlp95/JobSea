@@ -1,10 +1,10 @@
-import IApiService from './interfaces/IApiService'
-import { PathParams } from '../customTypes/requestTypes'
-import { ApiData, ApiResponse } from '../customTypes/responseTypes'
+// import IApiService from './interfaces/IApiService'
+import { PathParams } from '../../customTypes/requestTypes'
+import { ApiData, ApiResponse } from '../../customTypes/responseTypes'
 
 // const token: string | null = localStorage.getItem('token')
 
-class ApiService<T> implements IApiService<T> {
+abstract class ApiService<T> {
   private _baseURL: string
   private _headers: HeadersInit
 
@@ -16,7 +16,7 @@ class ApiService<T> implements IApiService<T> {
     }
   }
 
-  async get (
+  protected async get (
     url: string,
     pathParams: PathParams | null
   ): Promise<ApiData<T[]> | ApiData<null>> {
@@ -26,7 +26,7 @@ class ApiService<T> implements IApiService<T> {
     return response.json()
   }
 
-  async getSingle (
+  protected async getSingle (
     url: string,
     pathParams: PathParams | null
   ): Promise<ApiData<T> | ApiData<null>> {
@@ -36,7 +36,7 @@ class ApiService<T> implements IApiService<T> {
     return response.json()
   }
 
-  async post (
+  protected async post (
     url: string,
     pathParams: PathParams,
     body: object = {}
@@ -50,7 +50,7 @@ class ApiService<T> implements IApiService<T> {
     return response.json()
   }
 
-  async put (
+  protected async put (
     url: string,
     pathParams: PathParams,
     body: object
@@ -59,11 +59,11 @@ class ApiService<T> implements IApiService<T> {
     return response.json()
   }
 
-  async delete (url: string, pathParams: PathParams): Promise<Response | ApiData<null>> {
+  protected async delete (url: string, pathParams: PathParams): Promise<Response | ApiData<null>> {
     return this._apiCall(url, pathParams, 'DELETE')
   }
 
-  _formatUrlWithParams (url: string, params: PathParams): string {
+  private _formatUrlWithParams (url: string, params: PathParams): string {
     const formattedUrl: string = url.replace(/\{([^}]+)\}/g, (match, param) => {
       const paramKey: keyof PathParams = param as keyof PathParams
       return String(params[paramKey])
@@ -71,7 +71,7 @@ class ApiService<T> implements IApiService<T> {
     return formattedUrl
   }
 
-  async _apiCall (
+  private async _apiCall (
     url: string,
     pathParams: PathParams | null,
     method: string,
@@ -88,9 +88,6 @@ class ApiService<T> implements IApiService<T> {
       headers: this._headers,
       body: undefined
     }
-    console.log('options: ', options)
-    console.log('url: ', formattedUrl)
-
     if (method === 'POST' || method === 'PUT') {
       if (Object.keys(body).length === 0) {
         throw new Error('Body has to be passed in PUT or POST request.')

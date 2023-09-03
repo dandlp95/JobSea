@@ -2,24 +2,24 @@ import React, { useState } from "react";
 import searchBarCSS from "./searchBar.module.css";
 
 type Props = {
-  
+  getInput: (input:string)=>void
 }
 
-const SearchBar = (props) => {
-  const [searchQuery, setSearchQuery] = useState();
+const SearchBar:React.FunctionComponent<Props> = ({getInput}) => {
+  const [searchQuery, setSearchQuery] = useState<string>('');
   
-  const isKeyEntered = (e) => {
-    if (!e) e = window.event;
+  const isKeyEntered = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    //if (!e) e = window.event;
     var keyCode = e.code || e.key;
     if (keyCode === "Enter") {
-      props.getInput(searchQuery);
+      getInput(searchQuery);
     }
   };
 
   return (
     <div className={searchBarCSS.searchBarCSS}>
       <input
-        onChange={setSearchQuery}
+        //onChange={setSearchQuery}
         placeholder="Search..."
         onKeyDown={isKeyEntered}
       />
