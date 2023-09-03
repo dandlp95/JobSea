@@ -82,7 +82,7 @@ const AddUpdate: React.FunctionComponent<Props> = ({
         pathParams,
         updateForm
       )
-      console.log(response)
+
       if (response.result) {
         setUpdateEntityId(response.result.updateId)
         setIsEditMode(false)
