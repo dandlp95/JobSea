@@ -97,17 +97,17 @@ const AddJob: React.FunctionComponent<Props> = ({ closeComponentFunction, reRend
       }
 
       const requestBody: CreateApplicationDTO = {
-        Company: formData.company,
-        JobTitle: formData.position,
-        Salary: parseInt(formData.salary),
-        Location: formData.location,
-        Link: formData.link,
-        Comments: formData.comments,
+        company: formData.company,
+        jobTitle: formData.position,
+        salary: parseInt(formData.salary),
+        location: formData.location,
+        link: formData.link,
+        comments: formData.comments,
         firstUpdate: {
-          EventDate: formData.eventDate,
-          EventTime: formData.eventTime ? formData.eventTime + ':00' : null,
+          eventDate: formData.eventDate,
+          eventTime: formData.eventTime ? formData.eventTime + ':00' : null,
           notes: formData.comments,
-          StatusId: parseInt(formData.selectedRadioOption)
+          statusId: parseInt(formData.selectedRadioOption)
         }
       }
 

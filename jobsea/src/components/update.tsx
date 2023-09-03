@@ -1,11 +1,10 @@
-import React, { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react'
+import React, { ChangeEventHandler, useEffect, useState } from 'react'
 import useStatusOptions from '../customHooks/useStatusOptions'
 import UpdateQuestions from './updateQuestions'
 import addUpdateCSS from './addUpdate.module.css'
 import questions from '../utilities/questions'
 import CommentTextarea from './CommentTextarea'
 import Button from './button'
-import ApiService from '../utilities/ApiService'
 import UpdatesApiService from '../utilities/UpdatesApiService'
 import { PathParams } from '../customTypes/requestTypes'
 import { UpdateRequestDTO } from '../customTypes/requestTypes'
@@ -20,7 +19,12 @@ type Props = {
 
 const userId = localStorage.getItem('userId')
 
-const AddUpdate: React.FunctionComponent<Props> = ({ editMode, applicationId, updateId, closeComponentFunction }) => {
+const AddUpdate: React.FunctionComponent<Props> = ({
+  editMode,
+  applicationId,
+  updateId,
+  closeComponentFunction
+}) => {
   const [updateForm, setUpdateForm] = useState<UpdateRequestDTO>({
     eventDate: '',
     eventTime: '',
@@ -29,12 +33,18 @@ const AddUpdate: React.FunctionComponent<Props> = ({ editMode, applicationId, up
   })
   const [isEditMode, setIsEditMode] = useState<boolean>(editMode)
   const [eventDateQuestion, setEventDateQuestion] = useState<string>()
+  const [updateEntityId, setUpdateEntityId] = useState<number | undefined>(updateId)
   const statusOptions: StatusOption[] = useStatusOptions()
 
   useEffect(() => {
     const getUpdate = async (updateId: number, params: PathParams) => {
       try {
-        const responseUpdate = (await UpdatesApiService.getSingle('users/{userId}/applications/{applicationId}/updates', params)).result
+        const responseUpdate = (
+          await UpdatesApiService.getSingle(
+            'users/{userId}/applications/{applicationId}/updates',
+            params
+          )
+        ).result
         if (responseUpdate) {
           setUpdateForm({
             eventDate: responseUpdate.eventDate,
@@ -43,20 +53,18 @@ const AddUpdate: React.FunctionComponent<Props> = ({ editMode, applicationId, up
             statusId: parseInt(responseUpdate.status.statusId)
           })
         }
-      } catch (err) {
-
-      }
+      } catch (err) { }
     }
-    if (updateId && userId) {
+    if (updateEntityId && userId) {
       const params: PathParams = {
         userId: parseInt(userId),
         applicationId: applicationId
       }
-      getUpdate(updateId, params)
+      getUpdate(updateEntityId, params)
     }
   }, [])
 
-  const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = event => {
     const selectedRadioOption = parseInt(event.target.value)
     setUpdateForm({ ...updateForm, statusId: selectedRadioOption })
     setQuestion(selectedRadioOption)
@@ -69,15 +77,15 @@ const AddUpdate: React.FunctionComponent<Props> = ({ editMode, applicationId, up
     else setEventDateQuestion('')
   }
 
-  const handleTimeChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleTimeChange: ChangeEventHandler<HTMLInputElement> = event => {
     setUpdateForm({ ...updateForm, eventTime: event.target.value })
   }
 
-  const handlEventDate: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handlEventDate: ChangeEventHandler<HTMLInputElement> = event => {
     setUpdateForm({ ...updateForm, eventDate: event.target.value })
   }
 
-  const handleNotesChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleNotesChange: ChangeEventHandler<HTMLInputElement> = event => {
     setUpdateForm({ ...updateForm, notes: event.target.value })
   }
 
@@ -88,8 +96,12 @@ const AddUpdate: React.FunctionComponent<Props> = ({ editMode, applicationId, up
         applicationId: applicationId
       }
 
-      UpdatesApiService.post('users/{userId}/applications/{applicationId}/updates', pathParams, updateForm).then(response => {
-        closeComponent()
+      UpdatesApiService.post(
+        'users/{userId}/applications/{applicationId}/updates',
+        pathParams,
+        updateForm
+      ).then(response => {
+        setUpdateEntityId(response.result?.updateId)
       })
     }
   }
@@ -99,9 +111,13 @@ const AddUpdate: React.FunctionComponent<Props> = ({ editMode, applicationId, up
       const pathParams: PathParams = {
         userId: parseInt(userId),
         applicationId: applicationId,
-        updateId: updateId
+        updateId: updateEntityId
       }
-      UpdatesApiService.put('users/{userId}/applications/{applicationId}/updates/{updateId}', pathParams, updateForm).then(response => {
+      UpdatesApiService.put(
+        'users/{userId}/applications/{applicationId}/updates/{updateId}',
+        pathParams,
+        updateForm
+      ).then(response => {
         setIsEditMode(false)
       })
     }
@@ -111,6 +127,9 @@ const AddUpdate: React.FunctionComponent<Props> = ({ editMode, applicationId, up
     closeComponentFunction(false)
   }
 
+  const activateEditMode = () => {
+    setIsEditMode(true)
+  }
 
   return (
     <div>
@@ -134,7 +153,11 @@ const AddUpdate: React.FunctionComponent<Props> = ({ editMode, applicationId, up
           handleCommentChange={handleNotesChange}
           isReadonly={isEditMode ? true : false}
         />
-        <Button btnText='Save' clickAction={updateId ? updateUpdate : createUpdate} />
+        {isEditMode ? (
+          <Button btnText='Save' clickAction={updateEntityId ? updateUpdate : createUpdate} />
+        ) : (
+          <Button btnText='Edit' clickAction={activateEditMode} />
+        )}
         <Button btnText='Close' clickAction={closeComponent} />
       </form>
     </div>
