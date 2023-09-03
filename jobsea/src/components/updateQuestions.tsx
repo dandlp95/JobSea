@@ -7,11 +7,11 @@ type Props = {
   statusOptions: StatusOption[]
   selectedRadioOption: number
   handleRadioOptionChange: ChangeEventHandler
-  eventDateQuestion?: string | null,
-  eventDateCSS: string,
-  eventDate?: string | null,
-  handlEventDateChange: ChangeEventHandler,
-  eventTime?: string | null,
+  eventDateQuestion?: string | null
+  eventDateCSS: string
+  eventDate?: string | null
+  handlEventDateChange: ChangeEventHandler
+  eventTime?: string | null
   handleTimeChange: ChangeEventHandler
 }
 
@@ -30,6 +30,10 @@ const UpdateQuestions: React.FunctionComponent<Props> = ({
 }) => {
   const interviewQuestion = 'When will your interview be?'
 
+  const formatDate = (date: string) => {
+    return new Date(date).toISOString().split('T')[0]
+  }
+  
   return (
     statusOptions && (
       <div className={radioCSS}>
@@ -57,10 +61,9 @@ const UpdateQuestions: React.FunctionComponent<Props> = ({
                 disabled={isDisabled ? isDisabled : false}
                 type='date'
                 name='eventDate'
-                value={eventDate ? eventDate : ''}
+                value={eventDate ? formatDate(eventDate) : ''}
                 onChange={handlEventDateChange}
               />
-
             </div>
             <br></br>
             {eventDateQuestion == interviewQuestion ? (

@@ -96,8 +96,9 @@ abstract class ApiService<T> {
     }
 
     const response = await fetch(`${this._baseURL}${formattedUrl}`, options)
+
     if (!response.ok) {
-      throw new Error(`Error fetching api data`)
+      throw new Error(`Error fetching api data ${response}`)
     }
     return response
   }

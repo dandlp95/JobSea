@@ -17,15 +17,14 @@ type Props = {
   closeComponentFunction: (isSubmmited: boolean) => void
 }
 
-const userId = localStorage.getItem('userId')
-
 const AddUpdate: React.FunctionComponent<Props> = ({
   editMode,
   updateDTO,
   applicationId,
   closeComponentFunction
 }) => {
-  const UpdatesApiService = createUpdatesApiService();
+  const userId = localStorage.getItem('userId')
+  const UpdatesApiService = createUpdatesApiService()
   const [updateForm, setUpdateForm] = useState<UpdateRequestDTO>({
     eventDate: updateDTO?.eventDate ? updateDTO.eventDate : null,
     eventTime: updateDTO?.eventTime ? updateDTO.eventTime : null,
@@ -40,9 +39,15 @@ const AddUpdate: React.FunctionComponent<Props> = ({
   const [updateSubmitted, setUpdateSubmitted] = useState(false)
   const statusOptions: StatusOption[] = useStatusOptions()
 
+  useEffect(() => {
+    if (updateDTO?.status.statusId) {
+      setQuestion(parseInt(updateDTO.status.statusId))
+    }
+  }, [])
+
   const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = event => {
     const selectedRadioOption = parseInt(event.target.value)
-    setUpdateForm({ ...updateForm, statusId: selectedRadioOption })
+    setUpdateForm({ ...updateForm, statusId: selectedRadioOption, eventDate: '', eventTime: '' })
     setQuestion(selectedRadioOption)
   }
 
@@ -54,7 +59,7 @@ const AddUpdate: React.FunctionComponent<Props> = ({
   }
 
   const handleTimeChange: ChangeEventHandler<HTMLInputElement> = event => {
-    setUpdateForm({ ...updateForm, eventTime: event.target.value })
+    setUpdateForm({ ...updateForm, eventTime: event.target.value + ':00' })
   }
 
   const handlEventDate: ChangeEventHandler<HTMLInputElement> = event => {
@@ -65,44 +70,43 @@ const AddUpdate: React.FunctionComponent<Props> = ({
     setUpdateForm({ ...updateForm, notes: event.target.value })
   }
 
-  const createUpdate = () => {
+  const createUpdate = async () => {
     if (userId) {
       const pathParams: PathParams = {
         userId: parseInt(userId),
         applicationId: applicationId
       }
 
-      UpdatesApiService.postUpdate(
+      const response = await UpdatesApiService.postUpdate(
         'users/{userId}/applications/{applicationId}/updates',
         pathParams,
         updateForm
-      ).then(response => {
-        if (response.result) {
-          setUpdateEntityId(response.result.updateId)
-        }
+      )
+      console.log(response)
+      if (response.result) {
+        setUpdateEntityId(response.result.updateId)
         // Determines if parent function rerenders
         setUpdateSubmitted(true)
-      })
+      }
     }
   }
 
-  const updateUpdate = () => {
+  const updateUpdate = async () => {
     if (userId && updateEntityId) {
       const pathParams: PathParams = {
         userId: parseInt(userId),
         applicationId: applicationId,
         updateId: updateEntityId
       }
-      console.log('update form: ', updateForm)
-      UpdatesApiService.putUpdate(
+      const response = await UpdatesApiService.putUpdate(
         'users/{userId}/applications/{applicationId}/updates/{updateId}',
         pathParams,
         updateForm
-      ).then(response => {
+      )
+      if (response.errors === null) {
         setIsEditMode(false)
-        // Determines if parent function rerenders
         setUpdateSubmitted(true)
-      })
+      }
     }
   }
 
@@ -113,7 +117,7 @@ const AddUpdate: React.FunctionComponent<Props> = ({
   const activateEditMode = () => {
     setIsEditMode(true)
   }
-
+  console.log('update form: ', updateForm)
   return (
     <div className={updateCSS.updateContainer}>
       <form onSubmit={e => e.preventDefault()}>
