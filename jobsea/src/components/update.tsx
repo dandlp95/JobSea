@@ -85,6 +85,7 @@ const AddUpdate: React.FunctionComponent<Props> = ({
       console.log(response)
       if (response.result) {
         setUpdateEntityId(response.result.updateId)
+        setIsEditMode(false)
         // Determines if parent function rerenders
         setUpdateSubmitted(true)
       }
