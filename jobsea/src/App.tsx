@@ -39,14 +39,12 @@ const App: React.FunctionComponent = () => {
 
   const login = async () => {
     const bodyRequest: LoginInfo = {
-      Username: loginName,
+      username: loginName,
       password: lPassword
     }
 
     UsersAPIService.auth('users/auth', params, bodyRequest).then(response => {
       if (response.result && response.token) {
-        console.log('entered!')
-        console.log(response)
         localStorage.setItem('username', response.result.username)
         localStorage.setItem('userId', response.result.userId.toString())
         setToken(response.token)
@@ -57,10 +55,10 @@ const App: React.FunctionComponent = () => {
   const registration = () => {
     try {
       const bodyRequest: UserCreateDTO = {
-        Username: rUsername,
-        Email: rEmail,
-        Password: rPassword,
-        ConfirmPassword: rPasswordConfirm
+        username: rUsername,
+        email: rEmail,
+        password: rPassword,
+        confirmPassword: rPasswordConfirm
       }
 
       UsersAPIService.postUser('users', params, bodyRequest).then(response => {

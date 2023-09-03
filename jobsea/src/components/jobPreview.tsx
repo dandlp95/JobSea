@@ -10,7 +10,7 @@ import ApplicationsApiService from '../utilities/ApplicationsApiService'
 import Update from './update'
 
 type Props = {
-  job: ApplicationDTO,
+  job: ApplicationDTO
   reRenderParentFunction: () => void
 }
 
@@ -22,7 +22,7 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
   const [isUpdateOpen, setIsUpdateOpen] = useState<boolean>(false)
   const [updateEditMode, setUpdateEditMode] = useState<boolean>(false)
   const [isUpdateSubmitted, setIsUpdateSubmitted] = useState<boolean>(false)
-  const [activeUpdateId, setActiveUpdateId] = useState<number | null>(null)
+  const [update, setUpdate]=useState<UpdateDTO>()
 
   useEffect(() => {
     const getUpdates = () => {
@@ -33,11 +33,16 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
         applicationId: job.applicationId
       }
 
-      UpdatesApiService.getUpdates('users/{userId}/applications/{applicationId}/updates', params).then(response => {
+      UpdatesApiService.getUpdates(
+        'users/{userId}/applications/{applicationId}/updates',
+        params
+      ).then(response => {
         if (response.result !== null) {
           const responseUpdates: UpdateDTO[] = response.result
           setUpdates(responseUpdates)
-          responseUpdates.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
+          responseUpdates.sort(
+            (a, b) => new Date(b.created).getTime() - new Date(a.created).getTime()
+          )
           setLatestUpdate(responseUpdates[0])
         }
         // throw an error if result is null
@@ -59,7 +64,10 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
           applicationId: job.applicationId
         }
 
-        const response = await ApplicationsApiService.deleteApplication('users/{userId}/applications/{applicationId}', pathParams)
+        const response = await ApplicationsApiService.deleteApplication(
+          'users/{userId}/applications/{applicationId}',
+          pathParams
+        )
         if (response.ok) {
           alert('Application Deleted')
           reRenderParentFunction()
@@ -72,21 +80,20 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
   }
 
   const openUpdateEditModeOn = () => {
-    try {
-      setActiveUpdateId(null)
-      setIsUpdateOpen(true)
-    } catch (err) {
-
-    }
+    setUpdate(undefined)
+    setUpdateEditMode(true)
+    setIsUpdateOpen(true)
   }
 
-  const openUpdateEditModeOff = (updateId: number ) => {
-    setActiveUpdateId(updateId)
+  const openUpdateEditModeOff = (update:UpdateDTO) => {
+    setUpdate(update)
+    setUpdateEditMode(false)
     setIsUpdateOpen(true)
   }
 
   const closeUpdateComponent = (isSubmmited: boolean) => {
-    setActiveUpdateId(null)
+    setUpdate(undefined)
+    setUpdateEditMode(false)
     setIsUpdateOpen(false)
     isSubmmited && reRenderParent()
   }
@@ -106,16 +113,16 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
     <div className={jobPreviewCSS.jobPreviewCSS}>
       <div className={jobPreviewCSS.jobContainer}>
         <div
-          className={`${jobPreviewCSS.previewContainer} ${!isCollapsed ? jobPreviewCSS.flattenBorder : ''
-            }`}
+          className={`${jobPreviewCSS.previewContainer} ${
+            !isCollapsed ? jobPreviewCSS.flattenBorder : ''
+          }`}
         >
           <div className={jobPreviewCSS.flexContainer}>
             <div>
               Position: <span>{job.jobTitle}</span>
             </div>
             <div>
-              Status:{' '}
-              <span>{latestUpdate && latestUpdate.status.statusName}</span>
+              Status: <span>{latestUpdate && latestUpdate.status.statusName}</span>
             </div>
             <div>
               Company: <span>{job.company}</span>
@@ -139,7 +146,12 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
               <div className={jobPreviewCSS.updateContainer}>
                 <div>
                   <div> {update.notes}</div>
-                  <span className={jobPreviewCSS.seeMore} onClick={e => openUpdateEditModeOff(update.updateId)}>See more</span>
+                  <span
+                    className={jobPreviewCSS.seeMore}
+                    onClick={e => openUpdateEditModeOff(update)}
+                  >
+                    See more
+                  </span>
                   <span className={jobPreviewCSS.updateDate}>
                     {new Date(update.created).toLocaleString('en-US', {
                       year: 'numeric',
@@ -152,16 +164,22 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
               </div>
             ))}
           </div>
-          {isUpdateOpen && <div>
-            <Update
-              editMode={updateEditMode}
-              applicationId={job.applicationId}
-              closeComponentFunction={closeUpdateComponent}
-              updateId={activeUpdateId}
-            />
-          </div>}
+          {isUpdateOpen && (
+            <div>
+              <Update
+                editMode={updateEditMode}
+                applicationId={job.applicationId}
+                closeComponentFunction={closeUpdateComponent}
+                updateDTO={update}
+              />
+            </div>
+          )}
           <div className={jobPreviewCSS.buttons}>
-            <Button btnText='Add Update' styleRules={buttonStyleRules} clickAction={openUpdateEditModeOn} />
+            <Button
+              btnText='Add Update'
+              styleRules={buttonStyleRules}
+              clickAction={openUpdateEditModeOn}
+            />
             <Button
               btnText='Delete'
               styleRules={buttonStyleRules}

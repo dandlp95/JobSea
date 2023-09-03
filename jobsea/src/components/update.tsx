@@ -12,59 +12,36 @@ import { StatusOption, UpdateDTO } from '../customTypes/responseTypes'
 
 type Props = {
   editMode: boolean
+  updateDTO?: UpdateDTO | null
   applicationId: number
-  updateId: number | null
-  closeComponentFunction: (isSubmmited:boolean) => void
+  closeComponentFunction: (isSubmmited: boolean) => void
 }
 
 const userId = localStorage.getItem('userId')
 
 const AddUpdate: React.FunctionComponent<Props> = ({
   editMode,
+  updateDTO,
   applicationId,
-  updateId,
   closeComponentFunction
 }) => {
   const [updateForm, setUpdateForm] = useState<UpdateRequestDTO>({
-    eventDate: '',
-    eventTime: '',
-    notes: '',
-    statusId: 0
+    eventDate: updateDTO?.eventDate ? updateDTO.eventDate : null,
+    eventTime: updateDTO?.eventTime ? updateDTO.eventTime : null,
+    notes: updateDTO?.notes ? updateDTO.notes : null,
+    statusId: updateDTO?.status?.statusId ? parseInt(updateDTO.status.statusId) : 0
   })
   const [isEditMode, setIsEditMode] = useState<boolean>(editMode)
   const [eventDateQuestion, setEventDateQuestion] = useState<string>()
-  const [updateEntityId, setUpdateEntityId] = useState<number | null>(updateId ? updateId : null)
+  const [updateEntityId, setUpdateEntityId] = useState<number | null>(
+    updateDTO?.updateId ? updateDTO?.updateId : null
+  )
   const [updateSubmitted, setUpdateSubmitted] = useState(false)
   const statusOptions: StatusOption[] = useStatusOptions()
+  console.log('edit more: ', editMode)
+  // console.log('updateId: ', updateId)
 
-  useEffect(() => {
-    const getUpdate = async (params: PathParams) => {
-      try {
-        const responseUpdate = (
-          await UpdatesApiService.getSingle(
-            'users/{userId}/applications/{applicationId}/updates/{updateId}',
-            params
-          )
-        ).result
-        if (responseUpdate) {
-          setUpdateForm({
-            eventDate: responseUpdate.eventDate,
-            eventTime: responseUpdate.eventTime,
-            notes: responseUpdate.notes,
-            statusId: parseInt(responseUpdate.status.statusId)
-          })
-        }
-      } catch (err) { }
-    }
-    if (updateEntityId && userId) {
-      const params: PathParams = {
-        userId: parseInt(userId),
-        applicationId: applicationId,
-        updateId: updateEntityId
-      }
-      getUpdate(params)
-    }
-  }, [])
+  useEffect(() => {}, [])
 
   const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = event => {
     const selectedRadioOption = parseInt(event.target.value)
@@ -153,19 +130,21 @@ const AddUpdate: React.FunctionComponent<Props> = ({
           eventDateQuestion={eventDateQuestion}
           statusOptions={statusOptions}
           handlEventDateChange={handlEventDate}
-          isDisabled={isEditMode && false}
+          isDisabled={isEditMode ? false : true}
         />
         <CommentTextarea
           labelText='Additional Notes: '
           comments={updateForm.notes ? updateForm.notes : ''}
           handleCommentChange={handleNotesChange}
-          isReadonly={isEditMode ? true : false}
+          isReadonly={isEditMode ? false : true}
         />
-        {isEditMode ? (
-          <Button btnText='Save' clickAction={updateEntityId ? updateUpdate : createUpdate} />
-        ) : (
-          <Button btnText='Edit' clickAction={activateEditMode} />
-        )}
+        <div>
+          {isEditMode ? (
+            <Button btnText='Save' clickAction={updateEntityId ? updateUpdate : createUpdate} />
+          ) : (
+            <Button btnText='Edit' clickAction={activateEditMode} />
+          )}
+        </div>
         <Button btnText='Close' clickAction={closeComponent} />
       </form>
     </div>
