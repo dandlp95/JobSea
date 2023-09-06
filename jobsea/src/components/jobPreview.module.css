@@ -100,6 +100,8 @@
   position: relative;
 }
 
+/* This seems to have an effect in updates of first application not positioning itself 
+in front of all applications */
 .jobPreviewCSS .updateContainer:not(:first-child) {
   margin-top: 1rem;
 }

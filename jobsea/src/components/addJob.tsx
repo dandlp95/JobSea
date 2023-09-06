@@ -1,4 +1,4 @@
-import React, { useState, MouseEventHandler, ChangeEventHandler } from 'react'
+import React, { useState, MouseEventHandler, ChangeEventHandler, useEffect } from 'react'
 import AddJobCSS from './addJob.module.css'
 import Button from './button'
 import UpdateQuestions from './updateQuestions'
@@ -7,6 +7,8 @@ import questions from '../utilities/questions'
 import CommentTextarea from './CommentTextarea'
 import { createApplicationApiService } from '../utilities/ApiServices/ApplicationsApiService'
 import { CreateApplicationDTO, PathParams } from '../customTypes/requestTypes'
+import ModalitiesApiService from '../utilities/ApiServices/ModalitiesApiService'
+import { Modality } from '../customTypes/responseTypes'
 
 type Props = {
   closeComponentFunction: () => void
@@ -23,6 +25,7 @@ type AddJobForm = {
   eventDate: string | null
   eventTime: string | null
   selectedRadioOption: string
+  modalityId: string | null
 }
 
 const data: AddJobForm = {
@@ -34,7 +37,8 @@ const data: AddJobForm = {
   comments: '',
   eventDate: null,
   eventTime: null,
-  selectedRadioOption: ''
+  selectedRadioOption: '',
+  modalityId: ''
 }
 
 const AddJob: React.FunctionComponent<Props> = ({
@@ -45,6 +49,25 @@ const AddJob: React.FunctionComponent<Props> = ({
   const statusOptions = useStatusOptions()
   const [formData, setFormData] = useState(data)
   const [eventDateQuestion, setEventDateQuestion] = useState<string>()
+  const [modalities, setModalities] = useState<Modality[]>([])
+
+  useEffect(() => {
+    const getModalities = async () => {
+      const response = await ModalitiesApiService.getModalities()
+      console.log('response: ', response)
+      if (response.result) {
+        setModalities(response.result)
+        localStorage.setItem('modalities', JSON.stringify(response.result))
+      }
+    }
+
+    const storedModalities = localStorage.getItem('modalities')
+    if (storedModalities) {
+      setModalities(JSON.parse(storedModalities))
+    } else {
+      getModalities()
+    }
+  }, [])
 
   const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({
@@ -54,6 +77,13 @@ const AddJob: React.FunctionComponent<Props> = ({
       eventTime: null
     })
     setQuestion(parseInt(event.target.value))
+  }
+
+  const handleModalityChange: ChangeEventHandler<HTMLSelectElement> = event => {
+    setFormData({
+      ...formData,
+      modalityId: event.target.value
+    })
   }
 
   const handlePositionChange: ChangeEventHandler<HTMLInputElement> = event => {
@@ -112,6 +142,7 @@ const AddJob: React.FunctionComponent<Props> = ({
         location: formData.location,
         link: formData.link,
         comments: formData.comments,
+        modalityId: formData.modalityId,
         firstUpdate: {
           eventDate: formData.eventDate,
           eventTime: formData.eventTime ? formData.eventTime + ':00' : null,
@@ -145,6 +176,7 @@ const AddJob: React.FunctionComponent<Props> = ({
       comments: '',
       eventDate: '',
       eventTime: '',
+      modalityId: '',
       selectedRadioOption: ''
     })
     setEventDateQuestion('')
@@ -153,7 +185,7 @@ const AddJob: React.FunctionComponent<Props> = ({
   const closeComponentEventHandler: MouseEventHandler<HTMLButtonElement> = event => {
     closeComponentFunction()
   }
-
+  console.log('modalities: ', modalities)
   return (
     statusOptions && (
       <div className={AddJobCSS.AddJobCSS}>
@@ -198,6 +230,14 @@ const AddJob: React.FunctionComponent<Props> = ({
               value={formData.salary}
               onChange={handleSalaryChange}
             />
+          </div>
+          <div>
+            <label htmlFor='modalities'>Job Modality: </label>
+            <select name='modalities' id='modalities' onChange={handleModalityChange}>
+              {modalities.map(modality => (
+                <option value={modality.modalityId}>{modality.name}</option>
+              ))}
+            </select>
           </div>
           <div>
             <label htmlFor='location'>Location: </label>

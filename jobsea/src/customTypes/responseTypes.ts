@@ -11,6 +11,7 @@ export type ApplicationDTO = {
   location: string | null
   link: string | null
   comments: string | null
+  modalityId: string | null
   created: string
   lastUpdated: string
   userId: number
@@ -36,6 +37,11 @@ export type UserDTO = {
   username: string
   email: string
   createdDate: string
+}
+
+export type Modality = {
+  modalityId: number
+  name: string
 }
 
 export type ApiResponse = {

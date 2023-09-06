@@ -4,13 +4,6 @@ export type PathParams = {
   updateId?: number;
 };
 
-// export type UpdateUpdateDTO = {
-//   eventDate: string | null;
-//   eventTime: string | null;
-//   notes: string | null;
-//   statusId: number;
-// };
-
 export type UpdateRequestDTO = {
   eventDate: string | null;
   eventTime: string | null;
@@ -25,6 +18,7 @@ export type CreateApplicationDTO = {
   location: string | null;
   link: string | null;
   comments: string | null;
+  modalityId: string | null;
   firstUpdate: UpdateRequestDTO;
 };
 
@@ -33,6 +27,7 @@ export type UpdateApplicationDTO = {
   jobTitle: string;
   salary: number | null;
   location: string | null;
+  modalityId: string | null;
   link: string | null;
   comments: string | null;
 };
