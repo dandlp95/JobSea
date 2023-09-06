@@ -40,3 +40,13 @@
 .AddJobCSS .eventDateQuestion {
     margin-top: 0.25rem;
 }
+
+.AddJobCSS .modalitiesContainer select{
+    display: block;
+    height: 1.2rem;
+    width: 10rem;
+    border-radius: 7px;
+    border: none;
+    outline: none;
+    padding-left: 0.25rem;
+}

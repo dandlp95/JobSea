@@ -54,7 +54,6 @@ const AddJob: React.FunctionComponent<Props> = ({
   useEffect(() => {
     const getModalities = async () => {
       const response = await ModalitiesApiService.getModalities()
-      console.log('response: ', response)
       if (response.result) {
         setModalities(response.result)
         localStorage.setItem('modalities', JSON.stringify(response.result))
@@ -185,7 +184,7 @@ const AddJob: React.FunctionComponent<Props> = ({
   const closeComponentEventHandler: MouseEventHandler<HTMLButtonElement> = event => {
     closeComponentFunction()
   }
-  console.log('modalities: ', modalities)
+
   return (
     statusOptions && (
       <div className={AddJobCSS.AddJobCSS}>
@@ -231,7 +230,7 @@ const AddJob: React.FunctionComponent<Props> = ({
               onChange={handleSalaryChange}
             />
           </div>
-          <div>
+          <div className={AddJobCSS.modalitiesContainer}>
             <label htmlFor='modalities'>Job Modality: </label>
             <select name='modalities' id='modalities' onChange={handleModalityChange}>
               {modalities.map(modality => (
