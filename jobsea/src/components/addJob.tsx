@@ -27,6 +27,7 @@ type AddJobForm = {
   eventTime: string | null
   selectedRadioOption: string
   modalityId: string | null
+  jobDetails: string | null
 }
 
 const data: AddJobForm = {
@@ -36,6 +37,7 @@ const data: AddJobForm = {
   city: null,
   state: null,
   link: '',
+  jobDetails: '',
   comments: '',
   eventDate: null,
   eventTime: null,
@@ -123,6 +125,10 @@ const AddJob: React.FunctionComponent<Props> = ({
     setFormData({ ...formData, eventTime: event.target.value })
   }
 
+  const handleJobDetailsChange: ChangeEventHandler<HTMLInputElement> = event => {
+    setFormData({ ...formData, jobDetails: event.target.value })
+  }
+
   const setQuestion = (statusId: number) => {
     if (statusId == 1) setEventDateQuestion(questions.hiredQuestion)
     else if (statusId == 3) setEventDateQuestion(questions.interviewQuestion)
@@ -147,6 +153,7 @@ const AddJob: React.FunctionComponent<Props> = ({
         city: formData.city,
         state: formData.state,
         link: formData.link,
+        jobDetails: formData.jobDetails,
         comments: formData.comments,
         modalityId: formData.modalityId,
         firstUpdate: {
@@ -180,6 +187,7 @@ const AddJob: React.FunctionComponent<Props> = ({
       city: '',
       state: '',
       link: '',
+      jobDetails: '',
       comments: '',
       eventDate: '',
       eventTime: '',
@@ -250,16 +258,16 @@ const AddJob: React.FunctionComponent<Props> = ({
             <label htmlFor='city'>City: </label>
             <input
               type='text'
-              name='location'
+              name='city'
               value={formData.city ? formData.city : ''}
               onChange={handleCityChange}
             />
           </div>
           <div>
-            <label htmlFor='location'>Location: </label>
+            <label htmlFor='state'>Location: </label>
             <input
               type='text'
-              name='location'
+              name='state'
               value={formData.state ? formData.state : ''}
               onChange={handleStateChange}
             />
@@ -272,7 +280,12 @@ const AddJob: React.FunctionComponent<Props> = ({
               value={formData.link ? formData.link : ''}
               onChange={handleLinkChange}
             />
-          </div>
+          </div>{' '}
+          <CommentTextarea
+            labelText='Enter Job Details: '
+            comments={formData.jobDetails ? formData.jobDetails : ''}
+            handleCommentChange={handleJobDetailsChange}
+          />
           <CommentTextarea
             labelText='Additional Notes: '
             comments={formData.comments ? formData.comments : ''}

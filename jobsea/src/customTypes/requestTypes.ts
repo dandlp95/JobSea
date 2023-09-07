@@ -18,6 +18,7 @@ export type CreateApplicationDTO = {
   city: string | null;
   state: string | null;
   link: string | null;
+  jobDetails: string | null;
   comments: string | null;
   modalityId: string | null;
   firstUpdate: UpdateRequestDTO;
@@ -31,6 +32,7 @@ export type UpdateApplicationDTO = {
   state: string | null;
   modalityId: string | null;
   link: string | null;
+  jobDetails: string | null;
   comments: string | null;
 };
 

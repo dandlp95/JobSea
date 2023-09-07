@@ -11,6 +11,7 @@ export type ApplicationDTO = {
   city: string | null
   state: string | null
   link: string | null
+  jobDetails: string | null
   comments: string | null
   modalityId: string | null
   created: string
