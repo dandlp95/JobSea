@@ -19,7 +19,8 @@ type AddJobForm = {
   company: string
   position: string
   salary: string
-  location: string | null
+  city: string | null
+  state: string | null
   link: string | null
   comments: string | null
   eventDate: string | null
@@ -32,7 +33,8 @@ const data: AddJobForm = {
   company: '',
   position: '',
   salary: '',
-  location: '',
+  city: null,
+  state: null,
   link: '',
   comments: '',
   eventDate: null,
@@ -105,8 +107,12 @@ const AddJob: React.FunctionComponent<Props> = ({
     setFormData({ ...formData, salary: event.target.value })
   }
 
-  const handleLocationChange: ChangeEventHandler<HTMLInputElement> = event => {
-    setFormData({ ...formData, location: event.target.value })
+  const handleCityChange: ChangeEventHandler<HTMLInputElement> = event => {
+    setFormData({ ...formData, city: event.target.value })
+  }
+
+  const handleStateChange: ChangeEventHandler<HTMLInputElement> = event => {
+    setFormData({ ...formData, state: event.target.value })
   }
 
   const handlEventDate: ChangeEventHandler<HTMLInputElement> = event => {
@@ -138,7 +144,8 @@ const AddJob: React.FunctionComponent<Props> = ({
         company: formData.company,
         jobTitle: formData.position,
         salary: parseInt(formData.salary),
-        location: formData.location,
+        city: formData.city,
+        state: formData.state,
         link: formData.link,
         comments: formData.comments,
         modalityId: formData.modalityId,
@@ -170,7 +177,8 @@ const AddJob: React.FunctionComponent<Props> = ({
       company: '',
       position: '',
       salary: '',
-      location: '',
+      city: '',
+      state: '',
       link: '',
       comments: '',
       eventDate: '',
@@ -239,12 +247,21 @@ const AddJob: React.FunctionComponent<Props> = ({
             </select>
           </div>
           <div>
+            <label htmlFor='city'>City: </label>
+            <input
+              type='text'
+              name='location'
+              value={formData.city ? formData.city : ''}
+              onChange={handleCityChange}
+            />
+          </div>
+          <div>
             <label htmlFor='location'>Location: </label>
             <input
               type='text'
               name='location'
-              value={formData.location ? formData.location : ''}
-              onChange={handleLocationChange}
+              value={formData.state ? formData.state : ''}
+              onChange={handleStateChange}
             />
           </div>
           <div>

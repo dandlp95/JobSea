@@ -15,7 +15,8 @@ export type CreateApplicationDTO = {
   company: string;
   jobTitle: string;
   salary: number | null;
-  location: string | null;
+  city: string | null;
+  state: string | null;
   link: string | null;
   comments: string | null;
   modalityId: string | null;
@@ -26,7 +27,8 @@ export type UpdateApplicationDTO = {
   company: string;
   jobTitle: string;
   salary: number | null;
-  location: string | null;
+  city: string | null;
+  state: string | null;
   modalityId: string | null;
   link: string | null;
   comments: string | null;

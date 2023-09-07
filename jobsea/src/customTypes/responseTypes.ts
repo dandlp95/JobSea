@@ -8,7 +8,8 @@ export type ApplicationDTO = {
   company: string
   jobTitle: string
   salary: string
-  location: string | null
+  city: string | null
+  state: string | null
   link: string | null
   comments: string | null
   modalityId: string | null

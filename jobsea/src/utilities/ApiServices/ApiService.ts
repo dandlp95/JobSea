@@ -96,6 +96,7 @@ abstract class ApiService<T> {
     }
 
     const response = await fetch(`${this._baseURL}${formattedUrl}`, options)
+    console.log('response: ', response)
     if (!response.ok) {
       throw new Error(`Error fetching api data ${JSON.stringify(response)}`)
     }
