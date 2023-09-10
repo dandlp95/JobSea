@@ -46,6 +46,17 @@ export type Modality = {
   name: string
 }
 
+export type City = {
+  name:string
+  state_id: number
+}
+
+export type State = {
+  id:number
+  name:string
+  country_id:number
+}
+
 export type ApiResponse = {
   isSuccess: boolean
   statusCode: number
