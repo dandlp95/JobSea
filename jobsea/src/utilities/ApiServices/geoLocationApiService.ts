@@ -13,7 +13,7 @@ class GetLocations extends ApiService<State | City> {
     return response
   }
 
-  async getCities (stateId: string): Promise<ApiData<(State | City)[]> | ApiData<null>> {
+  async getCities (stateId: number): Promise<ApiData<(State | City)[]> | ApiData<null>> {
     const response = await this.get(`locations?state=${stateId}`, null)
     return response
   }
