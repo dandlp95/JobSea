@@ -9,7 +9,7 @@ import { createApplicationApiService } from '../utilities/ApiServices/Applicatio
 import { CreateApplicationDTO, PathParams } from '../customTypes/requestTypes'
 import ModalitiesApiService from '../utilities/ApiServices/ModalitiesApiService'
 import { City, Modality, State } from '../customTypes/responseTypes'
-import geoLocationApiService from '../utilities/ApiServices/geoLocationApiService'
+import LocationForm from './LocationForm'
 
 type Props = {
   closeComponentFunction: () => void
@@ -55,9 +55,7 @@ const AddJob: React.FunctionComponent<Props> = ({
   const [formData, setFormData] = useState(data)
   const [eventDateQuestion, setEventDateQuestion] = useState<string>()
   const [modalities, setModalities] = useState<Modality[]>([])
-  const [states, setStates] = useState<(City | State)[]>()
-  const [selectedState, setSelectedState] = useState<number | undefined>()
-  const [cities, setCities] = useState<(City | State)[]>()
+
 
   useEffect(() => {
     const getModalities = async () => {
@@ -68,13 +66,6 @@ const AddJob: React.FunctionComponent<Props> = ({
       }
     }
 
-    const getStates = async () => {
-      const response = await geoLocationApiService.getStates()
-      if (response.result) {
-        setStates(response.result)
-      }
-    }
-
     const storedModalities = localStorage.getItem('modalities')
     if (storedModalities) {
       setModalities(JSON.parse(storedModalities))
@@ -82,20 +73,8 @@ const AddJob: React.FunctionComponent<Props> = ({
       getModalities()
     }
 
-    getStates()
   }, [])
 
-  useEffect(() => {
-    const getCities = async () => {
-      if (selectedState) {
-        const response = await geoLocationApiService.getCities(selectedState)
-        if (response.result) {
-          setCities(response.result)
-        }
-      }
-    }
-    getCities()
-  }, [selectedState])
 
   const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({
@@ -132,23 +111,6 @@ const AddJob: React.FunctionComponent<Props> = ({
 
   const handleSalaryChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, salary: event.target.value })
-  }
-
-  const handleCityChange: ChangeEventHandler<HTMLSelectElement> = event => {
-    if (event.target.value !== undefined) {
-      setFormData({ ...formData, city: event.target.value })
-    } else {
-      setFormData({ ...formData, city: null })
-    }
-  }
-
-  const handleStateChange: ChangeEventHandler<HTMLSelectElement> = event => {
-    if (event.target.value) {
-      const stateObject = JSON.parse(event.target.value) as State
-      setSelectedState(stateObject.id)
-      setFormData({ ...formData, state: stateObject.name })
-    }
-    setFormData({ ...formData, state: null })
   }
 
   const handlEventDate: ChangeEventHandler<HTMLInputElement> = event => {
@@ -283,28 +245,14 @@ const AddJob: React.FunctionComponent<Props> = ({
           <div className={AddJobCSS.modalitiesContainer}>
             <label htmlFor='modalities'>Job Modality: </label>
             <select name='modalities' id='modalities' onChange={handleModalityChange}>
+              <option value='default'>--Select a work modality--</option>
               {modalities.map(modality => (
                 <option value={modality.modalityId}>{modality.name}</option>
               ))}
             </select>
           </div>
           <div>
-            <label htmlFor='state'>State: </label>
-            <select name='state' id='state' onChange={handleStateChange}>
-              <option value={undefined}>--Select a state--</option>
-              {states?.map(state => (
-                <option value={JSON.stringify(state)}>{state.name}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor='city'>City: </label>
-            <select name='city' id='city' onChange={handleCityChange}>
-              <option value={undefined}>--Select a city</option>
-              {cities?.map(city => (
-                <option value={city.name}>{city.name}</option>
-              ))}
-            </select>
+            <LocationForm />
           </div>
           <div>
             <label htmlFor='link'>Enter the url where you found this job: </label>

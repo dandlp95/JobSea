@@ -41,12 +41,13 @@
     margin-top: 0.25rem;
 }
 
-.AddJobCSS .modalitiesContainer select{
+.AddJobCSS select{
     display: block;
-    height: 1.2rem;
-    width: 10rem;
+    width: 15rem;
     border-radius: 7px;
     border: none;
     outline: none;
     padding-left: 0.25rem;
+    size: "5";
+    height: 1.2rem; 
 }
