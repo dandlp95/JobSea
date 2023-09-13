@@ -1,22 +1,31 @@
 import { State, City, ApiData, ApiResponse } from '../../customTypes/responseTypes'
 import ApiService from './ApiService'
 
-class GetLocations extends ApiService<State | City> {
+class StatesApiService extends ApiService<State> {
   private _countryId: number
   constructor () {
     super()
     this._countryId = 233
   }
 
-  async getStates (): Promise<ApiData<(State | City)[]> | ApiData<null>> {
+  async getStates (): Promise<ApiData<State[]> | ApiData<null>> {
     const response = await this.get(`locations?country=${this._countryId}`, null)
     return response
   }
+}
 
-  async getCities (stateId: number): Promise<ApiData<(State | City)[]> | ApiData<null>> {
+class CitiesApiService extends ApiService<City> {
+  constructor () {
+    super()
+  }
+
+  async getCities (stateId: number): Promise<ApiData<City[]> | ApiData<null>> {
     const response = await this.get(`locations?state=${stateId}`, null)
     return response
   }
 }
 
-export default new GetLocations()
+const citiesApiServiceInstance = new CitiesApiService()
+const statesApiServiceInstance = new StatesApiService()
+
+export { citiesApiServiceInstance, statesApiServiceInstance }

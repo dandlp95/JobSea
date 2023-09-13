@@ -1,4 +1,11 @@
-import React, { useState, useEffect, ChangeEventHandler } from 'react'
+import React, {
+  useState,
+  useEffect,
+  ChangeEventHandler,
+  KeyboardEvent,
+  SetStateAction,
+  Dispatch
+} from 'react'
 import LocationFormCSS from './LocationForm.module.css'
 import { State, City, ApiData } from '../customTypes/responseTypes'
 import {
@@ -9,10 +16,12 @@ import {
 type Props = {}
 
 const LocationForm: React.FunctionComponent<Props> = ({}) => {
+  const arraySlice: number = 6
   const [states, setStates] = useState<State[]>([])
   const [filteredStates, setFilteredStates] = useState<State[]>([])
   const [stateInput, setStateInput] = useState<string>('')
   const [isStatesOpen, setIsStatesOpen] = useState<boolean>(false)
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(-1)
 
   const [cities, setCities] = useState<City[]>([])
   const [filteredCities, setFilteredCities] = useState<City[]>([])
@@ -48,11 +57,11 @@ const LocationForm: React.FunctionComponent<Props> = ({}) => {
     const result = filterStates(userInput)
     setFilteredStates(result)
     setIsStatesOpen(true)
+    setSelectedOptionIndex(-1)
   }
 
   const stateSelectHandler = (state: string) => {
     setStateInput(state)
-    // setIsStatesOpen(false)
     handleBlur('states')
   }
 
@@ -66,11 +75,11 @@ const LocationForm: React.FunctionComponent<Props> = ({}) => {
     const result = filterCities(userInput)
     setFilteredCities(result)
     setIsCitiesOpen(true)
+    setSelectedOptionIndex(-1)
   }
 
   const citySelectHandler = (city: string) => {
     setCityInput(city)
-    // setIsCitiesOpen(false)
     handleBlur('cities')
   }
 
@@ -81,18 +90,55 @@ const LocationForm: React.FunctionComponent<Props> = ({}) => {
   // This handles when element loses focus...
   const handleBlur = (elementType: string) => {
     if (elementType === 'states') {
-      setTimeout(() => {
-        setIsStatesOpen(false)
-      }, 250)
+      handleBlueHelper(setIsStatesOpen)
     } else if (elementType === 'cities') {
+      handleBlueHelper(setIsCitiesOpen)
+    }
+  }
+
+  const handleBlueHelper = (stateAction: Dispatch<SetStateAction<boolean>>) => {
+    if (typeof stateAction === 'function') {
       setTimeout(() => {
-        setIsCitiesOpen(false)
-      }, 250)
+        stateAction(false)
+        setSelectedOptionIndex(-1)
+      }, 150)
+    }
+  }
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, array: string) => {
+    var locationArray: (State | City)[] = []
+
+    if (array === 'states') locationArray = filteredStates
+    else if (array === 'cities') locationArray = filteredCities
+    else throw new Error('Invalid array parameter.')
+
+    if (locationArray.length === 0) return
+
+    switch (e.key) {
+      case 'ArrowUp':
+        e.preventDefault()
+        setSelectedOptionIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : prevIndex))
+        break
+      case 'ArrowDown':
+        e.preventDefault()
+        setSelectedOptionIndex(prevIndex =>
+          prevIndex < arraySlice - 1 ? prevIndex + 1 : prevIndex
+        )
+        break
+      case 'Enter':
+        e.preventDefault()
+        if (selectedOptionIndex >= 0 && selectedOptionIndex < arraySlice) {
+          array === 'states'
+            ? stateSelectHandler(locationArray[selectedOptionIndex].name)
+            : citySelectHandler(locationArray[selectedOptionIndex].name)
+        }
+        setSelectedOptionIndex(-1)
+        break
     }
   }
 
   return (
-    <div className={LocationFormCSS.main}>
+    <div className={LocationFormCSS.locationForm}>
       <div>
         <label htmlFor='state'>Select state location:</label>
         <input
@@ -100,13 +146,16 @@ const LocationForm: React.FunctionComponent<Props> = ({}) => {
           value={stateInput}
           onChange={stateInputChange}
           onBlur={() => handleBlur('states')}
+          onKeyDown={e => handleKeyDown(e, 'states')}
         />
         {isStatesOpen && (
-          <div className={LocationFormCSS.stateDropdown}>
-            {filteredStates.slice(0, 5).map(state => (
+          <div className={LocationFormCSS.locationDropdown}>
+            {filteredStates.slice(0, arraySlice).map((state, idx) => (
               <div
                 key={state.name}
-                className={LocationFormCSS.stateOption}
+                className={`${LocationFormCSS.dropdownOption} ${
+                  idx === selectedOptionIndex ? LocationFormCSS.selectedOption : ''
+                }`}
                 onClick={() => stateSelectHandler(state.name)}
                 style={{ cursor: 'pointer' }}
               >
@@ -123,13 +172,16 @@ const LocationForm: React.FunctionComponent<Props> = ({}) => {
           value={cityInput}
           onChange={cityInputChange}
           onBlur={() => handleBlur('cities')}
+          onKeyDown={e => handleKeyDown(e, 'cities')}
         />
         {isCitiesOpen && (
-          <div className={LocationFormCSS.stateDropdown}>
-            {filteredCities.slice(0, 5).map(city => (
+          <div className={LocationFormCSS.locationDropdown}>
+            {filteredCities.slice(0, arraySlice).map((city, idx) => (
               <div
                 key={city.name}
-                className={LocationFormCSS.stateOption}
+                className={`${LocationFormCSS.dropdownOption} ${
+                  idx === selectedOptionIndex ? LocationFormCSS.selectedOption : ''
+                }`}
                 onClick={() => citySelectHandler(city.name)}
                 style={{ cursor: 'pointer' }}
               >

@@ -1,0 +1,12 @@
+.locationForm .locationDropdown {
+    background-color: red;
+}
+
+.locationForm .dropdownOption{
+    text-align: center;
+}
+
+.locationForm .selectedOption{
+    background-color: #007bff !important; 
+    color: green !important;
+}
