@@ -13,9 +13,12 @@ import {
   statesApiServiceInstance
 } from '../utilities/ApiServices/geoLocationApiService'
 
-type Props = {}
+type Props = {
+  getCityInput: (input: string) => void
+  getStateInput: (input: string) => void
+}
 
-const LocationForm: React.FunctionComponent<Props> = ({}) => {
+const LocationForm: React.FunctionComponent<Props> = ({getCityInput, getStateInput}) => {
   const arraySlice: number = 6
   const [states, setStates] = useState<State[]>([])
   const [filteredStates, setFilteredStates] = useState<State[]>([])
@@ -50,6 +53,11 @@ const LocationForm: React.FunctionComponent<Props> = ({}) => {
     }
     getCities()
   }, [stateInput])
+
+  useEffect(()=>{
+    getCityInput(cityInput)
+    getStateInput(stateInput)
+  }, [stateInput, cityInput])
 
   const stateInputChange: ChangeEventHandler<HTMLInputElement> = event => {
     const userInput = event.target.value

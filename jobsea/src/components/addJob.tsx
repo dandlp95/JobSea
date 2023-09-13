@@ -56,7 +56,6 @@ const AddJob: React.FunctionComponent<Props> = ({
   const [eventDateQuestion, setEventDateQuestion] = useState<string>()
   const [modalities, setModalities] = useState<Modality[]>([])
 
-
   useEffect(() => {
     const getModalities = async () => {
       const response = await ModalitiesApiService.getModalities()
@@ -72,9 +71,7 @@ const AddJob: React.FunctionComponent<Props> = ({
     } else {
       getModalities()
     }
-
   }, [])
-
 
   const handleRadioOptionChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({
@@ -123,6 +120,14 @@ const AddJob: React.FunctionComponent<Props> = ({
 
   const handleJobDetailsChange: ChangeEventHandler<HTMLInputElement> = event => {
     setFormData({ ...formData, jobDetails: event.target.value })
+  }
+
+  const handleCityChange = (inputCity: string) => {
+    setFormData({ ...formData, city: inputCity })
+  }
+
+  const handleStateChange = (inputState: string) => {
+    setFormData({ ...formData, state: inputState })
   }
 
   const setQuestion = (statusId: number) => {
@@ -252,7 +257,7 @@ const AddJob: React.FunctionComponent<Props> = ({
             </select>
           </div>
           <div>
-            <LocationForm />
+            <LocationForm getCityInput={handleCityChange} getStateInput={handleStateChange} />
           </div>
           <div>
             <label htmlFor='link'>Enter the url where you found this job: </label>
