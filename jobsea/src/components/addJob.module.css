@@ -25,11 +25,11 @@
     gap: 40px;
 }
 
-.AddJobCSS form>div>div {
+.AddJobCSS form>div {
     margin-top: 1rem;
 }
 
-.AddJobCSS form>div>div:not(.RadioMenu) input {
+.AddJobCSS form>div:not(.RadioMenu) input {
     display: block;
     height: 1.2rem;
     width: 20rem;

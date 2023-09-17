@@ -206,7 +206,6 @@ const AddJob: React.FunctionComponent<Props> = ({
     statusOptions && (
       <div className={AddJobCSS.AddJobCSS}>
         <form onSubmit={e => e.preventDefault()}>
-          <div className={AddJobCSS.formMainDiv}>
             <div>
               <label htmlFor='position'>Enter the name of your position: </label>
               <input
@@ -283,7 +282,6 @@ const AddJob: React.FunctionComponent<Props> = ({
               <Button btnText='Create Application' clickAction={sendRequest} />
               <Button btnText='Close' clickAction={closeComponentEventHandler} />
             </div>
-          </div>
         </form>
       </div>
     )
