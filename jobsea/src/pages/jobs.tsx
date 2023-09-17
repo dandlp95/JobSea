@@ -76,8 +76,12 @@ const Jobs: React.FunctionComponent = () => {
     setFormSubmitted(!formSubmitted)
   }
 
+  const hideScrollBar = `html {overflow: hidden};`
+
   return (
     <div className={jobsCSS.jobsCSS}>
+      {/* Removes scrolling from elements behind the AddJob component when active. */}
+      {isAddJobActive && <style>{hideScrollBar}</style>}
       <Header signOut={signOut} />
       <div className={jobsCSS.alignContainer}>
         <div className={jobsCSS.topContainer}>

@@ -206,81 +206,83 @@ const AddJob: React.FunctionComponent<Props> = ({
     statusOptions && (
       <div className={AddJobCSS.AddJobCSS}>
         <form onSubmit={e => e.preventDefault()}>
-          <div>
-            <label htmlFor='position'>Enter the name of your position: </label>
-            <input
-              required
-              type='text'
-              name='position'
-              value={formData.position}
-              onChange={handlePositionChange}
+          <div className={AddJobCSS.formMainDiv}>
+            <div>
+              <label htmlFor='position'>Enter the name of your position: </label>
+              <input
+                required
+                type='text'
+                name='position'
+                value={formData.position}
+                onChange={handlePositionChange}
+              />
+            </div>
+            <div>
+              <label htmlFor='company'>Enter the Company name: </label>
+              <input
+                required
+                type='text'
+                name='company'
+                value={formData.company}
+                onChange={handleCompanyChange}
+              />
+            </div>
+            <UpdateQuestions
+              radioCSS={AddJobCSS.RadioMenu}
+              selectedRadioOption={parseInt(formData.selectedRadioOption)}
+              handleRadioOptionChange={handleRadioOptionChange}
+              eventDateCSS={AddJobCSS.eventDateQuestion}
+              eventDate={formData.eventDate}
+              eventTime={formData.eventTime}
+              handleTimeChange={handleTimeChange}
+              eventDateQuestion={eventDateQuestion}
+              statusOptions={statusOptions}
+              handlEventDateChange={handlEventDate}
             />
-          </div>
-          <div>
-            <label htmlFor='company'>Enter the Company name: </label>
-            <input
-              required
-              type='text'
-              name='company'
-              value={formData.company}
-              onChange={handleCompanyChange}
+            <div>
+              <label htmlFor='salary'>Salary: </label>
+              <input
+                type='number'
+                name='salary'
+                value={formData.salary}
+                onChange={handleSalaryChange}
+              />
+            </div>
+            <div className={AddJobCSS.modalitiesContainer}>
+              <label htmlFor='modalities'>Job Modality: </label>
+              <select name='modalities' id='modalities' onChange={handleModalityChange}>
+                <option value='default'>--Select a work modality--</option>
+                {modalities.map(modality => (
+                  <option value={modality.modalityId}>{modality.name}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <LocationForm getCityInput={handleCityChange} getStateInput={handleStateChange} />
+            </div>
+            <div>
+              <label htmlFor='link'>Enter the url where you found this job: </label>
+              <input
+                type='text'
+                name='link'
+                value={formData.link ? formData.link : ''}
+                onChange={handleLinkChange}
+              />
+            </div>{' '}
+            <CommentTextarea
+              labelText='Enter Job Details: '
+              comments={formData.jobDetails ? formData.jobDetails : ''}
+              handleCommentChange={handleJobDetailsChange}
             />
-          </div>
-          <UpdateQuestions
-            radioCSS={AddJobCSS.RadioMenu}
-            selectedRadioOption={parseInt(formData.selectedRadioOption)}
-            handleRadioOptionChange={handleRadioOptionChange}
-            eventDateCSS={AddJobCSS.eventDateQuestion}
-            eventDate={formData.eventDate}
-            eventTime={formData.eventTime}
-            handleTimeChange={handleTimeChange}
-            eventDateQuestion={eventDateQuestion}
-            statusOptions={statusOptions}
-            handlEventDateChange={handlEventDate}
-          />
-          <div>
-            <label htmlFor='salary'>Salary: </label>
-            <input
-              type='number'
-              name='salary'
-              value={formData.salary}
-              onChange={handleSalaryChange}
+            <CommentTextarea
+              labelText='Additional Notes: '
+              comments={formData.comments ? formData.comments : ''}
+              handleCommentChange={handleCommentChange}
             />
-          </div>
-          <div className={AddJobCSS.modalitiesContainer}>
-            <label htmlFor='modalities'>Job Modality: </label>
-            <select name='modalities' id='modalities' onChange={handleModalityChange}>
-              <option value='default'>--Select a work modality--</option>
-              {modalities.map(modality => (
-                <option value={modality.modalityId}>{modality.name}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <LocationForm getCityInput={handleCityChange} getStateInput={handleStateChange} />
-          </div>
-          <div>
-            <label htmlFor='link'>Enter the url where you found this job: </label>
-            <input
-              type='text'
-              name='link'
-              value={formData.link ? formData.link : ''}
-              onChange={handleLinkChange}
-            />
-          </div>{' '}
-          <CommentTextarea
-            labelText='Enter Job Details: '
-            comments={formData.jobDetails ? formData.jobDetails : ''}
-            handleCommentChange={handleJobDetailsChange}
-          />
-          <CommentTextarea
-            labelText='Additional Notes: '
-            comments={formData.comments ? formData.comments : ''}
-            handleCommentChange={handleCommentChange}
-          />
-          <div className={AddJobCSS.buttonsDiv}>
-            <Button btnText='Create Application' clickAction={sendRequest} />
-            <Button btnText='Close' clickAction={closeComponentEventHandler} />
+            <div className={AddJobCSS.buttonsDiv}>
+              <Button btnText='Create Application' clickAction={sendRequest} />
+              <Button btnText='Close' clickAction={closeComponentEventHandler} />
+            </div>
           </div>
         </form>
       </div>
