@@ -47,3 +47,11 @@ export type LoginInfo = {
   username: string;
   password: string;
 };
+
+export type FilterOptions = {
+  Company?: string[] | null;
+  Locations?: {city: string; state: string}[]  | null;
+  Modalities?: number[]  | null;
+  StatusId?: number[] | null; 
+  SalaryRange?: {min: number, max:number}  | null 
+}

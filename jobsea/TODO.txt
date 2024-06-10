@@ -1,0 +1,13 @@
+TODO
+
+--Add filters (based on modality, location, salary, job status, etc)
+--Add reset password functionality
+--Adjust page based on view size and update CSS
+--Seach bar functionality
+--Extension to automatically find jobs
+--Add job information (stuff you entered when you created the application)
+    when extending the job application, below the updates
+--Instead of rejected, have one of the options be "Close Job", this will trigger 2 more options:
+    I declined, Rejected, plus one third choise, Delete Job. The first 2 options will be application
+    status and selected either will simply archive the application. Selecting the third one will
+    delete the application without changing its status. 
