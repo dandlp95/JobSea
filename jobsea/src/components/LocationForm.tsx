@@ -107,7 +107,9 @@ const LocationForm: React.FunctionComponent<Props> = ({getCityInput, getStateInp
   const handleBlueHelper = (stateAction: Dispatch<SetStateAction<boolean>>) => {
     if (typeof stateAction === 'function') {
       setTimeout(() => {
+        //Closes dropdown
         stateAction(false)
+        //To reset list hightlight back to the top
         setSelectedOptionIndex(-1)
       }, 150)
     }

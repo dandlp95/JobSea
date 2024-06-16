@@ -19,6 +19,7 @@ export type ApplicationDTO = {
   userId: number
 }
 
+
 export type Status = {
   statusId: string
   statusName: string
