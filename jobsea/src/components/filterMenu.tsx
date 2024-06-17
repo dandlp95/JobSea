@@ -4,9 +4,37 @@ import { Modality, StatusOption } from '../customTypes/responseTypes'
 import useModalities from '../customHooks/useModalities'
 import useStatusOptions from '../customHooks/useStatusOptions'
 import { FilterOptions } from '../customTypes/requestTypes'
+import Button from './button'
 
 type Props = {
+  selectedOptions: string[]
+  updateSelectedOptions: (updatedOptions:string[]) => void
+
   sendFilterValues: (filterValues: FilterOptions) => void
+
+}
+
+/*This components will show all the selected options from a field.*/
+const FilterOptions:React.FunctionComponent<Props> = ({selectedOptions, updateSelectedOptions}) => {
+  
+  const handleOptionRemoval = (index:number) => {
+    selectedOptions.splice(index, 1)
+    
+    //Sends the updated list to parent component
+    updateSelectedOptions(selectedOptions)
+  }
+
+
+  return (
+    <div className={filterMenuCSS.selectedOptions}>
+      {selectedOptions.map((option, index) => (
+        <div>
+          $`{option}`
+          <button onClick={()=>handleOptionRemoval(index)}>X</button>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
@@ -50,8 +78,8 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
     checkboxType: 'modality' | 'status'
   ): ChangeEventHandler<HTMLInputElement> => {
     const checkBoxUpdater = {
-      modality: setmCheckboxes,
-      status: setSCheckboxes
+      'modality': setmCheckboxes,
+      'status': setSCheckboxes
     }
 
     return event => {
@@ -66,7 +94,7 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
     }
   }
 
-  //Called when a change in the checkbox is checked
+  /*UseEffect HOOKS FOR WHEN STATUS OR MODALITY CHECKBOXES ARE CHECKED*/
   useEffect(() => {
     //Grabs all the modalities that are CURRENTLY set to true, and are
     //added to the newFilters objects which will be sent to the parent
@@ -79,7 +107,24 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
       ...filters,
       Modalities: modalityIds
     }
+
+    setFilters(newFilters)
   }, [mcheckboxes])
+
+  useEffect(() => {
+    //Grabs all the modalities that are CURRENTLY set to true, and are
+    //added to the newFilters objects which will be sent to the parent
+    //component.
+    const statusIds: number[] = Object.entries(sCheckboxes)
+      .filter(([_, isChecked]) => isChecked)
+      //Has to be converted to int to match the FilterOptions object type
+      .map(([statusIdString, _]) => parseInt(statusIdString))
+    const newFilters: FilterOptions = {
+      ...filters,
+      StatusId: statusIds
+    }
+    setFilters(newFilters)
+  }, [sCheckboxes])  
 
   const handleMinNumberChange: ChangeEventHandler<HTMLInputElement> = event => {}
 
@@ -94,6 +139,11 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   }
 
   const clickAction = () => {}
+
+  /*BUTTONS FUNCTIONS*/
+  const handleSetFilters = () => {}
+
+  const handleResetFilters = () => {}
 
   return (
     <div>
@@ -153,6 +203,10 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
             </label>
           ))}
         </div>
+      </div>
+      <div className={filterMenuCSS.buttonsDiv}>
+          <Button btnText='' clickAction={handleSetFilters}/>
+          <Button btnText='' clickAction={handleResetFilters}/>
       </div>
     </div>
   )
