@@ -6,13 +6,19 @@ import useStatusOptions from '../customHooks/useStatusOptions'
 import { FilterOptions } from '../customTypes/requestTypes'
 import Button from './button'
 
+enum listFilterKeys {
+  Company = 'Company',
+  Cities = 'Cities',
+  States = 'States'
+}
+
 type Props = {
   selectedOptions: string[]
   updateSelectedOptions: (
     updatedOptions: string[],
-    optionsType: 'company' | 'city' | 'state'
+    optionsType: listFilterKeys
   ) => void
-  listType: 'company' | 'city' | 'state'
+  listType: listFilterKeys
   sendFilterValues: (filterValues: FilterOptions) => void
 }
 
@@ -43,12 +49,6 @@ const FilterOptions: React.FunctionComponent<Props> = ({
 const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   const modalities: Modality[] = useModalities()
   const status: StatusOption[] = useStatusOptions()
-  
-  enum listFilterKeys {
-    Company = 'Company',
-    Cities = 'Cities',
-    States = 'States'
-  }
 
   const [mcheckboxes, setmCheckboxes] = useState<Record<number, boolean>>({})
   const [sCheckboxes, setSCheckboxes] = useState<Record<number, boolean>>({})
