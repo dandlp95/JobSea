@@ -49,10 +49,10 @@ export type LoginInfo = {
 };
 
 export type FilterOptions = {
-  Company?: string[] | null;
-  Cities?: string[] | null;
-  States?: string[] | null;
+  Company: string[];
+  Cities: string[];
+  States: string[];
   Modalities?: number[]  | null;
   StatusId?: number[] | null; 
-  SalaryRange?: {min: number, max:number}  | null 
+  SalaryRange: {min?: number | null, max?:number | null}
 }

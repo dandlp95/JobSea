@@ -9,6 +9,7 @@ import { ApplicationDTO } from '../customTypes/responseTypes'
 import { createApplicationApiService } from '../utilities/ApiServices/ApplicationsApiService'
 import { PathParams } from '../customTypes/requestTypes'
 
+
 type HeaderProps = {
   signOut: () => void
 }
