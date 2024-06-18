@@ -12,12 +12,14 @@ enum listFilterKeys {
   States = 'States'
 }
 
+enum listFilterKeysSalary {
+  min = 'min',
+  max = 'max'
+}
+
 type Props = {
   selectedOptions: string[]
-  updateSelectedOptions: (
-    updatedOptions: string[],
-    optionsType: listFilterKeys
-  ) => void
+  updateSelectedOptions: (updatedOptions: string[], optionsType: listFilterKeys) => void
   listType: listFilterKeys
   sendFilterValues: (filterValues: FilterOptions) => void
 }
@@ -135,36 +137,41 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
     setFilters(newFilters)
   }, [sCheckboxes])
 
-  const handleMinNumberChange: ChangeEventHandler<HTMLInputElement> = event => {
-    const newFilters: FilterOptions = filters
-    newFilters.SalaryRange.min = parseInt(event.target.value)
-    setFilters(newFilters)
-  }
-
-  const handleMaxNumberChange: ChangeEventHandler<HTMLInputElement> = event => {
-    const newFilters: FilterOptions = filters
-    newFilters.SalaryRange.max = parseInt(event.target.value)
-    setFilters(newFilters)
+  const handleSalaryChange = (
+    salaryProperty: listFilterKeysSalary
+  ): ChangeEventHandler<HTMLInputElement> => {
+    return event => {
+      const salaryValue = event.target.value
+      setFilters(filters => {
+        return {
+          ...filters,
+          SalaryRange: {
+            ...filters.SalaryRange,
+            [salaryProperty]: salaryValue === '' ? null : parseInt(salaryValue)
+          }
+        }
+      })
+    }
   }
 
   const handleListInputChange = (
     //name of the filter property, string form
     key: listFilterKeys
   ): ChangeEventHandler<HTMLInputElement> => {
-      return event => {
-        const newValue = event.target.value
-        setFilters(filters => {
-          return {
-            ...filters,
-            [key]: [filters[key], newValue]
-          }
-        })
-      }
+    return event => {
+      const newValue = event.target.value
+      setFilters(filters => {
+        return {
+          ...filters,
+          [key]: [filters[key], newValue]
+        }
+      })
+    }
   }
 
   //function to pass to childComponent to update input
-  const updateSelectedOptions = (updatedOptions:string[], key: listFilterKeys) => {
-    setFilters({...filters, [key]: updatedOptions})
+  const updateSelectedOptions = (updatedOptions: string[], key: listFilterKeys) => {
+    setFilters({ ...filters, [key]: updatedOptions })
   }
 
   /*BUTTONS FUNCTIONS
@@ -208,11 +215,11 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
         <div>
           <label>
             Min. salary
-            <input type='number' onChange={handleMinNumberChange} />
+            <input type='number' onChange={handleSalaryChange(listFilterKeysSalary.min)} />
           </label>
           <label>
             Max. salary
-            <input type='number' onChange={handleMaxNumberChange} />
+            <input type='number' onChange={handleSalaryChange(listFilterKeysSalary.max)} />
           </label>
         </div>
       </div>
