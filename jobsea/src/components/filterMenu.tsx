@@ -17,6 +17,11 @@ enum listFilterKeysSalary {
   max = 'max'
 }
 
+enum checkboxesFilters {
+  modality = 'modality',
+  status = 'status'
+}
+
 type Props = {
   selectedOptions: string[]
   updateSelectedOptions: (updatedOptions: string[], optionsType: listFilterKeys) => void
@@ -89,11 +94,11 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   //Function called when a checkbox is checked, which sets the checkbox object
   //with the name that matches the modalityId that was checked set to true
   const handleCheckboxChange = (
-    checkboxType: 'modality' | 'status'
+    checkboxType: checkboxesFilters
   ): ChangeEventHandler<HTMLInputElement> => {
     const checkBoxUpdater = {
-      modality: setmCheckboxes,
-      status: setSCheckboxes
+      [checkboxesFilters.modality]: setmCheckboxes,
+      [checkboxesFilters.status]: setSCheckboxes
     }
 
     return event => {
@@ -139,6 +144,7 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
     }
     setFilters(newFilters)
   }, [sCheckboxes])
+
 
   const handleSalaryChange = (
     salaryProperty: listFilterKeysSalary
@@ -208,7 +214,7 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
                 type='checkbox'
                 name={modality.modalityId.toString()}
                 checked={mcheckboxes[modality.modalityId] || false}
-                onChange={handleCheckboxChange('modality')}
+                onChange={handleCheckboxChange(checkboxesFilters.modality)}
               />
             </label>
           ))}
@@ -259,7 +265,7 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
                 type='checkbox'
                 name={status.statusId.toString()}
                 checked={sCheckboxes[status.statusId] || false}
-                onChange={handleCheckboxChange('status')}
+                onChange={handleCheckboxChange(checkboxesFilters.status)}
               />
             </label>
           ))}
