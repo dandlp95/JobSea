@@ -30,7 +30,7 @@ type Props = {
 }
 
 /*This components will show all the selected options from a field.*/
-const FilterOptions: React.FunctionComponent<Props> = ({
+const SelectFilterOptions: React.FunctionComponent<Props> = ({
   selectedOptions,
   updateSelectedOptions,
   listType
