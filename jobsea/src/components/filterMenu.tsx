@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEventHandler } from 'react'
+import React, { useState, useEffect, ChangeEventHandler, SetStateAction } from 'react'
 import filterMenuCSS from './filterMenu.module.css'
 import { Modality, StatusOption } from '../customTypes/responseTypes'
 import useModalities from '../customHooks/useModalities'
@@ -48,6 +48,7 @@ const FilterOptions: React.FunctionComponent<Props> = ({
   )
 }
 
+/* Main Filter Menu component */
 const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   const modalities: Modality[] = useModalities()
   const status: StatusOption[] = useStatusOptions()
@@ -68,19 +69,21 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   //list of objects where modalityId is the name, and the value is all set to false
   // e.g. [{1:false}, {2:false}]
   useEffect(() => {
-    //Setup modalities checkboxes
-    let initialCheckboxes: Record<number, boolean> = {}
-    modalities.forEach(modality => {
-      initialCheckboxes[modality.modalityId] = false
-    })
-    setmCheckboxes(initialCheckboxes)
+    const setUpCheckboxes = (
+      items: Modality[] | StatusOption[],
+      setCheckboxes: React.Dispatch<SetStateAction<Record<number, boolean>>>
+    ) => {
+      let initialCheckboxes: Record<number, boolean> = {}
+      items.forEach(item => {
+        'modalityId' in item
+          ? (initialCheckboxes[item.modalityId] = false)
+          : (initialCheckboxes[item.statusId] = false)
+      })
+      setCheckboxes(initialCheckboxes)
+    }
 
-    //Setup satatus checkboxes
-    initialCheckboxes = {}
-    status.forEach(status => {
-      initialCheckboxes[status.statusId] = false
-    })
-    setSCheckboxes(initialCheckboxes)
+    setUpCheckboxes(modalities, setmCheckboxes)
+    setUpCheckboxes(status, setSCheckboxes)
   }, [])
 
   //Function called when a checkbox is checked, which sets the checkbox object
