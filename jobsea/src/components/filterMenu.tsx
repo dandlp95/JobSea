@@ -5,52 +5,11 @@ import useModalities from '../customHooks/useModalities'
 import useStatusOptions from '../customHooks/useStatusOptions'
 import { FilterOptions } from '../customTypes/requestTypes'
 import Button from './button'
-
-enum listFilterKeys {
-  Company = 'Company',
-  Cities = 'Cities',
-  States = 'States'
-}
-
-enum listFilterKeysSalary {
-  min = 'min',
-  max = 'max'
-}
-
-enum checkboxesFilters {
-  modality = 'modality',
-  status = 'status'
-}
+import SelectFilterOptions from './selectFilterOptions'
+import { listFilterKeys, listFilterKeysSalary, checkboxesFilters } from '../customTypes/enumTypes'
 
 type Props = {
-  selectedOptions: string[]
-  updateSelectedOptions: (updatedOptions: string[], optionsType: listFilterKeys) => void
-  listType: listFilterKeys
   sendFilterValues: (filterValues: FilterOptions) => void
-}
-
-/*This components will show all the selected options from a field.*/
-const SelectFilterOptions: React.FunctionComponent<Props> = ({
-  selectedOptions,
-  updateSelectedOptions,
-  listType
-}) => {
-  const handleOptionRemoval = (index: number) => {
-    selectedOptions.splice(index, 1)
-
-    //Sends the updated list to parent component
-    updateSelectedOptions(selectedOptions, listType)
-  }
-
-  return (
-    <div className={filterMenuCSS.selectedOptions}>
-      {selectedOptions.map((option, index) => (
-        <div>
-          $`{option}`<button onClick={() => handleOptionRemoval(index)}>X</button>
-        </div>
-      ))}
-    </div>
-  )
 }
 
 /* Main Filter Menu component */
@@ -144,7 +103,6 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
     }
     setFilters(newFilters)
   }, [sCheckboxes])
-
 
   const handleSalaryChange = (
     salaryProperty: listFilterKeysSalary
@@ -240,6 +198,13 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
               City:
               <input type='text' onChange={handleListInputChange(listFilterKeys.Cities)} />
             </label>
+            <div>
+              <SelectFilterOptions
+                selectedOptions={filters.Cities}
+                updateSelectedOptions={updateSelectedOptions}
+                listType={listFilterKeys.Cities}
+              />
+            </div>
           </div>
           <div>
             <label>
