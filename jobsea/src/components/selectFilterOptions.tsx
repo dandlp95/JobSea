@@ -1,6 +1,7 @@
 import React = require("react")
 import { FilterOptions } from "../customTypes/requestTypes"
 import { listFilterKeys } from "../customTypes/enumTypes"
+import selectFilterOptionsCSS from './selectFilterOptions.module.css'
 
 type Props = {
     selectedOptions: string[]
@@ -22,7 +23,7 @@ type Props = {
     }
   
     return (
-      <div>
+      <div className={selectFilterOptionsCSS.filterOptionsMainDiv}>
         {selectedOptions.map((option, index) => (
           <div>
             $`{option}`<button onClick={() => handleOptionRemoval(index)}>X</button>

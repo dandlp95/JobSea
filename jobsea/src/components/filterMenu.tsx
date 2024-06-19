@@ -211,6 +211,13 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
               State:
               <input type='text' onChange={handleListInputChange(listFilterKeys.States)} />
             </label>
+            <div>
+              <SelectFilterOptions
+                selectedOptions={filters.States}
+                updateSelectedOptions={updateSelectedOptions}
+                listType={listFilterKeys.States}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -219,6 +226,13 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
           Company:
           <input type='text' onChange={handleListInputChange(listFilterKeys.Company)} />
         </label>
+        <div>
+          <SelectFilterOptions
+            selectedOptions={filters.Company}
+            updateSelectedOptions={updateSelectedOptions}
+            listType={listFilterKeys.Company}
+          />
+        </div>
       </div>
       <div className={filterMenuCSS.statusFilter}>
         <h3>Status</h3>
