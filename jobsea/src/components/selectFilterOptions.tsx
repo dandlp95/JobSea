@@ -8,13 +8,13 @@ type Props = {
     updateSelectedOptions: (updatedOptions: string[], optionsType: listFilterKeys) => void
     listType: listFilterKeys
   }
-  
   /*This components will show all the selected options from a field.*/
   const SelectFilterOptions: React.FunctionComponent<Props> = ({
     selectedOptions,
     updateSelectedOptions,
     listType
   }) => {
+
     const handleOptionRemoval = (index: number) => {
       selectedOptions.splice(index, 1)
   
@@ -26,7 +26,7 @@ type Props = {
       <div className={selectFilterOptionsCSS.filterOptionsMainDiv}>
         {selectedOptions.map((option, index) => (
           <div>
-            $`{option}`<button onClick={() => handleOptionRemoval(index)}>testest</button>
+            {option}<button onClick={() => handleOptionRemoval(index)}>X</button>
           </div>
         ))}
       </div>

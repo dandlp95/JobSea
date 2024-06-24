@@ -125,20 +125,6 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
     }
   }
 
-  // const handleListInputChange = (
-  //   //name of the filter property, string form
-  //   key: listFilterKeys
-  // ): ChangeEventHandler<HTMLInputElement> => {
-  //   return event => {
-  //     const newValue = event.target.value
-  //     setFilters(filters => {
-  //       return {
-  //         ...filters,
-  //         [key]: [filters[key], newValue]
-  //       }
-  //     })
-  //   }
-  // }
   const handleListInputChange = (key: listFilterKeys) => {
     setFilters(filters => {
       const listOptionsHandler = {
@@ -149,7 +135,7 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
 
       return {
         ...filters,
-        [key]: [filters[key], listOptionsHandler[key]]
+        [key]: [...filters[key], listOptionsHandler[key]]
       }
     })
   }
@@ -179,21 +165,23 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   }
 
   return (
-    <div>
+    <div className={filterMenuCSS.filterMenuMain}>
       <div className={filterMenuCSS.modality}>
         <h3>Modality</h3>
-        {modalities &&
-          modalities.map(modality => (
-            <label key={modality.modalityId.toString()}>
-              {modality.name}
-              <input
-                type='checkbox'
-                name={modality.modalityId.toString()}
-                checked={mcheckboxes[modality.modalityId] || false}
-                onChange={handleCheckboxChange(checkboxesFilters.modality)}
-              />
-            </label>
-          ))}
+        <div className={filterMenuCSS.modalityChecklistContainer}>
+          {modalities &&
+            modalities.map(modality => (
+              <div className={filterMenuCSS.checkboxContainer}>
+                <label key={modality.modalityId.toString()} htmlFor={modality.modalityId.toString()}>{modality.name}</label>
+                <input
+                  type='checkbox'
+                  name={modality.modalityId.toString()}
+                  checked={mcheckboxes[modality.modalityId] || false}
+                  onChange={handleCheckboxChange(checkboxesFilters.modality)}
+                />
+              </div>
+            ))}
+        </div>
       </div>
       <div className={filterMenuCSS.salary}>
         <h3>Salary Range</h3>
@@ -211,7 +199,7 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
       <div className={filterMenuCSS.locationFilter}>
         <h3>Location</h3>
         <div>
-          <div>
+          <div className={filterMenuCSS.cityFilter}>
             <label>
               City:
               <input type='text' onChange={event => setCity(event?.target?.value)} />
@@ -225,7 +213,7 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
               />
             </div>
           </div>
-          <div>
+          <div className={filterMenuCSS.stateFilter}>
             <label>
               State:
               <input type='text' onChange={event => setState(event?.target?.value)} />
@@ -243,7 +231,7 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
           </div>
         </div>
       </div>
-      <div>
+      <div className={filterMenuCSS.company}>
         <label>
           Company:
           <input type='text' onChange={event => setCompany(event?.target?.value)} />

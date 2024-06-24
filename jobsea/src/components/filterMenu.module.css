@@ -1,0 +1,12 @@
+.filterMenuMain .modalityChecklistContainer {
+
+
+}
+
+.filterMenuMain .modalityChecklistContainer .checkboxContainer {
+    display: flex;
+}
+
+.filterMenuMain .modalityChecklistContainer .checkboxContainer label{
+    width: 30%;
+}
