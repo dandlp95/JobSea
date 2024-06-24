@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { ApplicationDTO } from '../customTypes/responseTypes'
 import { createApplicationApiService } from '../utilities/ApiServices/ApplicationsApiService'
-import { PathParams } from '../customTypes/requestTypes'
-
+import { FilterOptions, PathParams } from '../customTypes/requestTypes'
+import FilterMenu from '../components/filterMenu'
 
 type HeaderProps = {
   signOut: () => void
@@ -31,7 +31,16 @@ const Jobs: React.FunctionComponent = () => {
   const [urlChange, setUrlChange] = useState()
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [isAddJobActive, setIsAddJobActive] = useState(false)
+  const [filters, setFilters] = useState<FilterOptions>({
+    Company: [],
+    Cities: [],
+    States: [],
+    Modalities: [],
+    StatusId: null,
+    SalaryRange: { min: null, max: null }
+  })
 
+  // This useeffect hook will  be used to send searchquery request to backend
   useEffect(() => {}, [searchQuery])
 
   useEffect(() => {
@@ -77,6 +86,10 @@ const Jobs: React.FunctionComponent = () => {
     setFormSubmitted(!formSubmitted)
   }
 
+  const sendFilterValues = (filterValues: FilterOptions) => {
+    setFilters(filterValues)
+  }
+
   const hideScrollBar = `html {overflow: hidden};`
 
   return (
@@ -84,17 +97,22 @@ const Jobs: React.FunctionComponent = () => {
       {/* Removes scrolling from elements behind the AddJob component when active. */}
       {isAddJobActive && <style>{hideScrollBar}</style>}
       <Header signOut={signOut} />
-      <div className={jobsCSS.alignContainer}>
-        <div className={jobsCSS.topContainer}>
-          <SearchBar getInput={getSearchQuery} />
-          <div className={jobsCSS.addApplicationSection} onClick={addApplication}>
-            <AiOutlinePlus />
-            <span>Add Application</span>
-          </div>
+      <div className={jobsCSS.mainFlexContainer}>
+        <div className={jobsCSS.filterMenu}>
+          <FilterMenu sendFilterValues={sendFilterValues} />
         </div>
-        <div className={jobsCSS.jobs}>
-          {jobs &&
-            jobs.map(job => <JobPreview job={job} reRenderParentFunction={reRenderParent} />)}
+        <div className={jobsCSS.alignContainer}>
+          <div className={jobsCSS.topContainer}>
+            <SearchBar getInput={getSearchQuery} />
+            <div className={jobsCSS.addApplicationSection} onClick={addApplication}>
+              <AiOutlinePlus />
+              <span>Add Application</span>
+            </div>
+          </div>
+          <div className={jobsCSS.jobs}>
+            {jobs &&
+              jobs.map(job => <JobPreview job={job} reRenderParentFunction={reRenderParent} />)}
+          </div>
         </div>
       </div>
       {isAddJobActive && (

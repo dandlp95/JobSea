@@ -20,6 +20,10 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   const [mcheckboxes, setmCheckboxes] = useState<Record<number, boolean>>({})
   const [sCheckboxes, setSCheckboxes] = useState<Record<number, boolean>>({})
 
+  const [city, setCity] = useState<string>()
+  const [state, setState] = useState<string>()
+  const [company, setCompany] = useState<string>()
+
   const [filters, setFilters] = useState<FilterOptions>({
     Company: [],
     Cities: [],
@@ -121,19 +125,33 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
     }
   }
 
-  const handleListInputChange = (
-    //name of the filter property, string form
-    key: listFilterKeys
-  ): ChangeEventHandler<HTMLInputElement> => {
-    return event => {
-      const newValue = event.target.value
-      setFilters(filters => {
-        return {
-          ...filters,
-          [key]: [filters[key], newValue]
-        }
-      })
-    }
+  // const handleListInputChange = (
+  //   //name of the filter property, string form
+  //   key: listFilterKeys
+  // ): ChangeEventHandler<HTMLInputElement> => {
+  //   return event => {
+  //     const newValue = event.target.value
+  //     setFilters(filters => {
+  //       return {
+  //         ...filters,
+  //         [key]: [filters[key], newValue]
+  //       }
+  //     })
+  //   }
+  // }
+  const handleListInputChange = (key: listFilterKeys) => {
+    setFilters(filters => {
+      const listOptionsHandler = {
+        [listFilterKeys.Cities]: city,
+        [listFilterKeys.Company]: company,
+        [listFilterKeys.States]: state
+      }
+
+      return {
+        ...filters,
+        [key]: [filters[key], listOptionsHandler[key]]
+      }
+    })
   }
 
   //function to pass to childComponent to update input
@@ -196,8 +214,9 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
           <div>
             <label>
               City:
-              <input type='text' onChange={handleListInputChange(listFilterKeys.Cities)} />
+              <input type='text' onChange={event => setCity(event?.target?.value)} />
             </label>
+            <button onClick={() => handleListInputChange(listFilterKeys.Cities)}>Add City</button>
             <div>
               <SelectFilterOptions
                 selectedOptions={filters.Cities}
@@ -209,7 +228,10 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
           <div>
             <label>
               State:
-              <input type='text' onChange={handleListInputChange(listFilterKeys.States)} />
+              <input type='text' onChange={event => setState(event?.target?.value)} />
+              <button onClick={() => handleListInputChange(listFilterKeys.States)}>
+                Add State
+              </button>
             </label>
             <div>
               <SelectFilterOptions
@@ -224,7 +246,8 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
       <div>
         <label>
           Company:
-          <input type='text' onChange={handleListInputChange(listFilterKeys.Company)} />
+          <input type='text' onChange={event => setCompany(event?.target?.value)} />
+          <button onClick={() => handleListInputChange(listFilterKeys.Company)}>Add Filter</button>
         </label>
         <div>
           <SelectFilterOptions

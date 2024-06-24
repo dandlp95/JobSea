@@ -10,6 +10,7 @@ import { CreateApplicationDTO, PathParams } from '../customTypes/requestTypes'
 import ModalitiesApiService from '../utilities/ApiServices/ModalitiesApiService'
 import { City, Modality, State } from '../customTypes/responseTypes'
 import LocationForm from './LocationForm'
+import FilterMenu from './filterMenu'
 
 type Props = {
   closeComponentFunction: () => void

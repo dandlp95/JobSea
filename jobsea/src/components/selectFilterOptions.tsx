@@ -1,4 +1,4 @@
-import React = require("react")
+import React from "react"
 import { FilterOptions } from "../customTypes/requestTypes"
 import { listFilterKeys } from "../customTypes/enumTypes"
 import selectFilterOptionsCSS from './selectFilterOptions.module.css'
@@ -26,7 +26,7 @@ type Props = {
       <div className={selectFilterOptionsCSS.filterOptionsMainDiv}>
         {selectedOptions.map((option, index) => (
           <div>
-            $`{option}`<button onClick={() => handleOptionRemoval(index)}>X</button>
+            $`{option}`<button onClick={() => handleOptionRemoval(index)}>testest</button>
           </div>
         ))}
       </div>

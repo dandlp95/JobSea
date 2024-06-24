@@ -11,3 +11,7 @@ TODO
     I declined, Rejected, plus one third choise, Delete Job. The first 2 options will be application
     status and selected either will simply archive the application. Selecting the third one will
     delete the application without changing its status. 
+
+
+BUGS TO FIX 
+--
