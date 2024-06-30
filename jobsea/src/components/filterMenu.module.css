@@ -1,14 +1,17 @@
 .filterMenuMain {
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
 
-.filterMenuMain > div{
+.filterMenuMain>div {
     width: 150px;
 }
 
-.filterMenuMain .modality{
-    display:flex;
+.filterMenuMain .salary,
+.filterMenuMain .locationFilter,
+.filterMenuMain .modality,
+.filterMenuMain .company {
+    display: flex;
     flex-direction: column;
     margin-left: 50px;
 }
@@ -17,22 +20,30 @@
     display: flex;
 }
 
-.filterMenuMain .modalityChecklistContainer .checkboxContainer label{
+.filterMenuMain .modalityChecklistContainer .checkboxContainer label {
     width: 70%;
 }
 
-
-.filterMenuMain .salary {
-    display:flex;
-    flex-direction: column;
-    margin-left: 50px;
-}
-
-.filterMenuMain .salary input{
+.filterMenuMain .salary input {
     width: 55%;
     display: block;
 }
 
-.filterMenuMain .salary div > label:first-child input{
-    margin-bottom:10px
+.filterMenuMain .salary div>label:first-child input {
+    margin-bottom: 10px
+}
+
+.filterMenuMain .locationFilter h3 {
+    margin-bottom: 0
+}
+
+.filterMenuMain .locationFilter input,
+.filterMenuMain .company input {
+    display: block;
+    width: 85%;
+}
+
+.filterMenuMain .stateFilter,
+.filterMenuMain .company {
+    margin-top: 10px
 }
