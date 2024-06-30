@@ -22,19 +22,23 @@
   cursor: pointer;
 }
 
-.jobsCSS .alignContainer {
-  display: flex;
-  flex-direction: column;
-  /* margin-left: 30%; */
-}
-
 .jobsCSS .mainFlexContainer {
   display:flex;
 }
 
+.jobsCSS .mainFlexContainer .filterMenu{
+  flex:1
+}
+
+.jobsCSS .alignContainer {
+  display: flex;
+  flex-direction: column;
+  flex-grow:4;
+}
+
 .jobsCSS .topContainer {
   display:flex;
-  width: 55%;
+  width:80%;
 }
 
 

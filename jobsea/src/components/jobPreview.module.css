@@ -1,16 +1,15 @@
 .jobPreviewCSS {
-  margin-top: 4rem;
+  margin-top: 1.25rem;
 }
 
 .jobPreviewCSS .jobContainer{
-  width: 55%;
-  /* margin: 0 auto; */
+  width: 100%;
 }
 
 
 .jobPreviewCSS .previewContainer {
   position: relative;
-  border-radius: 1rem;
+  /* border-radius: 1rem; */
   background-color: var(--vermillion);
   color: var(--white);
   height: 4rem;
