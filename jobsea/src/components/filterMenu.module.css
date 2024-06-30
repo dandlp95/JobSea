@@ -3,13 +3,13 @@
     flex-direction: column;
 }
 
-.filterMenuMain .modalityChecklistContainer {
+.filterMenuMain > div{
+    width: 150px;
 }
 
 .filterMenuMain .modality{
     display:flex;
     flex-direction: column;
-    width: 150px;
     margin-left: 50px;
 }
 
@@ -21,3 +21,18 @@
     width: 70%;
 }
 
+
+.filterMenuMain .salary {
+    display:flex;
+    flex-direction: column;
+    margin-left: 50px;
+}
+
+.filterMenuMain .salary input{
+    width: 55%;
+    display: block;
+}
+
+.filterMenuMain .salary div > label:first-child input{
+    margin-bottom:10px
+}
