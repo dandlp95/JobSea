@@ -17,13 +17,13 @@
     margin-left: 50px;
 }
 
-.filterMenuMain  .checkboxContainer
- {
+.filterMenuMain .checkboxContainer {
     display: flex;
 }
 
-.filterMenuMain  .checkboxContainer label {
+.filterMenuMain .checkboxContainer label {
     width: 70%;
+    margin-top: 3px;
 }
 
 .filterMenuMain .salary input {
@@ -48,4 +48,8 @@
 .filterMenuMain .stateFilter,
 .filterMenuMain .company {
     margin-top: 10px
+}
+
+.filterMenuMain .statusFilter .checkboxContainer {
+    align-items: last baseline;
 }
