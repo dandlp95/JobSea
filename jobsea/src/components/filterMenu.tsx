@@ -172,7 +172,12 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
           {modalities &&
             modalities.map(modality => (
               <div className={filterMenuCSS.checkboxContainer}>
-                <label key={modality.modalityId.toString()} htmlFor={modality.modalityId.toString()}>{modality.name}</label>
+                <label
+                  key={modality.modalityId.toString()}
+                  htmlFor={modality.modalityId.toString()}
+                >
+                  {modality.name}
+                </label>
                 <input
                   type='checkbox'
                   name={modality.modalityId.toString()}
@@ -247,17 +252,17 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
       </div>
       <div className={filterMenuCSS.statusFilter}>
         <h3>Status</h3>
-        <div>
+        <div className={filterMenuCSS.statusChecklistContainer}>
           {status.map(status => (
-            <label>
-              {status.statusName}
+            <div className={filterMenuCSS.checkboxContainer}>
+              <label>{status.statusName}</label>
               <input
                 type='checkbox'
                 name={status.statusId.toString()}
                 checked={sCheckboxes[status.statusId] || false}
                 onChange={handleCheckboxChange(checkboxesFilters.status)}
               />
-            </label>
+            </div>
           ))}
         </div>
       </div>

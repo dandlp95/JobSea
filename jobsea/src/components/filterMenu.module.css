@@ -10,17 +10,19 @@
 .filterMenuMain .salary,
 .filterMenuMain .locationFilter,
 .filterMenuMain .modality,
-.filterMenuMain .company {
+.filterMenuMain .company,
+.filterMenuMain .statusFilter {
     display: flex;
     flex-direction: column;
     margin-left: 50px;
 }
 
-.filterMenuMain .modalityChecklistContainer .checkboxContainer {
+.filterMenuMain  .checkboxContainer
+ {
     display: flex;
 }
 
-.filterMenuMain .modalityChecklistContainer .checkboxContainer label {
+.filterMenuMain  .checkboxContainer label {
     width: 70%;
 }
 
@@ -33,7 +35,7 @@
     margin-bottom: 10px
 }
 
-.filterMenuMain .locationFilter h3 {
+.filterMenuMain h3 {
     margin-bottom: 0
 }
 
