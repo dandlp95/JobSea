@@ -1,0 +1,30 @@
+.filterOptionsMainDiv {
+    margin-top: 5px;
+    background-color: white;
+    width: 220px;
+    height: 100px;
+    border-radius: 3px;
+    display:flex;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    overflow-y: auto;
+    /* align content as opposed to align items  because its multi line flexbox (its using flex wrap)*/
+    align-content: flex-start; 
+    row-gap:0px;
+    
+}
+
+.filterOptionsMainDiv > div {
+    width: auto; 
+    height: 25px; 
+    background-color: #f0f0f0;
+    border: 1px solid #999;
+    padding: 3px 5px;
+    margin: 3px;
+    box-sizing: border-box; 
+    
+}
+
+.filterOptionsMainDiv .filterItemButton{
+    cursor:pointer
+}
