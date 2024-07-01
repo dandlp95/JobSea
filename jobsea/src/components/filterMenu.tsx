@@ -166,6 +166,12 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
 
   return (
     <div className={filterMenuCSS.filterMenuMain}>
+      <div className={filterMenuCSS.buttonsDiv}>
+        {/* <Button btnText='Set Filters' clickAction={handleSetFilters} />
+        <Button btnText='Reset' clickAction={handleResetFilters} /> */}
+        <div onClick={handleSetFilters}>Apply Filters</div>{' '}
+        <div onClick={handleResetFilters}>Reset Filters</div>
+      </div>
       <div className={filterMenuCSS.modality}>
         <h3>Modality</h3>
         <div className={filterMenuCSS.modalityChecklistContainer}>
@@ -265,10 +271,6 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
             </div>
           ))}
         </div>
-      </div>
-      <div className={filterMenuCSS.buttonsDiv}>
-        <Button btnText='Set Filters' clickAction={handleSetFilters} />
-        <Button btnText='Reset' clickAction={handleResetFilters} />
       </div>
     </div>
   )

@@ -54,3 +54,16 @@
 .filterMenuMain .statusFilter .checkboxContainer {
     align-items: last baseline;
 }
+
+.filterMenuMain .buttonsDiv {
+    display: flex;
+    flex-direction: row;
+    margin-left: 55px;
+}
+
+
+.filterMenuMain .buttonsDiv div {
+    cursor: pointer;
+    padding: 1rem;
+
+}
