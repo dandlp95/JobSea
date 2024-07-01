@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     font-size: 1.25rem;
+    padding-bottom:1rem;
 }
 
 .filterMenuMain>div {

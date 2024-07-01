@@ -194,6 +194,22 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
             ))}
         </div>
       </div>
+      <div className={filterMenuCSS.statusFilter}>
+        <h3>Status</h3>
+        <div className={filterMenuCSS.statusChecklistContainer}>
+          {status.map(status => (
+            <div className={filterMenuCSS.checkboxContainer}>
+              <label>{status.statusName}</label>
+              <input
+                type='checkbox'
+                name={status.statusId.toString()}
+                checked={sCheckboxes[status.statusId] || false}
+                onChange={handleCheckboxChange(checkboxesFilters.status)}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
       <div className={filterMenuCSS.salary}>
         <h3>Salary Range</h3>
         <div>
@@ -254,22 +270,6 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
             updateSelectedOptions={updateSelectedOptions}
             listType={listFilterKeys.Company}
           />
-        </div>
-      </div>
-      <div className={filterMenuCSS.statusFilter}>
-        <h3>Status</h3>
-        <div className={filterMenuCSS.statusChecklistContainer}>
-          {status.map(status => (
-            <div className={filterMenuCSS.checkboxContainer}>
-              <label>{status.statusName}</label>
-              <input
-                type='checkbox'
-                name={status.statusId.toString()}
-                checked={sCheckboxes[status.statusId] || false}
-                onChange={handleCheckboxChange(checkboxesFilters.status)}
-              />
-            </div>
-          ))}
         </div>
       </div>
     </div>
