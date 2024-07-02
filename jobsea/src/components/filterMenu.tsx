@@ -1,10 +1,15 @@
-import React, { useState, useEffect, ChangeEventHandler, SetStateAction } from 'react'
+import React, {
+  useState,
+  useEffect,
+  ChangeEventHandler,
+  SetStateAction,
+  FormEventHandler
+} from 'react'
 import filterMenuCSS from './filterMenu.module.css'
 import { Modality, StatusOption } from '../customTypes/responseTypes'
 import useModalities from '../customHooks/useModalities'
 import useStatusOptions from '../customHooks/useStatusOptions'
 import { FilterOptions } from '../customTypes/requestTypes'
-import Button from './button'
 import SelectFilterOptions from './selectFilterOptions'
 import { listFilterKeys, listFilterKeysSalary, checkboxesFilters } from '../customTypes/enumTypes'
 
@@ -14,6 +19,7 @@ type Props = {
 
 /* Main Filter Menu component */
 const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
+  /*STATES TO CAPTURE VALUES*/
   const modalities: Modality[] = useModalities()
   const status: StatusOption[] = useStatusOptions()
 
@@ -36,20 +42,20 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   //It gets all the Modalities Ids from the backend, then creates a
   //list of objects where modalityId is the name, and the value is all set to false
   // e.g. [{1:false}, {2:false}]
-  useEffect(() => {
-    const setUpCheckboxes = (
-      items: Modality[] | StatusOption[],
-      setCheckboxes: React.Dispatch<SetStateAction<Record<number, boolean>>>
-    ) => {
-      let initialCheckboxes: Record<number, boolean> = {}
-      items.forEach(item => {
-        'modalityId' in item
-          ? (initialCheckboxes[item.modalityId] = false)
-          : (initialCheckboxes[item.statusId] = false)
-      })
-      setCheckboxes(initialCheckboxes)
-    }
+  const setUpCheckboxes = (
+    items: Modality[] | StatusOption[],
+    setCheckboxes: React.Dispatch<SetStateAction<Record<number, boolean>>>
+  ) => {
+    let initialCheckboxes: Record<number, boolean> = {}
+    items.forEach(item => {
+      'modalityId' in item
+        ? (initialCheckboxes[item.modalityId] = false)
+        : (initialCheckboxes[item.statusId] = false)
+    })
+    setCheckboxes(initialCheckboxes)
+  }
 
+  useEffect(() => {
     setUpCheckboxes(modalities, setmCheckboxes)
     setUpCheckboxes(status, setSCheckboxes)
   }, [])
@@ -126,18 +132,30 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   }
 
   const handleListInputChange = (key: listFilterKeys) => {
+    const listOptionsHandler = {
+      [listFilterKeys.Cities]: { value: city, valueFunction: setCity },
+      [listFilterKeys.Company]: { value: company, valueFunction: setCompany },
+      [listFilterKeys.States]: { value: state, valueFunction: setState }
+    }
     setFilters(filters => {
-      const listOptionsHandler = {
-        [listFilterKeys.Cities]: city,
-        [listFilterKeys.Company]: company,
-        [listFilterKeys.States]: state
-      }
-
       return {
         ...filters,
-        [key]: [...filters[key], listOptionsHandler[key]]
+        [key]: [...filters[key], listOptionsHandler[key].value]
       }
     })
+
+    listOptionsHandler[key].valueFunction('')
+  }
+
+  const handleKeyDownWrapper = (
+    key: listFilterKeys
+  ): React.KeyboardEventHandler<HTMLInputElement> => {
+    return event => {
+      if (event.key === 'Enter') {
+        //function below also clears the input field
+        handleListInputChange(key)
+      }
+    }
   }
 
   //function to pass to childComponent to update input
@@ -148,9 +166,9 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   /*BUTTONS FUNCTIONS
   Only set filters to parent component when button is to set or reset filters is pressed.
   */
-  const handleSetFilters = () => {
+  useEffect(() => {
     sendFilterValues(filters)
-  }
+  }, [filters])
 
   const handleResetFilters = () => {
     setFilters({
@@ -159,17 +177,17 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
       States: [],
       Modalities: [],
       StatusId: null,
-      SalaryRange: { min: null, max: null }
+      SalaryRange: { min: undefined, max: undefined }
     })
-    sendFilterValues(filters)
+
+    setUpCheckboxes(modalities, setmCheckboxes)
+    setUpCheckboxes(status, setSCheckboxes)
+
   }
 
   return (
     <div className={filterMenuCSS.filterMenuMain}>
       <div className={filterMenuCSS.buttonsDiv}>
-        {/* <Button btnText='Set Filters' clickAction={handleSetFilters} />
-        <Button btnText='Reset' clickAction={handleResetFilters} /> */}
-        <div onClick={handleSetFilters}>Apply Filters</div>{' '}
         <div onClick={handleResetFilters}>Reset Filters</div>
       </div>
       <div className={filterMenuCSS.modality}>
@@ -215,11 +233,19 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
         <div>
           <label>
             Min. salary
-            <input type='number' onChange={handleSalaryChange(listFilterKeysSalary.min)} />
+            <input
+              type='number'
+              value={filters.SalaryRange.min ?? ''}
+              onChange={handleSalaryChange(listFilterKeysSalary.min)}
+            />
           </label>
           <label>
             Max. salary
-            <input type='number' onChange={handleSalaryChange(listFilterKeysSalary.max)} />
+            <input
+              type='number'
+              value={filters.SalaryRange.min ?? ''}
+              onChange={handleSalaryChange(listFilterKeysSalary.max)}
+            />
           </label>
         </div>
       </div>
@@ -227,10 +253,13 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
         <h3>Location</h3>
         <div>
           <div className={filterMenuCSS.cityFilter}>
-            <label>
-              City:
-              <input type='text' onChange={event => setCity(event?.target?.value)} />
-            </label>
+            <label>City:</label>
+            <input
+              type='text'
+              value={city}
+              onChange={event => setCity(event?.target?.value)}
+              onKeyDown={handleKeyDownWrapper(listFilterKeys.Cities)}
+            />
             <button onClick={() => handleListInputChange(listFilterKeys.Cities)}>Add City</button>
             <div>
               <SelectFilterOptions
@@ -243,7 +272,12 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
           <div className={filterMenuCSS.stateFilter}>
             <label>
               State:
-              <input type='text' onChange={event => setState(event?.target?.value)} />
+              <input
+                type='text'
+                value={state}
+                onChange={event => setState(event?.target?.value)}
+                onKeyDown={handleKeyDownWrapper(listFilterKeys.States)}
+              />
               <button onClick={() => handleListInputChange(listFilterKeys.States)}>
                 Add State
               </button>
@@ -261,7 +295,12 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
       <div className={filterMenuCSS.company}>
         <label>
           Company:
-          <input type='text' onChange={event => setCompany(event?.target?.value)} />
+          <input
+            type='text'
+            value={company}
+            onChange={event => setCompany(event?.target?.value)}
+            onKeyDown={handleKeyDownWrapper(listFilterKeys.Company)}
+          />
           <button onClick={() => handleListInputChange(listFilterKeys.Company)}>Add Filter</button>
         </label>
         <div>

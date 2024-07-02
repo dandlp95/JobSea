@@ -63,6 +63,10 @@ const Jobs: React.FunctionComponent = () => {
     getApplications()
   }, [formSubmitted])
 
+  useEffect(()=>{
+    console.log(JSON.stringify(filters))
+  }, [filters])
+
   const signOut = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('username')
