@@ -18,7 +18,7 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
   // Need to work on css, if there aren't any updates, the expandable doesn't look good.
   const UpdatesApiService = createUpdatesApiService()
   const ApplicationsApiService = createApplicationApiService()
-  
+
   const [isCollapsed, setIsCollapse] = useState<boolean>(true)
   const [updates, setUpdates] = useState<UpdateDTO[]>([])
   const [latestUpdate, setLatestUpdate] = useState<UpdateDTO | null>()
@@ -106,7 +106,7 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
     padding: '0.75rem',
     backgroundColor: '#7981A4',
     fontSize: '1rem',
-    width: '9rem'
+    width: '12rem'
   }
 
   return (
@@ -164,6 +164,10 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
               </div>
             ))}
           </div>
+          <div className={jobPreviewCSS.applicationDescriptionContainer}>
+            <h4>Description</h4>
+            <div>{job.jobDetails}</div>
+          </div>
           {isUpdateOpen && (
             <div>
               <Update
@@ -181,7 +185,7 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
               clickAction={openUpdateEditModeOn}
             />
             <Button
-              btnText='Delete'
+              btnText='Delete Application'
               styleRules={buttonStyleRules}
               clickAction={deleteApplication}
             />
