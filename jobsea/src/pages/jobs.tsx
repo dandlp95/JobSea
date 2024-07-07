@@ -9,10 +9,8 @@ import { ApiData, ApplicationDTO } from '../customTypes/responseTypes'
 import { createApplicationApiService } from '../utilities/ApiServices/ApplicationsApiService'
 import { FilterOptions, PathParams } from '../customTypes/requestTypes'
 import FilterMenu from '../components/filterMenu'
-import { isFilterOptionsEmpty } from '../utilities/filterValidator'
 import IApplicationApiService from '../utilities/interfaces/IApplicationApiService'
 import { getApplications } from '../utilities/getApplications'
-
 
 type HeaderProps = {
   signOut: () => void
@@ -48,40 +46,18 @@ const Jobs: React.FunctionComponent = () => {
   useEffect(() => {}, [searchQuery])
 
   useEffect(() => {
-    const getApplications = async () => {
-      const userId = localStorage.getItem('userId')
-      if (userId) {
-        const pathParam: PathParams = {
-          userId: parseInt(userId)
-        }
+    console.log(filters)
+    const userId = localStorage.getItem('userId')
+    const ApplicationsApiService = createApplicationApiService()
 
-        const ApplicationsApiService = createApplicationApiService()
-        const apiData = await ApplicationsApiService.getApplications(
-          'users/{userId}/applications',
-          pathParam
-        )
-        setJobs(apiData.result ? apiData.result : [])
-      } else {
-        // implement later.
-      }
+    if (userId) {
+      getApplications(userId, ApplicationsApiService, filters).then(response =>
+        setJobs(response.result ? response.result : [])
+      )
+    } else {
+      //implemment later...
     }
-    getApplications()
-  }, [formSubmitted])
-
-  useEffect(() => {
-    const filterApplications = () => {
-      const userId = localStorage.getItem('userId')
-      if (userId) {
-        const pathParam: PathParams = {
-          userId: parseInt(userId)
-        }
-      }
-    }
-
-    if (!isFilterOptionsEmpty(filters)) {
-      // call function here...
-    }
-  }, [filters])
+  }, [formSubmitted, filters])
 
   const signOut = () => {
     localStorage.removeItem('token')
