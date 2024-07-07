@@ -54,5 +54,5 @@ export type FilterOptions = {
   States: string[];
   Modalities?: number[]  | null;
   StatusId?: number[] | null; 
-  SalaryRange: {min?: number | null, max?:number | null}
+  SalaryRange: {min: number | null, max:number | null}
 }

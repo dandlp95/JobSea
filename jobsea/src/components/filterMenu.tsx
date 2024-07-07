@@ -183,7 +183,7 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
       States: [],
       Modalities: [],
       StatusId: null,
-      SalaryRange: { min: undefined, max: undefined }
+      SalaryRange: { min: null, max: null }
     })
 
     setUpCheckboxes(modalities, setmCheckboxes)
