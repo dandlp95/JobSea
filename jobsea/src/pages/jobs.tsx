@@ -36,7 +36,7 @@ const Jobs: React.FunctionComponent = () => {
     Cities: [],
     States: [],
     Modalities: [],
-    StatusId: null,
+    StatusId: [],
     SalaryRange: { min: null, max: null }
   })
 
@@ -50,6 +50,7 @@ const Jobs: React.FunctionComponent = () => {
         const pathParam: PathParams = {
           userId: parseInt(userId)
         }
+        
         const ApplicationsApiService = createApplicationApiService()
         const apiData = await ApplicationsApiService.getApplications(
           'users/{userId}/applications',
@@ -65,6 +66,13 @@ const Jobs: React.FunctionComponent = () => {
 
   useEffect(()=>{
     console.log(JSON.stringify(filters))
+    const userId = localStorage.getItem('userId')
+    if(userId){
+      const pathParam: PathParams = {
+        userId: parseInt(userId)
+      }
+    }
+
   }, [filters])
 
   const signOut = () => {

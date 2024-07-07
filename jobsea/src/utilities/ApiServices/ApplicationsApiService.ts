@@ -52,6 +52,8 @@ class ApplicationApiService extends ApiService<ApplicationDTO> implements IAppli
 }
 
 export function createApplicationApiService (): ApplicationApiService {
+  //Creating an instance like this each time, will ensure service is not created with
+  //invalid token
   const token: string | null = localStorage.getItem('token')
   if (token) {
     return new ApplicationApiService(token)

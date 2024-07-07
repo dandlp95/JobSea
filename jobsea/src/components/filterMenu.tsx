@@ -137,12 +137,18 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
       [listFilterKeys.Company]: { value: company, valueFunction: setCompany },
       [listFilterKeys.States]: { value: state, valueFunction: setState }
     }
-    setFilters(filters => {
-      return {
-        ...filters,
-        [key]: [...filters[key], listOptionsHandler[key].value]
-      }
-    })
+
+    if (
+      listOptionsHandler[key].value !== undefined &&
+      listOptionsHandler[key].value.trim().length > 0
+    ) {
+      setFilters(filters => {
+        return {
+          ...filters,
+          [key]: [...filters[key], listOptionsHandler[key].value]
+        }
+      })
+    }
 
     listOptionsHandler[key].valueFunction('')
   }
@@ -182,7 +188,6 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
 
     setUpCheckboxes(modalities, setmCheckboxes)
     setUpCheckboxes(status, setSCheckboxes)
-
   }
 
   return (
@@ -243,7 +248,7 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
             Max. salary
             <input
               type='number'
-              value={filters.SalaryRange.min ?? ''}
+              value={filters.SalaryRange.max ?? ''}
               onChange={handleSalaryChange(listFilterKeysSalary.max)}
             />
           </label>
