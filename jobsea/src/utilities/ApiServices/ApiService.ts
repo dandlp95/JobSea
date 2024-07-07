@@ -8,7 +8,7 @@ abstract class ApiService<T> {
   private _baseURL: string
   private _headers: HeadersInit
 
-  constructor (token?:string) {
+  constructor (token?: string) {
     this._baseURL = 'https://localhost:7283/jobsea/'
     this._headers = {
       Authorization: `Bearer ${token}`, // Your authorization header
@@ -36,17 +36,23 @@ abstract class ApiService<T> {
     return response.json()
   }
 
+  //Post to add an entity to the database
   protected async post (
     url: string,
     pathParams: PathParams,
     body: object = {}
   ): Promise<ApiData<T> | ApiData<null>> {
-    const response: Response = await this._apiCall(
-      url,
-      pathParams,
-      'POST',
-      body
-    )
+    const response: Response = await this._apiCall(url, pathParams, 'POST', body)
+    return response.json()
+  }
+
+  //post to add several filters to get resources from the db...
+  protected async postGet (
+    url: string,
+    pathParams: PathParams,
+    body: object = {}
+  ): Promise<ApiData<T[]> | ApiData<null>> {
+    const response: Response = await this._apiCall(url, pathParams, 'POST', body)
     return response.json()
   }
 

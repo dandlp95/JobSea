@@ -1,5 +1,5 @@
 import { ApplicationDTO, ApiData, ApiResponse } from '../../customTypes/responseTypes'
-import { PathParams } from '../../customTypes/requestTypes'
+import { FilterOptions, PathParams } from '../../customTypes/requestTypes'
 import { CreateApplicationDTO, UpdateApplicationDTO } from '../../customTypes/requestTypes'
 
 interface IApplicationApiService {
@@ -16,6 +16,12 @@ interface IApplicationApiService {
     pathParams: PathParams,
     requestBody: CreateApplicationDTO
   ): Promise<ApiData<ApplicationDTO> | ApiData<null>>
+  filterApplications(
+    url: string,
+    pathParams: PathParams,
+    requestBody: FilterOptions
+  ): Promise<ApiData<ApplicationDTO[]> | ApiData<null>>
+
   deleteApplication(url: string, pathParams: PathParams): Promise<Response>
   putApplication(
     url: string,

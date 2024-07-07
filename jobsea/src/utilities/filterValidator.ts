@@ -1,6 +1,6 @@
 import { FilterOptions } from '../customTypes/requestTypes'
 
-export const filterObjectValidator = (filterOptions: FilterOptions) => {
+export const isFilterOptionsEmpty = (filterOptions: FilterOptions) : boolean=> {
   return (
     isPropertyEmpty(filterOptions, 'Cities') &&
     isPropertyEmpty(filterOptions, 'Company') &&

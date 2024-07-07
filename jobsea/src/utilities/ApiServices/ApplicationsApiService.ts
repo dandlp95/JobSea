@@ -4,8 +4,11 @@ import { ApplicationDTO, ApiData } from '../../customTypes/responseTypes'
 import {
   PathParams,
   CreateApplicationDTO,
-  UpdateApplicationDTO
+  UpdateApplicationDTO,
+  FilterOptions
 } from '../../customTypes/requestTypes'
+import { Path } from 'react-router-dom'
+import { request } from 'http'
 
 class ApplicationApiService extends ApiService<ApplicationDTO> implements IApplicationApiService {
   constructor (token: string) {
@@ -32,6 +35,14 @@ class ApplicationApiService extends ApiService<ApplicationDTO> implements IAppli
     requestBody: CreateApplicationDTO
   ) {
     return super.post(url, PathParams, requestBody)
+  }
+
+  public async filterApplications (
+    url: string,
+    PathParams: PathParams,
+    requestBody: FilterOptions
+  ) {
+    return super.postGet(url, PathParams, requestBody)
   }
 
   public async deleteApplication (url: string, pathParams: PathParams): Promise<Response> {

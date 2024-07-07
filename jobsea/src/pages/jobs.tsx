@@ -5,10 +5,14 @@ import jobsCSS from './jobs.module.css'
 import AddJob from '../components/addJob'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { ApplicationDTO } from '../customTypes/responseTypes'
+import { ApiData, ApplicationDTO } from '../customTypes/responseTypes'
 import { createApplicationApiService } from '../utilities/ApiServices/ApplicationsApiService'
 import { FilterOptions, PathParams } from '../customTypes/requestTypes'
 import FilterMenu from '../components/filterMenu'
+import { isFilterOptionsEmpty } from '../utilities/filterValidator'
+import IApplicationApiService from '../utilities/interfaces/IApplicationApiService'
+import { getApplications } from '../utilities/getApplications'
+
 
 type HeaderProps = {
   signOut: () => void
@@ -50,7 +54,7 @@ const Jobs: React.FunctionComponent = () => {
         const pathParam: PathParams = {
           userId: parseInt(userId)
         }
-        
+
         const ApplicationsApiService = createApplicationApiService()
         const apiData = await ApplicationsApiService.getApplications(
           'users/{userId}/applications',
@@ -64,15 +68,19 @@ const Jobs: React.FunctionComponent = () => {
     getApplications()
   }, [formSubmitted])
 
-  useEffect(()=>{
-    console.log(JSON.stringify(filters))
-    const userId = localStorage.getItem('userId')
-    if(userId){
-      const pathParam: PathParams = {
-        userId: parseInt(userId)
+  useEffect(() => {
+    const filterApplications = () => {
+      const userId = localStorage.getItem('userId')
+      if (userId) {
+        const pathParam: PathParams = {
+          userId: parseInt(userId)
+        }
       }
     }
 
+    if (!isFilterOptionsEmpty(filters)) {
+      // call function here...
+    }
   }, [filters])
 
   const signOut = () => {
