@@ -2,7 +2,7 @@
   margin-top: 1.25rem;
 }
 
-.jobPreviewCSS .jobContainer{
+.jobPreviewCSS .jobContainer {
   width: 100%;
 }
 
@@ -69,7 +69,7 @@
   max-height: 0;
   visibility: hidden;
   opacity: 0;
-  transition:all 0.5s ease-out;  
+  transition: all 0.5s ease-out;
 }
 
 
@@ -78,7 +78,7 @@
   margin: 0 auto;
   box-sizing: border-box;
   /*max height should be big enough to contain text inside. Otherwise it overflows at the bottom and causes issues*/
-  max-height: 150rem; 
+  max-height: 150rem;
   opacity: 1;
   visibility: visible;
   transition: all 0.5s ease-in;
@@ -92,7 +92,7 @@
 
 .jobPreviewCSS .buttons {
   margin-top: 2rem;
-  padding-bottom:1rem;
+  padding-bottom: 1rem;
 }
 
 /*UPDATES*/
@@ -100,13 +100,13 @@
   position: relative;
 }
 
-.jobPreviewCSS .updatesContainer{
+.jobPreviewCSS .updatesContainer {
   padding: 0 1rem 0rem 1rem;
 }
 
 .jobPreviewCSS .updatesContainer h4 {
   margin-top: 0;
-  padding-top:0.5rem;
+  padding-top: 0.5rem;
 }
 
 .jobPreviewCSS .seeMore {
@@ -131,10 +131,12 @@
   text-align: right;
 }
 
-.jobPreviewCSS .applicationDescriptionContainer{
+.jobPreviewCSS .applicationDescriptionContainer {
   padding: 0 1rem 0rem 1rem
 }
 
-.jobPreviewCSS .jobpostlink{
-  margin-top:0.5rem;
+.jobPreviewCSS .jobpostlink,
+.jobPreviewCSS .location,
+.jobPreviewCSS .salary {
+  margin-top: 0.5rem;
 }

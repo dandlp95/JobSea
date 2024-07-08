@@ -166,12 +166,38 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
             ))}
           </div>
           <div className={jobPreviewCSS.applicationDescriptionContainer}>
-            <h4>Description</h4>
-            <div>{job.jobDetails}</div>
+            {job.jobDetails && (
+              <div>
+                <h4>Description</h4>
+                <div>{job.jobDetails}</div>
+              </div>
+            )}
+            {job.city ||
+              (job.state && (
+                <div className={jobPreviewCSS.location}>
+                  <b>Location: </b>
+                  <span>
+                    {/* if city and state are not null then "city, state", else city or state, whichever is not null */}
+                    {job.city && job.state
+                      ? `${job.city}, ${job.state}`
+                      : job.city
+                      ? job.city
+                      : job.state}
+                  </span>
+                </div>
+              ))}
+            {job.salary && (
+              <div className={jobPreviewCSS.salary}>
+                <b>Salary: </b>
+                <span>${job.salary}</span>
+              </div>
+            )}
             {job.link && (
               <div className={jobPreviewCSS.jobpostlink}>
-                <b>Job Post: </b>
-                <a href={job.link}>{job.link}</a>
+                <b>Job Post: {''}</b>
+                <a href={job.link} target='_blank'>
+                  {job.link}
+                </a>
               </div>
             )}
           </div>
