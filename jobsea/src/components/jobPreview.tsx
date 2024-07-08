@@ -168,6 +168,12 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
           <div className={jobPreviewCSS.applicationDescriptionContainer}>
             <h4>Description</h4>
             <div>{job.jobDetails}</div>
+            {job.link && (
+              <div className={jobPreviewCSS.jobpostlink}>
+                <b>Job Post: </b>
+                <a href={job.link}>{job.link}</a>
+              </div>
+            )}
           </div>
           {isUpdateOpen && (
             <div>

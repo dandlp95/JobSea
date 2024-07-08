@@ -134,3 +134,7 @@
 .jobPreviewCSS .applicationDescriptionContainer{
   padding: 0 1rem 0rem 1rem
 }
+
+.jobPreviewCSS .jobpostlink{
+  margin-top:0.5rem;
+}
