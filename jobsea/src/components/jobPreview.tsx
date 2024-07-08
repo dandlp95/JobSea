@@ -142,10 +142,11 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
           }
         >
           <div className={jobPreviewCSS.updatesContainer}>
+            <h4>Updates</h4>
             {updates.map(update => (
               <div className={jobPreviewCSS.updateContainer}>
                 <div>
-                  <div> {update.notes}</div>
+                  <div> {update.status.statusName}</div>
                   <span
                     className={jobPreviewCSS.seeMore}
                     onClick={e => openUpdateEditModeOff(update)}

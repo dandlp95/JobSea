@@ -100,10 +100,13 @@
   position: relative;
 }
 
-/* This seems to have an effect in updates of first application not positioning itself 
-in front of all applications */
-.jobPreviewCSS .updateContainer:not(:first-child) {
-  margin-top: 1rem;
+.jobPreviewCSS .updatesContainer{
+  padding: 0 1rem 0rem 1rem;
+}
+
+.jobPreviewCSS .updatesContainer h4 {
+  margin-top: 0;
+  padding-top:0.5rem;
 }
 
 .jobPreviewCSS .seeMore {
@@ -115,9 +118,13 @@ in front of all applications */
   display: flex;
   gap: 40px;
   width: 95%;
-  margin: 0 auto;
-  padding-top:1rem
+  /* padding-top:1rem */
 }
+
+.jobPreviewCSS .updateContainer:not(:first-child) {
+  margin-top: 1rem;
+}
+
 
 .jobPreviewCSS .updateDate {
   flex-grow: 1;
