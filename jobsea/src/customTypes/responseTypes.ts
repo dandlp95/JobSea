@@ -7,7 +7,7 @@ export type ApplicationDTO = {
   applicationId: number
   company: string
   jobTitle: string
-  salary: string
+  salary: string | null
   city: string | null
   state: string | null
   link: string | null

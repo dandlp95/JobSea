@@ -102,10 +102,12 @@
 
 .jobPreviewCSS .updatesContainer {
   padding: 0 1rem 0rem 1rem;
+  margin-bottom:30px;
 }
 
 .jobPreviewCSS .updatesContainer h4 {
   margin-top: 0;
+  margin-bottom: 10px;
   padding-top: 0.5rem;
 }
 
@@ -120,10 +122,10 @@
   width: 95%;
   /* padding-top:1rem */
 }
-
+/* 
 .jobPreviewCSS .updateContainer:not(:first-child) {
   margin-top: 1rem;
-}
+} */
 
 
 .jobPreviewCSS .updateDate {

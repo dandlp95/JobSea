@@ -27,6 +27,7 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
   const [isUpdateSubmitted, setIsUpdateSubmitted] = useState<boolean>(false)
   const [update, setUpdate] = useState<UpdateDTO>()
 
+  console.log(job)
   useEffect(() => {
     const getUpdates = async () => {
       const userId = localStorage.getItem('userId')
@@ -172,24 +173,27 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
                 <div>{job.jobDetails}</div>
               </div>
             )}
-            {job.city ||
-              job.state ? (
-                <div className={jobPreviewCSS.location}>
-                  <b>Location: </b>
-                  <span>
-                    {job.city && job.state
-                      ? `${job.city}, ${job.state}`
-                      : job.city
-                      ? job.city
-                      : job.state}
-                  </span>
-                </div>
-              ) : ''}
-            {job.salary && (
+            {job.city || job.state ? (
+              <div className={jobPreviewCSS.location}>
+                <b>Location: </b>
+                <span>
+                  {job.city && job.state
+                    ? `${job.city}, ${job.state}`
+                    : job.city
+                    ? job.city
+                    : job.state}
+                </span>
+              </div>
+            ) : (
+              ''
+            )}
+            {job.salary !== undefined && job.salary !== null ? (
               <div className={jobPreviewCSS.salary}>
                 <b>Salary: </b>
                 <span>${job.salary}</span>
               </div>
+            ) : (
+              ''
             )}
             {job.link && (
               <div className={jobPreviewCSS.jobpostlink}>
