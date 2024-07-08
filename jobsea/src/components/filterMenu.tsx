@@ -2,8 +2,7 @@ import React, {
   useState,
   useEffect,
   ChangeEventHandler,
-  SetStateAction,
-  FormEventHandler
+  SetStateAction
 } from 'react'
 import filterMenuCSS from './filterMenu.module.css'
 import { Modality, StatusOption } from '../customTypes/responseTypes'
@@ -132,26 +131,31 @@ const FilterMenu: React.FunctionComponent<Props> = ({ sendFilterValues }) => {
   }
 
   const handleListInputChange = (key: listFilterKeys) => {
+    // Define the listOptionsHandler object outside the function
     const listOptionsHandler = {
       [listFilterKeys.Cities]: { value: city, valueFunction: setCity },
       [listFilterKeys.Company]: { value: company, valueFunction: setCompany },
       [listFilterKeys.States]: { value: state, valueFunction: setState }
+    };
+  
+    // Destructure the specific entry based on the key
+    const { value, valueFunction } = listOptionsHandler[key] || {};
+  
+    
+    //ensures that if listOptionsHandler[key] is undefined, it defaults to an empty object ({}), avoiding potential undefined errors.    
+    if (value !== undefined && value.trim().length > 0) {
+      setFilters(filters => ({
+        ...filters,
+        [key]: [...filters[key], value]
+      }));
     }
-
-    if (
-      listOptionsHandler[key].value !== undefined &&
-      listOptionsHandler[key].value.trim().length > 0
-    ) {
-      setFilters(filters => {
-        return {
-          ...filters,
-          [key]: [...filters[key], listOptionsHandler[key].value]
-        }
-      })
+  
+    // Call valueFunction with an empty string if it exists
+    if (valueFunction) {
+      valueFunction('');
     }
-
-    listOptionsHandler[key].valueFunction('')
-  }
+  };
+  
 
   const handleKeyDownWrapper = (
     key: listFilterKeys

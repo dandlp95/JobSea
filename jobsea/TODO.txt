@@ -14,4 +14,10 @@ TODO
 
 
 BUGS TO FIX 
---
+--Limit how much description text is shown
+--css on buttons
+--fix login css
+--show link
+--updates should show status preview
+--searchh j
+--state and city dropdowns when adding application looks ugly
