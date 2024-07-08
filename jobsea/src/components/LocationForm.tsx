@@ -55,9 +55,12 @@ const LocationForm: React.FunctionComponent<Props> = ({getCityInput, getStateInp
   }, [stateInput])
 
   useEffect(()=>{
-    getCityInput(cityInput)
     getStateInput(stateInput)
-  }, [stateInput, cityInput])
+  }, [stateInput])
+
+  useEffect(()=>{
+    getCityInput(cityInput)
+  }, [cityInput])
 
   const stateInputChange: ChangeEventHandler<HTMLInputElement> = event => {
     const userInput = event.target.value

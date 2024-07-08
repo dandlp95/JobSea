@@ -173,11 +173,10 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
               </div>
             )}
             {job.city ||
-              (job.state && (
+              job.state ? (
                 <div className={jobPreviewCSS.location}>
                   <b>Location: </b>
                   <span>
-                    {/* if city and state are not null then "city, state", else city or state, whichever is not null */}
                     {job.city && job.state
                       ? `${job.city}, ${job.state}`
                       : job.city
@@ -185,7 +184,7 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
                       : job.state}
                   </span>
                 </div>
-              ))}
+              ) : ''}
             {job.salary && (
               <div className={jobPreviewCSS.salary}>
                 <b>Salary: </b>
