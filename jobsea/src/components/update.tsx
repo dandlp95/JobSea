@@ -118,7 +118,6 @@ const AddUpdate: React.FunctionComponent<Props> = ({
   const activateEditMode = () => {
     setIsEditMode(true)
   }
-  console.log('update form: ', updateForm)
   return (
     <div className={updateCSS.updateContainer}>
       <form onSubmit={e => e.preventDefault()}>

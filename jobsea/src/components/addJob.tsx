@@ -148,7 +148,6 @@ const AddJob: React.FunctionComponent<Props> = ({
         userId: parseInt(userId)
       }
 
-      console.log('formdata: ', JSON.stringify(formData))
       const requestBody: CreateApplicationDTO = {
         company: formData.company,
         jobTitle: formData.position,
@@ -166,7 +165,6 @@ const AddJob: React.FunctionComponent<Props> = ({
           statusId: parseInt(formData.selectedRadioOption)
         }
       }
-      console.log('requestbody: ', JSON.stringify(requestBody))
       await ApplicationApiService.postApplication(
         'users/{userId}/applications',
         params,

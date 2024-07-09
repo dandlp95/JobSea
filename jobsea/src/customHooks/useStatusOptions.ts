@@ -10,7 +10,6 @@ function useStatusOptions () {
       const getStatusOptions = () => {
         StatusesApiService.getStatuses('statuses').then(response => {
           if (response.result) {
-            console.log(response)
             localStorage.setItem('statusOptions', JSON.stringify(response.result))
             setStatusOptions(response.result)
           }

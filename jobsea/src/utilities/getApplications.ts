@@ -7,7 +7,8 @@ import { isFilterOptionsEmpty } from './filterValidator'
 export const getApplications = async (
   userId: string,
   applicationService: IApplicationApiService,
-  filters: FilterOptions
+  filters: FilterOptions,
+  searchQuery: string | null
 ): Promise<ApiData<ApplicationDTO[]> | ApiData<null>> => {
   const pathParam: PathParams = {
     userId: parseInt(userId)
@@ -21,17 +22,19 @@ export const getApplications = async (
     token: null
   }
 
+  var baseUrl = 'users/{userId}/applications'
+
+  if (searchQuery) {
+    baseUrl += '/search?search=' + encodeURIComponent(searchQuery)
+  }
+
   // if there are no filters set
-  if (isFilterOptionsEmpty(filters)) {
+  if (isFilterOptionsEmpty(filters) && (searchQuery === null || searchQuery === '')) {
     // const ApplicationsApiService = createApplicationApiService()
-    apiData = await applicationService.getApplications('users/{userId}/applications', pathParam)
+    apiData = await applicationService.getApplications(baseUrl, pathParam)
     return apiData
   } else {
-    apiData = await applicationService.filterApplications(
-      'users/{userId}/applications/search',
-      pathParam,
-      filters
-    )
+    apiData = await applicationService.filterApplications(baseUrl, pathParam, filters)
   }
 
   return apiData

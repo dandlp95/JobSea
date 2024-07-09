@@ -27,7 +27,6 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
   const [isUpdateSubmitted, setIsUpdateSubmitted] = useState<boolean>(false)
   const [update, setUpdate] = useState<UpdateDTO>()
 
-  console.log(job)
   useEffect(() => {
     const getUpdates = async () => {
       const userId = localStorage.getItem('userId')

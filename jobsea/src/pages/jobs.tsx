@@ -42,22 +42,19 @@ const Jobs: React.FunctionComponent = () => {
     SalaryRange: { min: null, max: null }
   })
 
-  // This useeffect hook will  be used to send searchquery request to backend
-  useEffect(() => {}, [searchQuery])
-
   useEffect(() => {
-    console.log(filters)
     const userId = localStorage.getItem('userId')
     const ApplicationsApiService = createApplicationApiService()
 
     if (userId) {
-      getApplications(userId, ApplicationsApiService, filters).then(response =>
+      getApplications(userId, ApplicationsApiService, filters, searchQuery).then(response => {
         setJobs(response.result ? response.result : [])
-      )
+        console.log('response', response)
+      })
     } else {
       //implemment later...
     }
-  }, [formSubmitted, filters])
+  }, [formSubmitted, filters, searchQuery])
 
   const signOut = () => {
     localStorage.removeItem('token')
