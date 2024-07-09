@@ -18,7 +18,7 @@ type Props = {
   getStateInput: (input: string) => void
 }
 
-const LocationForm: React.FunctionComponent<Props> = ({getCityInput, getStateInput}) => {
+const LocationForm: React.FunctionComponent<Props> = ({ getCityInput, getStateInput }) => {
   const arraySlice: number = 6
   const [states, setStates] = useState<State[]>([])
   const [filteredStates, setFilteredStates] = useState<State[]>([])
@@ -54,11 +54,11 @@ const LocationForm: React.FunctionComponent<Props> = ({getCityInput, getStateInp
     getCities()
   }, [stateInput])
 
-  useEffect(()=>{
+  useEffect(() => {
     getStateInput(stateInput)
   }, [stateInput])
 
-  useEffect(()=>{
+  useEffect(() => {
     getCityInput(cityInput)
   }, [cityInput])
 
@@ -153,8 +153,11 @@ const LocationForm: React.FunctionComponent<Props> = ({getCityInput, getStateInp
   return (
     <div className={LocationFormCSS.locationForm}>
       <div>
-        <label htmlFor='state'>Select state location:</label>
+        <label htmlFor='state'>
+          Select state location:
+        </label>
         <input
+          id={isStatesOpen ? LocationFormCSS.dropdownOpen : LocationFormCSS.test}
           type='text'
           value={stateInput}
           onChange={stateInputChange}
@@ -179,8 +182,11 @@ const LocationForm: React.FunctionComponent<Props> = ({getCityInput, getStateInp
         )}
       </div>
       <div>
-        <label htmlFor='city'>Select city location:</label>
+        <label htmlFor='city'>
+          Select city location:
+        </label>
         <input
+          id={isCitiesOpen ? LocationFormCSS.dropdownOpen : ''}
           type='text'
           value={cityInput}
           onChange={cityInputChange}
