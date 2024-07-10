@@ -102,7 +102,7 @@
 
 .jobPreviewCSS .updatesContainer {
   padding: 0 1rem 0rem 1rem;
-  margin-bottom:30px;
+  margin-bottom: 30px;
 }
 
 .jobPreviewCSS .updatesContainer h4 {
@@ -118,19 +118,23 @@
 
 .jobPreviewCSS .updateContainer {
   display: flex;
-  gap: 40px;
-  width: 95%;
-  /* padding-top:1rem */
+  width: 20%;
+  cursor: pointer;
+  column-gap:25px;
+  font-size:1rem;
+  transition: all 0.5s ease-out
 }
-/* 
-.jobPreviewCSS .updateContainer:not(:first-child) {
-  margin-top: 1rem;
-} */
+
+.jobPreviewCSS .updateContainer:hover{
+  font-size: 1.2rem;
+  transition: all 0.5s ease-in
+}
 
 
 .jobPreviewCSS .updateDate {
   flex-grow: 1;
   text-align: right;
+
 }
 
 .jobPreviewCSS .applicationDescriptionContainer {

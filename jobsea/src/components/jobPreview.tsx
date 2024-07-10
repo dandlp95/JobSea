@@ -150,12 +150,12 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
               >
                   <div> {update.status.statusName}</div>
                   <span className={jobPreviewCSS.updateDate}>
-                    {new Date(update.created).toLocaleString('en-US', {
+                    <i>{new Date(update.created).toLocaleString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
                       weekday: 'long'
-                    })}
+                    })}</i>
                   </span>
                 </div>
             ))}
