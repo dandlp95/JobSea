@@ -36,7 +36,7 @@
 
 .appCSS .appFlexbox {
   display: flex;
-  width: 85%;
+  width: 95%;
   justify-content: center;
   margin: 0 auto;
   padding-top: 5rem;
@@ -61,6 +61,13 @@
   width: 50%;
   margin: 0 auto;
   border-radius: 2rem;
+}
+
+@media only screen and (max-width: 1400px){
+  .appCSS .loginForm,
+  .appCSS .registrationForm {
+    width: 85%;
+  }
 }
 
 .appCSS .registrationForm {
@@ -106,7 +113,7 @@
 }
 
 .appCSS .inFormContainer {
-  padding: 2rem 8rem;
+  padding: 2rem 3.5rem;
 }
 
 .appCSS .loginInputDiv input:focus~.floatingLabel,

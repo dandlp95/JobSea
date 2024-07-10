@@ -94,6 +94,7 @@ const AddUpdate: React.FunctionComponent<Props> = ({
 
   const updateUpdate = async () => {
     if (userId && updateEntityId) {
+      console.log('update')
       const pathParams: PathParams = {
         userId: parseInt(userId),
         applicationId: applicationId,
