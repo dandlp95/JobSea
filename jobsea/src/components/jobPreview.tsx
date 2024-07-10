@@ -144,15 +144,11 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
           <div className={jobPreviewCSS.updatesContainer}>
             <h4>Updates</h4>
             {updates.map(update => (
-              <div className={jobPreviewCSS.updateContainer}>
-                <div>
+              <div
+                className={jobPreviewCSS.updateContainer}
+                onClick={e => openUpdateEditModeOff(update)}
+              >
                   <div> {update.status.statusName}</div>
-                  <span
-                    className={jobPreviewCSS.seeMore}
-                    onClick={e => openUpdateEditModeOff(update)}
-                  >
-                    See more
-                  </span>
                   <span className={jobPreviewCSS.updateDate}>
                     {new Date(update.created).toLocaleString('en-US', {
                       year: 'numeric',
@@ -162,7 +158,6 @@ const JobPreview: React.FunctionComponent<Props> = ({ job, reRenderParentFunctio
                     })}
                   </span>
                 </div>
-              </div>
             ))}
           </div>
           <div className={jobPreviewCSS.applicationDescriptionContainer}>

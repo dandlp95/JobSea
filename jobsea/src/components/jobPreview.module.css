@@ -116,7 +116,7 @@
   cursor: pointer;
 }
 
-.jobPreviewCSS .updateContainer>div {
+.jobPreviewCSS .updateContainer {
   display: flex;
   gap: 40px;
   width: 95%;
