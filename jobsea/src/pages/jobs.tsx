@@ -11,6 +11,7 @@ import { FilterOptions, PathParams } from '../customTypes/requestTypes'
 import FilterMenu from '../components/filterMenu'
 import IApplicationApiService from '../utilities/interfaces/IApplicationApiService'
 import { getApplications } from '../utilities/getApplications'
+const skip: number = 10
 
 type HeaderProps = {
   signOut: () => void
@@ -27,6 +28,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({ signOut }) => {
 }
 
 const Jobs: React.FunctionComponent = () => {
+  const [page, setPage] = useState<number>(0)
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [jobs, setJobs] = useState<ApplicationDTO[]>([])
@@ -45,9 +47,10 @@ const Jobs: React.FunctionComponent = () => {
   useEffect(() => {
     const userId = localStorage.getItem('userId')
     const ApplicationsApiService = createApplicationApiService()
-
+    const skip = page ** 10
     if (userId) {
-      getApplications(userId, ApplicationsApiService, filters, searchQuery).then(response => {
+      console.log('filters', filters)
+      getApplications(userId, ApplicationsApiService, filters, searchQuery, skip).then(response => {
         setJobs(response.result ? response.result : [])
         console.log('response', response)
       })
