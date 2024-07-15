@@ -30,16 +30,13 @@ export const getApplications = async (
 
   // if there are no filters set
   if (isFilterOptionsEmpty(filters) && (searchQuery === null || searchQuery === '')) {
-    console.log('url first: ', baseUrl + '?' + paginationQuery)
     // const ApplicationsApiService = createApplicationApiService()
     apiData = await applicationService.getApplications(baseUrl + '?' + paginationQuery, pathParam)
   } else {
     if (searchQuery) {
       baseUrl += '/search?search=' + encodeURIComponent(searchQuery) + '&' + paginationQuery
-      console.log('url second: ', baseUrl)
     } else {
       baseUrl += '/search?' + paginationQuery
-      console.log('url third: ', baseUrl)
     }
     apiData = await applicationService.filterApplications(baseUrl, pathParam, filters)
   }

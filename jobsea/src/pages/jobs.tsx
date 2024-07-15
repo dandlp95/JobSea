@@ -11,6 +11,7 @@ import { FilterOptions, PathParams } from '../customTypes/requestTypes'
 import FilterMenu from '../components/filterMenu'
 import IApplicationApiService from '../utilities/interfaces/IApplicationApiService'
 import { getApplications } from '../utilities/getApplications'
+import Spinner from '../components/spinner'
 
 type HeaderProps = {
   signOut: () => void
@@ -28,6 +29,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({ signOut }) => {
 
 const Jobs: React.FunctionComponent = () => {
   const [skip, setSkip] = useState<number>(10)
+  const [showSpinner, setShowSpinner] = useState<boolean>(false)
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [jobs, setJobs] = useState<ApplicationDTO[]>([])
@@ -48,9 +50,10 @@ const Jobs: React.FunctionComponent = () => {
     const ApplicationsApiService = createApplicationApiService()
 
     if (userId) {
-      console.log('top usereffect called')
+      // setShowSpinner(true);
       getApplications(userId, ApplicationsApiService, filters, searchQuery, 0).then(response => {
         setJobs(response.result ? response.result : [])
+        // setShowSpinner(false);
       })
     } else {
       //implemment later...
@@ -60,19 +63,19 @@ const Jobs: React.FunctionComponent = () => {
   }, [formSubmitted, filters, searchQuery])
 
   const handleScroll = () => {
-    console.log('skip in handlescroll: ', skip)
     //If user reaches the bottom of the page, more applications are loaded
     const userId = localStorage.getItem('userId')
     const ApplicationsApiService = createApplicationApiService()
 
     if (userId) {
       if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
+        // setShowSpinner(true)
         getApplications(userId, ApplicationsApiService, filters, searchQuery, skip).then(
           response => {
             if (response.result) {
-              console.log('sucess')
               setJobs(previousJobs => [...previousJobs, ...(response.result as [])])
               setSkip(prevSkip => prevSkip + 10)
+              // setShowSpinner(false)
             }
           }
         )
@@ -90,7 +93,9 @@ const Jobs: React.FunctionComponent = () => {
     // When the component first mounts, React executes the effect function (window.addEventListener('scroll', handleScroll);).
     // Before the next execution of the effect function (either due to unmounting or due to changes in dependencies), React executes the clean-up function defined by the return statement.
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [skip])
+
+    //since handlescroll uses the 3 params below, it needs to be re added to the scroll event listeners with the updated values...
+  }, [skip, filters, searchQuery])
 
   const signOut = () => {
     localStorage.removeItem('token')
@@ -140,13 +145,16 @@ const Jobs: React.FunctionComponent = () => {
           </div>
           <div className={jobsCSS.jobs}>
             {jobs &&
-              jobs.map(job => <JobPreview job={job} reRenderParentFunction={reRenderParent} />)}
+              jobs.map(job => <JobPreview job={job} key={job.applicationId} reRenderParentFunction={reRenderParent} />)}
           </div>
+          <div className={jobsCSS.spinnerContainer}>{showSpinner && <Spinner />}</div>
         </div>
       </div>
+      {/* 
+      //Loading spinner not needed for now as data is quickly retrieved...
       {isAddJobActive && (
         <AddJob reRenderParentFunction={reRenderParent} closeComponentFunction={closeApplication} />
-      )}
+      )} */}
     </div>
   )
 }
