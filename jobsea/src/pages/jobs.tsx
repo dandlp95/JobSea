@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import SearchBar from '../components/searchBar'
 import JobPreview from '../components/jobPreview'
 import jobsCSS from './jobs.module.css'
@@ -9,9 +9,9 @@ import { ApiData, ApplicationDTO } from '../customTypes/responseTypes'
 import { createApplicationApiService } from '../utilities/ApiServices/ApplicationsApiService'
 import { FilterOptions, PathParams } from '../customTypes/requestTypes'
 import FilterMenu from '../components/filterMenu'
-import IApplicationApiService from '../utilities/interfaces/IApplicationApiService'
 import { getApplications } from '../utilities/getApplications'
 import Spinner from '../components/spinner'
+const skipNumber: number = 8
 
 type HeaderProps = {
   signOut: () => void
@@ -28,12 +28,11 @@ const Header: React.FunctionComponent<HeaderProps> = ({ signOut }) => {
 }
 
 const Jobs: React.FunctionComponent = () => {
-  const [skip, setSkip] = useState<number>(10)
-  const [showSpinner, setShowSpinner] = useState<boolean>(false)
+  const [skip, setSkip] = useState<number>(skipNumber)
+  // const [showSpinner, setShowSpinner] = useState<boolean>(false)
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [jobs, setJobs] = useState<ApplicationDTO[]>([])
-  const [urlChange, setUrlChange] = useState()
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [isAddJobActive, setIsAddJobActive] = useState(false)
   const [filters, setFilters] = useState<FilterOptions>({
@@ -44,6 +43,7 @@ const Jobs: React.FunctionComponent = () => {
     StatusId: [],
     SalaryRange: { min: null, max: null }
   })
+
 
   useEffect(() => {
     const userId = localStorage.getItem('userId')
@@ -58,44 +58,45 @@ const Jobs: React.FunctionComponent = () => {
     } else {
       //implemment later...
     }
-
-    setSkip(10)
+    setSkip(skipNumber)
   }, [formSubmitted, filters, searchQuery])
 
   const handleScroll = () => {
-    //If user reaches the bottom of the page, more applications are loaded
-    const userId = localStorage.getItem('userId')
-    const ApplicationsApiService = createApplicationApiService()
+    const userId = localStorage.getItem('userId');
+    const ApplicationsApiService = createApplicationApiService();
 
     if (userId) {
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
-        // setShowSpinner(true)
-        getApplications(userId, ApplicationsApiService, filters, searchQuery, skip).then(
-          response => {
-            if (response.result) {
-              setJobs(previousJobs => [...previousJobs, ...(response.result as [])])
-              setSkip(prevSkip => prevSkip + 10)
-              // setShowSpinner(false)
-            }
+      const isAtBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
+      if (isAtBottom) {
+        console.log('firedup')
+        getApplications(userId, ApplicationsApiService, filters, searchQuery, skip).then(response => {
+          if (response.result) {
+            setJobs(previousJobs => {
+              // Filter out duplicates
+              // It worked here because i am using the jobs states from the call back, as before I was using simply
+              // jobs which wasn't always the most up to date state. Still need to figure out why this gets fired
+              // up twice during initial scrolling.
+              const newJobs = (response.result as ApplicationDTO[]).filter(newJob => (
+                !previousJobs.some(existingJob => existingJob.applicationId === newJob.applicationId)
+              ));
+              return [...previousJobs, ...newJobs];
+            });
+            setSkip(prevSkip => prevSkip + skipNumber);
           }
-        )
+        });
       }
     }
-  }
-
+  };
+  
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-
-    // The return statement inside useEffect allows you to define a clean-up function. This function is executed when:
-    // The component is about to be unmounted from the DOM, or before the effect runs again due to changes in dependencies (if specified).
-    // Execution Timing:
-
-    // When the component first mounts, React executes the effect function (window.addEventListener('scroll', handleScroll);).
-    // Before the next execution of the effect function (either due to unmounting or due to changes in dependencies), React executes the clean-up function defined by the return statement.
-    return () => window.removeEventListener('scroll', handleScroll)
-
-    //since handlescroll uses the 3 params below, it needs to be re added to the scroll event listeners with the updated values...
-  }, [skip, filters, searchQuery])
+  
+    window.addEventListener('scroll', handleScroll);
+  
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [skip, filters, searchQuery]); // Ensure dependencies are accurate
+  
 
   const signOut = () => {
     localStorage.removeItem('token')
@@ -145,16 +146,20 @@ const Jobs: React.FunctionComponent = () => {
           </div>
           <div className={jobsCSS.jobs}>
             {jobs &&
-              jobs.map(job => <JobPreview job={job} key={job.applicationId} reRenderParentFunction={reRenderParent} />)}
+              jobs.map(job => (
+                <JobPreview
+                  job={job}
+                  key={job.applicationId}
+                  reRenderParentFunction={reRenderParent}
+                />
+              ))}
           </div>
-          <div className={jobsCSS.spinnerContainer}>{showSpinner && <Spinner />}</div>
+          {/* <div className={jobsCSS.spinnerContainer}>{showSpinner && <Spinner />}</div> */}
         </div>
       </div>
-      {/* 
-      //Loading spinner not needed for now as data is quickly retrieved...
       {isAddJobActive && (
         <AddJob reRenderParentFunction={reRenderParent} closeComponentFunction={closeApplication} />
-      )} */}
+      )}
     </div>
   )
 }

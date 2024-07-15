@@ -3,7 +3,7 @@ import { FilterOptions } from '../customTypes/requestTypes'
 import { PathParams } from '../customTypes/requestTypes'
 import { ApiData, ApplicationDTO } from '../customTypes/responseTypes'
 import { isFilterOptionsEmpty } from './filterValidator'
-const rows: number = 10
+const rows: number = 8
 
 export const getApplications = async (
   userId: string,
@@ -31,12 +31,15 @@ export const getApplications = async (
   // if there are no filters set
   if (isFilterOptionsEmpty(filters) && (searchQuery === null || searchQuery === '')) {
     // const ApplicationsApiService = createApplicationApiService()
+    console.log('first ', baseUrl + '?' + paginationQuery)
     apiData = await applicationService.getApplications(baseUrl + '?' + paginationQuery, pathParam)
   } else {
     if (searchQuery) {
       baseUrl += '/search?search=' + encodeURIComponent(searchQuery) + '&' + paginationQuery
+      console.log('second ', baseUrl)
     } else {
       baseUrl += '/search?' + paginationQuery
+      console.log('third ', baseUrl)
     }
     apiData = await applicationService.filterApplications(baseUrl, pathParam, filters)
   }

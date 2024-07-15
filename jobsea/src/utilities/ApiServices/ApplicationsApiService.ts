@@ -7,8 +7,8 @@ import {
   UpdateApplicationDTO,
   FilterOptions
 } from '../../customTypes/requestTypes'
-import { Path } from 'react-router-dom'
-import { request } from 'http'
+// import { Path } from 'react-router-dom'
+// import { request } from 'http'
 
 class ApplicationApiService extends ApiService<ApplicationDTO> implements IApplicationApiService {
   constructor (token: string) {
