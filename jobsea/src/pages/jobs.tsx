@@ -11,7 +11,6 @@ import { FilterOptions, PathParams } from '../customTypes/requestTypes'
 import FilterMenu from '../components/filterMenu'
 import IApplicationApiService from '../utilities/interfaces/IApplicationApiService'
 import { getApplications } from '../utilities/getApplications'
-const skip: number = 10
 
 type HeaderProps = {
   signOut: () => void
@@ -28,7 +27,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({ signOut }) => {
 }
 
 const Jobs: React.FunctionComponent = () => {
-  const [page, setPage] = useState<number>(0)
+  const [skip, setSkip] = useState<number>(10)
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [jobs, setJobs] = useState<ApplicationDTO[]>([])
@@ -47,17 +46,51 @@ const Jobs: React.FunctionComponent = () => {
   useEffect(() => {
     const userId = localStorage.getItem('userId')
     const ApplicationsApiService = createApplicationApiService()
-    const skip = page ** 10
+
     if (userId) {
-      console.log('filters', filters)
-      getApplications(userId, ApplicationsApiService, filters, searchQuery, skip).then(response => {
+      console.log('top usereffect called')
+      getApplications(userId, ApplicationsApiService, filters, searchQuery, 0).then(response => {
         setJobs(response.result ? response.result : [])
-        console.log('response', response)
       })
     } else {
       //implemment later...
     }
+
+    setSkip(10)
   }, [formSubmitted, filters, searchQuery])
+
+  const handleScroll = () => {
+    console.log('skip in handlescroll: ', skip)
+    //If user reaches the bottom of the page, more applications are loaded
+    const userId = localStorage.getItem('userId')
+    const ApplicationsApiService = createApplicationApiService()
+
+    if (userId) {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
+        getApplications(userId, ApplicationsApiService, filters, searchQuery, skip).then(
+          response => {
+            if (response.result) {
+              console.log('sucess')
+              setJobs(previousJobs => [...previousJobs, ...(response.result as [])])
+              setSkip(prevSkip => prevSkip + 10)
+            }
+          }
+        )
+      }
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+
+    // The return statement inside useEffect allows you to define a clean-up function. This function is executed when:
+    // The component is about to be unmounted from the DOM, or before the effect runs again due to changes in dependencies (if specified).
+    // Execution Timing:
+
+    // When the component first mounts, React executes the effect function (window.addEventListener('scroll', handleScroll);).
+    // Before the next execution of the effect function (either due to unmounting or due to changes in dependencies), React executes the clean-up function defined by the return statement.
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [skip])
 
   const signOut = () => {
     localStorage.removeItem('token')
