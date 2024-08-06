@@ -9,7 +9,7 @@ abstract class ApiService<T> {
   private _headers: HeadersInit
 
   constructor (token?: string) {
-    this._baseURL = 'https://localhost:7283/jobsea/'
+    this._baseURL = process.env.JOBSEA_API ? process.env.JOBSEA_API : '' 
     this._headers = {
       Authorization: `Bearer ${token}`, // Your authorization header
       'Content-Type': 'application/json' // Set the appropriate content type

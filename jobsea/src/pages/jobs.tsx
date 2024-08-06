@@ -72,7 +72,8 @@ const Jobs: React.FunctionComponent = () => {
         getApplications(userId, ApplicationsApiService, filters, searchQuery, skip).then(response => {
           if (response.result) {
             setJobs(previousJobs => {
-              // Filter out duplicates
+              // Filter out duplicates because some times this gets fired up twice when scrolling
+              
               // It worked here because i am using the jobs states from the call back, as before I was using simply
               // jobs which wasn't always the most up to date state. Still need to figure out why this gets fired
               // up twice during initial scrolling.
