@@ -9,7 +9,8 @@ abstract class ApiService<T> {
   private _headers: HeadersInit
 
   constructor (token?: string) {
-    this._baseURL = process.env.REACT_APP_JOBSEA_API ? process.env.REACT_APP_JOBSEA_API : '' 
+    // this._baseURL = process.env.REACT_APP_JOBSEA_API ? process.env.REACT_APP_JOBSEA_API : '' 
+    this._baseURL = 'https://jobsea.azurewebsites.net/jobsea/'
     this._headers = {
       Authorization: `Bearer ${token}`, // Your authorization header
       'Content-Type': 'application/json' // Set the appropriate content type
